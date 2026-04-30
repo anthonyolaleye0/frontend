@@ -1,0 +1,313 @@
+export type TextLoaderProps = {
+  text: React.ReactNode;
+  className?: string;
+};
+
+export type AdminSidebarProps = {
+  closeDrawer?: () => void;
+};
+
+export type AllUsersProp = SearchProp & {
+  totalUsersCount: number;
+  allUsers: CurrentUserType[];
+  userRole: string;
+  isLoading: boolean;
+  handlePageChange: (page: number) => void;
+};
+
+export type SingleTaxLawDataObj = SingleTaxLawTableType & {
+  _id: string;
+  title: string;
+  year: 2025;
+  description: string;
+};
+
+export type SingleTaxLawProp = SearchProp & {
+  taxLawData: SingleTaxLawDataObj;
+  userRole: string;
+  isLoading: boolean;
+  handlePageChange: (page: number) => void;
+};
+
+export type ChapterTaxLawTableObjType = {
+  _id: string;
+  taxLaw: string;
+  title: string;
+  number: string;
+  totalParts: number;
+  totalSections: number;
+  totalSubsections: number;
+
+  parts: [];
+};
+
+export type SingleTaxLawTableType = {
+  taxLawId: string;
+  chapters: ChapterTaxLawTableObjType[];
+  totalChapters: number;
+  totalParts: number;
+  totalSections: number;
+  totalSubsections: number;
+  totalSchedules: number;
+};
+
+export type ApiError = {
+  message: string;
+};
+
+export type ReusableSingleTaxLawDisplayTableProps = {
+  data: SingleTaxLawTableType;
+  loading: boolean;
+  userRole: string;
+  errorMessage?: string;
+  searchValue?: string;
+  title: string;
+  totalRows: number;
+  onPageChange: (page: number) => void;
+};
+
+export type ChapterObjType = {
+  _id: string;
+  title: string;
+  number: string;
+};
+
+export type SubSectionObjType = {
+  _id: string;
+  section: string;
+  number: string;
+  content: string;
+};
+
+export type SectionObjType = {
+  _id: string;
+  title: string;
+  number: string;
+  subsections: SubSectionObjType[];
+};
+
+export type PartObjType = {
+  _id: string;
+  title: string;
+  number: string;
+  sections: SectionObjType[];
+};
+
+export type ChapterResType = {
+  _id: string;
+  taxLaw: string;
+  title: string;
+  number: string;
+  parts: PartObjType[];
+};
+
+export type AllTaxLawType = {
+  _id: string;
+  title: string;
+  year: number;
+  description: string;
+  totalSections: number;
+  chapters: ChapterObjType[];
+  totalChapters: number;
+  totalParts: number;
+  totalSubsections: number;
+  totalSchedules: number;
+};
+
+export type AllTaxLawsProp = SearchProp & {
+  totalTaxLawsCount: number;
+  allTaxLaws: AllTaxLawType[];
+  userRole: string;
+  isLoading: boolean;
+  handlePageChange: (page: number) => void;
+  errorMessage?: string;
+};
+
+export type CircularLoaderProps = {
+  text?: string;
+  textClassName?: string;
+  rollerClassName?: string;
+  parentClassName?: string;
+};
+
+export type LoginUserPayloadProps = {
+  email: string;
+  password: string;
+};
+
+import type { CSSProperties } from 'react';
+
+export type FormDataInput = CommonParams & {
+  setValue: (text: string) => void;
+
+  value: string;
+  icon?: React.ReactNode;
+};
+
+// type ImageProps = {
+//   url: string;
+//   public_url: string;
+// };
+
+type CommonParams = {
+  title: string;
+  type: string;
+  placeholder: string;
+  required: boolean;
+};
+
+export type UserState = {
+  currentUser: CurrentUserType;
+  accessToken: string;
+  refreshToken: string;
+  loading?: boolean;
+  error?: null;
+};
+
+export type SidebarComponentsProps = {
+  toggle?: boolean | undefined;
+  sideToggle?: boolean | undefined;
+  handleSuperAdminMenuToggle?: () => void;
+  handleSideToggle?: () => void;
+  superAdminMenuOpen?: boolean | undefined;
+  handleAdminMenuToggle?: () => void;
+  adminMenuOpen?: boolean | undefined;
+  handleTeacherMenuToggle?: () => void;
+  teacherMenuOpen?: boolean | undefined;
+  handleParentMenuToggle?: () => void;
+  parentMenuOpen?: boolean | undefined;
+  handleStudentMenuToggle?: () => void;
+  studentMenuOpen?: boolean | undefined;
+};
+
+export type IdParamFetch = {
+  id: string;
+};
+
+// type TaxType = 'VAT' | 'PAYE' | 'WHT' | 'CIT' | 'CGT';
+// type BusinessType = 'SME' | 'Individual' | 'Consultant';
+
+export type CurrentUserType = {
+  _id: string;
+  address?: string;
+  createdAt: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  isVerified: boolean;
+  whatsappPhoneNumber: string;
+  role: string;
+  status?: string;
+  updatedAt: Date;
+  businessType: string;
+  taxTypes: string[];
+  isWhatsAppVerified: boolean;
+  isSubscribedToTips: boolean;
+};
+
+type ImgProp = {
+  src: string;
+  alt: string;
+};
+
+export type ImageComponentProps = {
+  imageObj: ImgProp | undefined;
+  imageStyle: CSSProperties | string;
+  imageContainerStyle: CSSProperties | string;
+};
+
+export type ReusableModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+  showCloseButton?: boolean;
+  modalStyle: string;
+};
+
+export type RequestEmailVerificationPayload = {
+  email: string;
+};
+
+export type EmailVerificationPayload = {
+  token: string;
+};
+
+export type LoginFormData = {
+  email: string;
+  password: string;
+};
+
+export type LoginFormDataKey = keyof LoginFormData;
+
+export type LoginParams = CommonParams & {
+  field: LoginFormDataKey;
+};
+
+export type ResetPasswordFormData = {
+  token: string;
+  password: string;
+  confirm_password: string;
+};
+
+export type RegisterUserPayloadProps = LoginFormData & {
+  role: string;
+  firstName: string;
+  lastName: string;
+  businessType: 'SME' | 'Individual' | 'Consultant';
+  whatsappPhoneNumber: string;
+  confirmPassword: string;
+};
+
+export type ButtonProps = {
+  loading: boolean;
+  title: string;
+  alternateTitle: string;
+  handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  buttonContainerStyle?: CSSProperties | string;
+  buttonStyle?: CSSProperties | string;
+};
+
+export type SearchProp = {
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+};
+
+export type ReusableTaxLawTableProps = {
+  data: AllTaxLawType[];
+  loading: boolean;
+  userRole: string;
+  errorMessage?: string;
+  title: string;
+  totalRows: number;
+  onPageChange: (page: number) => void;
+};
+
+export type ReusableTableProps = {
+  data: CurrentUserType[];
+  loading: boolean;
+  userRole: string;
+  roleToFetch: string;
+  title: string;
+  totalRows: number;
+  onPageChange: (page: number) => void;
+};
+
+export type OtherResponsePayloadType = {
+  message: string;
+  status: number;
+  success: boolean;
+};
+
+export type ResetPasswordPayloadProps = {
+  token: string;
+  password: string;
+  confirm_password: string;
+};
+
+export type SummaryStatisticsType = {
+  totalCounts: number;
+  userType: string;
+};
