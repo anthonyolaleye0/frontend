@@ -14,10 +14,10 @@ const UserProfile = () => {
     (state: { user: UserState }) => state.user,
   );
   console.log('currentUser:', currentUser);
-  const imageObj = currentUser.profileImage && {
-    src: currentUser.profileImage.url,
-    alt: `${currentUser.firstName}`,
-  };
+  // const imageObj = currentUser.profileImage && {
+  //   src: currentUser.profileImage.url,
+  //   alt: `${currentUser.firstName}`,
+  // };
 
   const handleCopyRefCode = async () => {
     if (!currentUser?.referralCode) return;
@@ -41,13 +41,13 @@ const UserProfile = () => {
   };
   return (
     <div className="w-full flex flex-col gap-4 items-center px-10">
-      <div className="">
+      {/* <div className="">
         <ImageComponent
           imageObj={imageObj}
           imageStyle={profileImageStyle}
           imageContainerStyle={profileImageContainerStyle}
         />
-      </div>
+      </div> */}
 
       <div className="">
         <Button
@@ -73,7 +73,7 @@ const UserProfile = () => {
         <div className="w-full md:w-[45%] space-y-2">
           <div className="text-sm flex justify-between">
             <span className="uppercase  font-bold underline">Phone:</span>
-            <span className="capitalize">{currentUser.phoneNumber || ''}</span>
+            <span className="capitalize">{currentUser.whatsppPhoneNumber || ''}</span>
           </div>
           <div className="text-sm flex justify-between">
             <span className="uppercase  font-bold underline">

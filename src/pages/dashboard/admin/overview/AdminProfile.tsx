@@ -13,10 +13,10 @@ const AdminProfile = () => {
     (state: { user: UserState }) => state.user,
   );
 
-  const imageObj = currentUser?.profileImage && {
-    src: currentUser.profileImage.url,
-    alt: `${currentUser.firstName}`,
-  };
+  // const imageObj = currentUser?.profileImage && {
+  //   src: currentUser.profileImage.url,
+  //   alt: `${currentUser.firstName}`,
+  // };
 
   return (
     // <div className="mb-20 mx-8">
@@ -32,11 +32,11 @@ const AdminProfile = () => {
       <div className="flex flex-col lg:flex-row gap-5 md:gap-7 items-center lg:items-start">
         <div className="flex flex-col mb-5 w-[45vw] md:w-[45%] lg:w-[55%]">
           <div className="flex flex-col items-center text-center mb-1 w-full border-2 p-4 rounded-lg h-[48vh] md:h-[55vh]">
-            <ImageComponent
+            {/* <ImageComponent
               imageObj={imageObj}
               imageStyle={profileImageStyle}
               imageContainerStyle={profileImageContainerStyle}
-            />
+            /> */}
             <h2 className="text-[16px] font-semibold text-gray-800 capitalize">
               {`${currentUser?.firstName} ${currentUser?.lastName}`}
             </h2>
@@ -76,7 +76,7 @@ const AdminProfile = () => {
 
             <ProfileField
               label="Phone"
-              value={currentUser?.phoneNumber || 'N/A'}
+              value={currentUser?.whatsappPhoneNumber || 'N/A'}
             />
             <ProfileField
               label="Status"
