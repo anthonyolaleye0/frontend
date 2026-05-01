@@ -1,11 +1,6 @@
 import { useSelector } from 'react-redux';
 import BackButton from '../../../../components/BackButton';
-import ImageComponent from '../../../../components/ImageComponent';
 import { Separator } from '../../../../components/ui/separator';
-import {
-  profileImageContainerStyle,
-  profileImageStyle,
-} from '../../../../constants/styles';
 import type { UserState } from '../../../../constants/types';
 
 const AdminProfile = () => {
