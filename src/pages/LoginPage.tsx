@@ -52,28 +52,47 @@ const LoginPage = () => {
       console.log('response:', response);
 
       console.log('I am running here');
-      dispatch(loginSuccess(response?.data));
 
-      console.log('response:', response);
-      console.log('response.data.user.role:', response?.data?.user?.role);
-      toast.success(response?.message);
-      switch (response?.data?.user?.role) {
-        case 'user':
-          navigate('/dashboard/user/overview');
-          break;
-        case 'admin':
-          navigate('/dashboard/admin/overview');
-          break;
-        default:
-          break;
+      if (response) {
+        dispatch(loginSuccess(response?.data));
+
+        console.log('response:', response);
+        console.log('response.data.user.role:', response?.data?.user?.role);
+        toast.success(response?.message);
+        switch (response?.data?.user?.role) {
+          case 'user':
+            navigate('/dashboard/user/overview');
+            break;
+          case 'admin':
+            navigate('/dashboard/admin/overview');
+            break;
+          default:
+            break;
+        }
+        form.reset();
+        setShowPassword(false);
+        return;
       }
-      form.reset();
-      setShowPassword(false);
-      return;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error(error.response.data);
+        console.log(typeof error?.response?.data?.message);
+        console.log(error?.response?.data);
+
+        const message = error?.response?.data?.message;
         toast.error(error?.response?.data?.message || 'Login failed.');
+        console.error(error.response.data);
+        const shouldRedirect =
+          typeof message === 'string'
+            ? message.includes('Please verify your email to proceed')
+            : Array.isArray(message)
+              ? message.some((msg) =>
+                  msg.includes('Please verify your email to proceed'),
+                )
+              : false;
+
+        if (shouldRedirect) {
+          navigate('/email-verification');
+        }
         return;
       } else {
         console.error('An Error occurred:', error);
