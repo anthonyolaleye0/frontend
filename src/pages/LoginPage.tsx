@@ -77,6 +77,7 @@ const LoginPage = () => {
       if (axios.isAxiosError(error) && error.response) {
         console.log(typeof error?.response?.data?.message);
         console.log(error?.response?.data);
+        console.log(error?.response?.data?.message);
 
         const message = error?.response?.data?.message;
         toast.error(error?.response?.data?.message || 'Login failed.');
