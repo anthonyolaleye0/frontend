@@ -105,13 +105,16 @@ const HomeNavbar = () => {
     console.log('route:', route);
 
     if (!role || !route || route === undefined) {
-      navigate('/login');
+      navigate('/register');
+      return;
     } else if (!roleRedirectMap[role]) {
       toast.error(`${currentUser?.role} is an invalid role.`);
+      navigate('/register');
       return;
     } else {
       console.log('I want to navigate to the dashboard');
       navigate(route);
+      return;
     }
   };
 

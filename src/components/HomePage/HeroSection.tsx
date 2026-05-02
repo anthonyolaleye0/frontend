@@ -1,7 +1,40 @@
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
+import { toast } from 'sonner';
+import type { UserState } from '../../constants/types';
+import { roleRedirectMap } from '../../hooks/functions';
 import HeroCarousel from './HeroCarousel';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const { currentUser } = useSelector(
+    (state: { user: UserState }) => state.user,
+  );
+
+  const handleGetStarted = () => {
+    console.log('I want to run portal login');
+    console.log('currentUser?.role:', currentUser?.role);
+
+    const role = currentUser?.role;
+    const route = role && roleRedirectMap[role];
+    console.log('route:', route);
+
+    if (!role || !route || route === undefined) {
+      navigate('/register');
+      return;
+    } else if (!roleRedirectMap[role]) {
+      toast.error(`${currentUser?.role} is an invalid role.`);
+      navigate('/register');
+      return;
+    } else {
+      console.log('I want to navigate to the dashboard');
+      navigate(route);
+      return;
+    }
+  };
+
   return (
     <div className="mt-16">
       <header className="relative w-full h-screen overflow-hidden">
@@ -37,11 +70,14 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="mt-6 flex flex-col md:flex-row gap-4 justify-center">
-              <button className="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-400 transition">
+              <button
+                onClick={handleGetStarted}
+                className="bg-green-500 cursor-pointer text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-400 transition"
+              >
                 Get Started
               </button>
 
-              <button className="border border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-black transition">
+              <button className="border cursor-pointer border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-black transition">
                 Calculate Tax
               </button>
             </div>

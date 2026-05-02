@@ -8,13 +8,19 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { TextLoader } from '../components/Loader';
 import { Button } from '../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '../components/ui/card';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '../components/ui/form';
 import { Input } from '../components/ui/input';
 import type { ResetPasswordPayloadProps } from '../constants/types';
@@ -118,7 +124,7 @@ const ResetPassword = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen p-4 ">
-      <Card className="w-100 md:w-125 mt-20">
+      <Card className="w-100 md:w-125 mt-20 gap-20">
         <CardHeader>
           <CardTitle className="text-center underline italic text-xl -mb-6.25">
             Reset Password
@@ -171,6 +177,7 @@ const ResetPassword = () => {
                         </span>
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -196,6 +203,7 @@ const ResetPassword = () => {
                         </span>
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />

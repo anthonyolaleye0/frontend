@@ -1,7 +1,10 @@
 import Joi from 'joi';
 
 const passwordRegex =
-  /^(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-])(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,32}$/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&/])[A-Za-z\d@$!%*?&/]{8,}$/;
+
+// const passwordRegex =
+//   /^(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-])(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,32}$/;
 
 const phoneNumberPattern = /^[0-9+]{10,14}$/;
 const forbiddenCharsRegex = /^[^|!{}()&=[\]===><>]+$/;
@@ -26,7 +29,7 @@ export const joiLoginValidationSchema = Joi.object({
       'string.min': 'Password must be minimum of 8 characters.',
       'string.max': 'Password must be maximum of 32 characters.',
       'string.pattern.base':
-        'Password must contain at least one lowercase, one uppercase, one number and one special character',
+        'Password must contain at least one lowercase, one uppercase, one number and one special character from: @$!%*?&',
     }),
 });
 
@@ -52,6 +55,7 @@ export const joiRegisterValidationSchema = Joi.object({
     }),
 
   whatsappPhoneNumber: Joi.string().pattern(phoneNumberPattern).messages({
+    'string.empty': 'Whatsapp phone number is required.',
     'string.pattern.base': 'Please provide a valid whatsapp number',
   }),
   businessType: Joi.string()
@@ -90,7 +94,7 @@ export const joiRegisterValidationSchema = Joi.object({
       'string.min': 'Password must be minimum of 8 characters.',
       'string.max': 'Password must be maximum of 32 characters.',
       'string.pattern.base':
-        'Password must contain at least one lowercase, one uppercase, one number and one special character',
+        'Password must contain at least one lowercase, one uppercase, one number and one special character from: @$!%*?&',
     }),
   confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
     'any.only': 'Password and confirm password do not match',
@@ -112,7 +116,7 @@ export const joiResetPasswordValidationSchema = Joi.object({
       'string.min': 'Password must be minimum of 8 characters.',
       'string.max': 'Password must be maximum of 32 characters.',
       'string.pattern.base':
-        'Password must contain at least one lowercase, one uppercase, one number and one special character',
+        'Password must contain at least one lowercase, one uppercase, one number and one special character from: @$!%*?&',
     }),
   confirm_password: Joi.string()
     .valid(Joi.ref('password'))

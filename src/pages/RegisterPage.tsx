@@ -41,7 +41,9 @@ const RegisterPage = () => {
   };
 
   const form = useForm<RegisterUserPayloadProps>({
-    resolver: joiResolver(joiRegisterValidationSchema),
+    resolver: joiResolver(joiRegisterValidationSchema, {
+      abortEarly: false,
+    }),
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -204,6 +206,7 @@ const RegisterPage = () => {
                         </span>
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -229,6 +232,7 @@ const RegisterPage = () => {
                         </span>
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
