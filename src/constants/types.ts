@@ -248,7 +248,7 @@ export type LoginParams = CommonParams & {
 export type ResetPasswordFormData = {
   token: string;
   password: string;
-  confirm_password: string;
+  confirmPassword: string;
 };
 
 export type RegisterUserPayloadProps = LoginFormData & {
@@ -304,7 +304,7 @@ export type OtherResponsePayloadType = {
 export type ResetPasswordPayloadProps = {
   token: string;
   password: string;
-  confirm_password: string;
+  confirmPassword: string;
 };
 
 export type SummaryStatisticsType = {

@@ -118,12 +118,9 @@ export const joiResetPasswordValidationSchema = Joi.object({
       'string.pattern.base':
         'Password must contain at least one lowercase, one uppercase, one number and one special character from: @$!%*?&',
     }),
-  confirm_password: Joi.string()
-    .valid(Joi.ref('password'))
-    .required()
-    .messages({
-      'any.only': 'Password and confirm password do not match',
-    }),
+  confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+    'any.only': 'Password and confirm password do not match',
+  }),
 });
 
 export const joiEmailVerificationSchema = Joi.object({

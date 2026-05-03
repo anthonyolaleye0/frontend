@@ -53,7 +53,7 @@ const ResetPassword = () => {
     resolver: joiResolver(joiResetPasswordValidationSchema),
     defaultValues: {
       password: '',
-      confirm_password: '',
+      confirmPassword: '',
       token: '',
     },
   });
@@ -64,8 +64,8 @@ const ResetPassword = () => {
     if (errors.password) {
       toast.error(errors.password.message as string);
     }
-    if (errors.confirm_password) {
-      toast.error(errors.confirm_password.message as string);
+    if (errors.confirmPassword) {
+      toast.error(errors.confirmPassword.message as string);
     }
     if (errors.token) {
       toast.error(errors.token.message as string);
@@ -115,6 +115,14 @@ const ResetPassword = () => {
       if (axios.isAxiosError(error) && error.response) {
         console.error(error.response.data.message);
         toast.error(error.response.data.message);
+        if (
+          error?.response?.data?.message.includes(
+            'Token not found or token has expired',
+          )
+        ) {
+          navigate('/forgot-password');
+          return;
+        }
       } else {
         console.error('An Error occurred:', error);
         toast.error('An error occurred');
@@ -185,7 +193,7 @@ const ResetPassword = () => {
               {/* Confirm Password */}
               <FormField
                 control={form.control}
-                name="confirm_password"
+                name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
