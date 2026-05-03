@@ -100,7 +100,6 @@ const ResetPassword = () => {
   const onSubmit = async (data: ResetPasswordPayloadProps) => {
     // const fullCode = codes.join('');
     const payload = { ...data };
-    console.log('Onsubmit being called.');
     try {
       const response = await resetPasswordMutation(payload);
       if (response) {
