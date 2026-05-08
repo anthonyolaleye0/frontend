@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import type {
   ChapterResType,
   PartObjType,
@@ -8,9 +9,16 @@ import type {
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
+import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-const ChapterComponent = ({ chapterId }: { chapterId: string }) => {
+const ChapterComponent = ({
+  chapterId,
+  taxLawId,
+}: {
+  chapterId: string;
+  taxLawId: string;
+}) => {
   const { fetchTaxLawChapterByChapterId } = useTaxLawApis();
 
   const { data, isLoading } = useQuery({
@@ -46,8 +54,18 @@ const ChapterComponent = ({ chapterId }: { chapterId: string }) => {
         </div>
         <Separator />
         {/* Header */}
-        <div className="mb-8 border-b pb-4">
-          <h1 className="text-3xl font-bold mb-2">Chapter {chapter.number}</h1>
+        <div className="my-8 border-b pb-4 bg-white shadow-sm rounded-2xl p-5 border">
+          <div className="flex gap-4">
+            <h1 className="text-3xl font-bold mb-2">
+              Chapter {chapter.number}
+            </h1>
+
+            <div className="">
+              <Button className="cursor-pointer bg-navy-blue">
+                Update Chapter
+              </Button>
+            </div>
+          </div>
           <p className="text-gray-600 text-lg">{chapter.title}</p>
         </div>
 
@@ -58,9 +76,18 @@ const ChapterComponent = ({ chapterId }: { chapterId: string }) => {
               key={part._id}
               className="bg-white shadow-sm rounded-2xl p-5 border"
             >
-              <h2 className="text-xl font-semibold mb-3">
-                Part {part.number}: {part.title}
-              </h2>
+              <div className="flex gap-2">
+                <h2 className="text-xl font-semibold mb-3">
+                  Part {part.number}: {part.title}
+                </h2>
+                <Button className="cursor-pointer bg-navy-blue">
+                  Update Part
+                </Button>
+              </div>
+
+              <div className="my-2">
+                <Separator />
+              </div>
 
               {/* Sections */}
               <div className="space-y-4">
@@ -69,9 +96,14 @@ const ChapterComponent = ({ chapterId }: { chapterId: string }) => {
                     key={section._id}
                     className="border rounded-xl p-4 hover:shadow transition"
                   >
-                    <h3 className="font-semibold text-lg mb-2">
-                      Section {section.number}: {section.title}
-                    </h3>
+                    <Link
+                      to={`/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/section/${section?._id}`}
+                      className="cursor-pointer bg-gray-200"
+                    >
+                      <h3 className="font-semibold text-lg mb-2">
+                        Section {section.number}: {section.title}
+                      </h3>
+                    </Link>
 
                     {/* Subsections */}
                     <div className="space-y-2 text-gray-700">

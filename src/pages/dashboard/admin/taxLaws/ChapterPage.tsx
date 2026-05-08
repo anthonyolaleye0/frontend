@@ -13,7 +13,7 @@ const ChapterPage = () => {
 
   return (
     <div>
-      <ChapterComponent chapterId={chapterId} />
+      <ChapterComponent chapterId={chapterId} taxLawId={taxLawId} />
     </div>
   );
 };

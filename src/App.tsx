@@ -12,6 +12,7 @@ import ContactUs from './pages/ContactUs';
 import AdminDashboard from './pages/dashboard/admin/overview/AdminDashboard';
 import AdminProfile from './pages/dashboard/admin/overview/AdminProfile';
 import ChapterPage from './pages/dashboard/admin/taxLaws/ChapterPage';
+import SectionPage from './pages/dashboard/admin/taxLaws/SectionPage';
 import SingleTaxLaw from './pages/dashboard/admin/taxLaws/SingleTaxLaw';
 import TaxLaws from './pages/dashboard/admin/taxLaws/TaxLaws';
 import SingleUserPage from './pages/dashboard/admin/users/SingleUserPage';
@@ -112,6 +113,11 @@ function App() {
               <Route
                 element={<ChapterPage />}
                 path="/dashboard/admin/tax-laws/:taxLawId/chapters/:chapterId"
+              />
+
+              <Route
+                element={<SectionPage />}
+                path="/dashboard/admin/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId"
               />
 
               <Route element={<TaxLaws />} path="/dashboard/admin/tax-laws" />

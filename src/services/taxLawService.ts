@@ -1,6 +1,7 @@
 import {
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
+  fetchTaxLawSectionBySectionIdRoute,
   fetchTaxLawsRoute,
 } from '../hooks/ApiRoutes';
 import axiosInstance from '../hooks/axiosInstance';
@@ -10,6 +11,16 @@ const useTaxLawApis = () => {
     const response = await axiosInstance.get(
       `${fetchTaxLawChapterByChapterIdRoute}/${chapterId}`,
     );
+
+    return response.data;
+  };
+
+  const fetchTaxLawSectionBySectionId = async (sectionId: string) => {
+    const response = await axiosInstance.get(
+      `${fetchTaxLawSectionBySectionIdRoute}/${sectionId}`,
+    );
+
+    console.log('response:', response);
 
     return response.data;
   };
@@ -55,6 +66,7 @@ const useTaxLawApis = () => {
   };
 
   return {
+    fetchTaxLawSectionBySectionId,
     fetchTaxLawChapterByChapterId,
     fetchTaxLaws,
     fetchTaxLawByTaxLawId,

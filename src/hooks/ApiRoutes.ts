@@ -16,11 +16,13 @@ const getAllUsersRoute = `users/get-all-users`;
 const fetchTaxLawsRoute = `tax-laws/get-tax-laws`;
 const fetchTaxLawByTaxLawIdRoute = `tax-laws/get-tax-law-by-id`;
 const fetchTaxLawChapterByChapterIdRoute = `tax-laws/get-tax-law-chapter-by-chapter-id`;
+const fetchTaxLawSectionBySectionIdRoute = `tax-laws/get-tax-law-section-by-sectionId`;
 
 export {
   emailVerificationRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
+  fetchTaxLawSectionBySectionIdRoute,
   fetchTaxLawsRoute,
   forgotPasswordRoute,
   getAllUsersRoute,

@@ -83,6 +83,7 @@ export type SectionObjType = {
   _id: string;
   title: string;
   number: string;
+  content: string;
   subsections: SubSectionObjType[];
 };
 
@@ -100,6 +101,8 @@ export type ChapterResType = {
   number: string;
   parts: PartObjType[];
 };
+
+export type SectionResType = SectionObjType;
 
 export type AllTaxLawType = {
   _id: string;
