@@ -16,6 +16,8 @@ const getAllUsersRoute = `users/get-all-users`;
 const fetchTaxLawsRoute = `tax-laws/get-tax-laws`;
 const fetchTaxLawByTaxLawIdRoute = `tax-laws/get-tax-law-by-id`;
 const fetchTaxLawChapterByChapterIdRoute = `tax-laws/get-tax-law-chapter-by-chapter-id`;
+const updateChapterRoute = `tax-laws/update-tax-law-chapter-by-chapter-id`;
+const updatePartRoute = `tax-laws/update-tax-law-part-by-part-id`;
 const fetchTaxLawSectionBySectionIdRoute = `tax-laws/get-tax-law-section-by-sectionId`;
 
 export {
@@ -34,5 +36,7 @@ export {
   requestEmailVerificationRoute,
   resendEmailVerificationLinkRoute,
   resetPasswordRoute,
+  updateChapterRoute,
+  updatePartRoute,
   verifyUserEmailRoute,
 };

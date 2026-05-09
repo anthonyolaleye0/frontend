@@ -1,8 +1,11 @@
+import type { ChapterObjType, PartObjType } from '../constants/types';
 import {
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
   fetchTaxLawSectionBySectionIdRoute,
   fetchTaxLawsRoute,
+  updateChapterRoute,
+  updatePartRoute,
 } from '../hooks/ApiRoutes';
 import axiosInstance from '../hooks/axiosInstance';
 
@@ -10,6 +13,24 @@ const useTaxLawApis = () => {
   const fetchTaxLawChapterByChapterId = async (chapterId: string) => {
     const response = await axiosInstance.get(
       `${fetchTaxLawChapterByChapterIdRoute}/${chapterId}`,
+    );
+
+    return response.data;
+  };
+
+  const updateChapter = async (payload: ChapterObjType) => {
+    const response = await axiosInstance.put(
+      `${updateChapterRoute}/${payload._id}`,
+      { ...payload },
+    );
+
+    return response.data;
+  };
+
+  const updatePart = async (payload: PartObjType) => {
+    const response = await axiosInstance.put(
+      `${updatePartRoute}/${payload._id}`,
+      { ...payload },
     );
 
     return response.data;
@@ -66,9 +87,11 @@ const useTaxLawApis = () => {
   };
 
   return {
+    updateChapter,
     fetchTaxLawSectionBySectionId,
     fetchTaxLawChapterByChapterId,
     fetchTaxLaws,
+    updatePart,
     fetchTaxLawByTaxLawId,
   };
 };

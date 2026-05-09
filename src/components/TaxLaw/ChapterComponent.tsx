@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { updateChapterModalStyle } from '../../constants/styles';
 import type {
   ChapterResType,
   PartObjType,
@@ -9,8 +11,11 @@ import type {
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
+import ReusableModal from '../ReusableModal';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
+import UpdateChapterForm from './TaxLawUpdateForms/UpdateChapterForm';
+import UpdatePartForm from './TaxLawUpdateForms/UpdatePartForm';
 
 const ChapterComponent = ({
   chapterId,
@@ -20,6 +25,10 @@ const ChapterComponent = ({
   taxLawId: string;
 }) => {
   const { fetchTaxLawChapterByChapterId } = useTaxLawApis();
+
+  const [isChapterUpdateModalOpen, setIsChapterUpdateModalOpen] =
+    useState(false);
+  const [isUpdatePartModalOpen, setIsUpdatePartModalOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['tax-law-chapter', chapterId],
@@ -61,9 +70,29 @@ const ChapterComponent = ({
             </h1>
 
             <div className="">
-              <Button className="cursor-pointer bg-navy-blue">
+              <Button
+                onClick={() => {
+                  setIsChapterUpdateModalOpen(true);
+                }}
+                className="cursor-pointer bg-navy-blue"
+              >
                 Update Chapter
               </Button>
+
+              <ReusableModal
+                isOpen={isChapterUpdateModalOpen}
+                onClose={() => setIsChapterUpdateModalOpen(false)}
+                title="Update Chapter Form"
+                modalStyle={updateChapterModalStyle}
+              >
+                {isChapterUpdateModalOpen && (
+                  <UpdateChapterForm
+                    isModalOpen={isChapterUpdateModalOpen}
+                    setIsModalOpen={setIsChapterUpdateModalOpen}
+                    chapter={chapter}
+                  />
+                )}
+              </ReusableModal>
             </div>
           </div>
           <p className="text-gray-600 text-lg">{chapter.title}</p>
@@ -80,9 +109,29 @@ const ChapterComponent = ({
                 <h2 className="text-xl font-semibold mb-3">
                   Part {part.number}: {part.title}
                 </h2>
-                <Button className="cursor-pointer bg-navy-blue">
+                <Button
+                  onClick={() => {
+                    setIsUpdatePartModalOpen(true);
+                  }}
+                  className="cursor-pointer bg-navy-blue"
+                >
                   Update Part
                 </Button>
+
+                <ReusableModal
+                  isOpen={isUpdatePartModalOpen}
+                  onClose={() => setIsUpdatePartModalOpen(false)}
+                  title="Update Part Form"
+                  modalStyle={updateChapterModalStyle}
+                >
+                  {isUpdatePartModalOpen && (
+                    <UpdatePartForm
+                      isModalOpen={isUpdatePartModalOpen}
+                      setIsModalOpen={setIsUpdatePartModalOpen}
+                      part={part}
+                    />
+                  )}
+                </ReusableModal>
               </div>
 
               <div className="my-2">

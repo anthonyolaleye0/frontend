@@ -104,6 +104,18 @@ export type ChapterResType = {
 
 export type SectionResType = SectionObjType;
 
+export type UpdateChapterFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  chapter: ChapterObjType;
+};
+
+export type UpdatePartFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  part: PartObjType;
+};
+
 export type AllTaxLawType = {
   _id: string;
   title: string;

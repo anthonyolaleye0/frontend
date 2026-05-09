@@ -7,6 +7,10 @@ const profileImageContainerStyle = 'flex flex-col items-center mb-4';
 const navbarImageStyle = 'w-8 h-8 rounded-full';
 const emailVerificationStyle = `${LoginButtonContainerStyle} w-70`;
 
+const modalGeneralStyle = `bg-gray-50 border border-gray-400 mb-20 p-3 rounded-lg shadow-xl max-w-lg w-full mx-2 md:mx-auto mt-10 outline-none`;
+
+const updateChapterModalStyle = `${modalGeneralStyle} !w-[100%]`;
+
 export {
   emailVerificationStyle,
   LoginButtonContainerStyle,
@@ -14,4 +18,5 @@ export {
   navbarImageStyle,
   profileImageContainerStyle,
   profileImageStyle,
+  updateChapterModalStyle,
 };
