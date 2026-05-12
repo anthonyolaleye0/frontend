@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import type { UpdateSectionFormProps } from '../../../constants/types';
+import type { UpdateScheduleFormProps } from '../../../constants/types';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -17,11 +17,11 @@ import {
 import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
 
-const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
+const UpdateScheduleForm: React.FC<UpdateScheduleFormProps> = ({
   setIsModalOpen,
-  section,
+  schedule,
 }) => {
-  const { updateSection } = useTaxLawApis();
+  const { updateSchedule } = useTaxLawApis();
 
   type FormValues = {
     number: string;
@@ -39,18 +39,18 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
   const { control, handleSubmit } = form;
 
   useEffect(() => {
-    if (section) {
+    if (schedule) {
       form.reset({
-        number: section.number || '',
-        title: section.title || '',
-        content: section.content || '',
+        number: schedule.number || '',
+        title: schedule.title || '',
+        content: schedule.content || '',
       });
     }
-  }, [section, form]);
+  }, [schedule, form]);
 
-  const { mutateAsync: updateSectionMutation, isPending: loading } =
+  const { mutateAsync: updateScheduleMutation, isPending: loading } =
     useMutation({
-      mutationFn: updateSection,
+      mutationFn: updateSchedule,
     });
 
   const onSubmit = async (data: FormValues) => {
@@ -59,12 +59,12 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
       return;
     }
 
-    if (!section.title) {
-      toast.error('Section title is required.');
+    if (!schedule.title) {
+      toast.error('Schedule title is required.');
       return;
     }
     try {
-      const response = await updateSectionMutation(section);
+      const response = await updateScheduleMutation(schedule);
 
       if (response) {
         toast.success(response.message);
@@ -92,7 +92,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
             name="number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Chapter Number</FormLabel>
+                <FormLabel>Schedule Number</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -105,7 +105,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Chapter Title</FormLabel>
+                <FormLabel>Schedule Title</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -118,7 +118,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Chapter Content</FormLabel>
+                <FormLabel>Schedule Content</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
@@ -144,12 +144,12 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
               type="submit"
               disabled={loading}
               className={`my-4 cursor-pointer font-normal h-9 w-32 px-4 py-2 rounded-md text-white ${
-                section.title === ''
+                schedule.title === ''
                   ? 'bg-sky-blue'
                   : 'bg-sky-blue hover:bg-navy-blue'
               }`}
             >
-              {loading ? 'Updating Section' : 'Update Section'}
+              {loading ? 'Updating Schedule' : 'Update Schedule'}
             </Button>
           </div>
         </form>
@@ -158,4 +158,4 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
   );
 };
 
-export default UpdateSectionForm;
+export default UpdateScheduleForm;

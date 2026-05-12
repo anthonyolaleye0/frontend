@@ -27,6 +27,11 @@ export type SingleTaxLawProp = SearchProp & {
   userRole: string;
   isLoading: boolean;
   handlePageChange: (page: number) => void;
+  activeTab: 'chapters' | 'schedules';
+  setActiveTab: React.Dispatch<React.SetStateAction<'chapters' | 'schedules'>>;
+
+  schedulesData: ScheduleTaxLawTableObjType[];
+  schedulesLoading: boolean;
 };
 
 export type ChapterTaxLawTableObjType = {
@@ -44,6 +49,7 @@ export type ChapterTaxLawTableObjType = {
 export type SingleTaxLawTableType = {
   taxLawId: string;
   chapters: ChapterTaxLawTableObjType[];
+  // schedules: ScheduleTaxLawTableObjType[];
   totalChapters: number;
   totalParts: number;
   totalSections: number;
@@ -57,6 +63,25 @@ export type ApiError = {
 
 export type ReusableSingleTaxLawDisplayTableProps = {
   data: SingleTaxLawTableType;
+  loading: boolean;
+  userRole: string;
+  errorMessage?: string;
+  searchValue?: string;
+  title: string;
+  totalRows: number;
+  onPageChange: (page: number) => void;
+};
+
+export type ScheduleTaxLawTableObjType = {
+  _id: string;
+  taxLaw: string;
+  title: string;
+  number: string;
+  content: string;
+};
+
+export type ReusableScheduleDisplayTableProps = {
+  data: ScheduleTaxLawTableObjType[];
   loading: boolean;
   userRole: string;
   errorMessage?: string;
@@ -104,6 +129,32 @@ export type ChapterResType = {
 
 export type SectionResType = SectionObjType;
 
+export type UpdateSectionFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  section: SectionObjType;
+};
+
+export type ScheduleObjType = {
+  _id: string;
+  taxLaw: string;
+  title: string;
+  number: string;
+  content: string;
+};
+export type ScheduleResType = ScheduleObjType;
+
+export type UpdateScheduleFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  schedule: ScheduleObjType;
+};
+
+export type UpdateSubSectionFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  subsection: SubSectionObjType;
+};
 export type UpdateChapterFormProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;

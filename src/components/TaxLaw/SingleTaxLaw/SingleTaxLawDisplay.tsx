@@ -1,11 +1,16 @@
 import type { SingleTaxLawProp } from '../../../constants/types';
 import { formattedUserRoleForURL } from '../../../hooks/functions';
 import BackButton from '../../BackButton';
+import ReusableScheduleDisplayTable from '../../ReusableScheduleDisplayTable';
 import ReusableSingleTaxLawDisplayTable from '../../ReusableSingleTaxLawDisplayTable';
 import Search from '../../Search';
 import { Separator } from '../../ui/separator';
 
 const SingleTaxLawDisplay = ({
+  activeTab,
+  setActiveTab,
+  schedulesData,
+  schedulesLoading,
   searchValue,
   userRole,
   handleKeyPress,
@@ -65,16 +70,54 @@ const SingleTaxLawDisplay = ({
         />
       </div>
 
+      <div className="flex gap-4 my-6">
+        <button
+          onClick={() => setActiveTab('chapters')}
+          className={`px-4 py-2 rounded-md text-sm font-medium ${
+            activeTab === 'chapters'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-gray-700'
+          }`}
+        >
+          Chapters
+        </button>
+
+        <button
+          onClick={() => setActiveTab('schedules')}
+          className={`px-4 py-2 rounded-md text-sm font-medium ${
+            activeTab === 'schedules'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-gray-700'
+          }`}
+        >
+          Schedules
+        </button>
+      </div>
+
       <div className="mb-20">
-        <ReusableSingleTaxLawDisplayTable
-          data={data}
-          searchValue={searchValue}
-          loading={isLoading}
-          title="Data Table"
-          userRole={formattedUserRole}
-          totalRows={30}
-          onPageChange={handlePageChange}
-        />
+        {activeTab === 'chapters' && (
+          <ReusableSingleTaxLawDisplayTable
+            data={data}
+            searchValue={searchValue}
+            loading={isLoading}
+            title="Chapters Table"
+            userRole={formattedUserRole}
+            totalRows={30}
+            onPageChange={handlePageChange}
+          />
+        )}
+
+        {activeTab === 'schedules' && (
+          <ReusableScheduleDisplayTable
+            data={schedulesData}
+            searchValue={searchValue}
+            loading={schedulesLoading}
+            title="Schedules Table"
+            userRole={formattedUserRole}
+            totalRows={30}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );

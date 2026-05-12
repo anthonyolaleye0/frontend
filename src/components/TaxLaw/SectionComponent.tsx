@@ -1,10 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import {
+  updateSectionModalStyle,
+  updateSubSectionModalStyle,
+} from '../../constants/styles';
 import type { SectionResType, SubSectionObjType } from '../../constants/types';
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
+import ReusableModal from '../ReusableModal';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
+import UpdateSectionForm from './TaxLawUpdateForms/UpdateSectionForm';
+import UpdateSubSectionForm from './TaxLawUpdateForms/UpdateSubSectionForm';
 
 const SectionComponent = ({
   sectionId,
@@ -13,6 +21,11 @@ const SectionComponent = ({
   taxLawId: string;
   sectionId: string;
 }) => {
+  const [isSubSectionUpdateModalOpen, setIsSubSectionUpdateModalOpen] =
+    useState(false);
+  const [isSectionUpdateModalOpen, setIsSectionUpdateModalOpen] =
+    useState(false);
+
   const { fetchTaxLawSectionBySectionId } = useTaxLawApis();
 
   const { data, isLoading } = useQuery({
@@ -65,9 +78,29 @@ const SectionComponent = ({
               </p>
             </div>
             <div className="">
-              <Button className="cursor-pointer bg-navy-blue">
+              <Button
+                onClick={() => {
+                  setIsSectionUpdateModalOpen(true);
+                }}
+                className="cursor-pointer bg-navy-blue"
+              >
                 Update Section
               </Button>
+
+              <ReusableModal
+                isOpen={isSectionUpdateModalOpen}
+                onClose={() => setIsSectionUpdateModalOpen(false)}
+                title="Update Section Form"
+                modalStyle={updateSectionModalStyle}
+              >
+                {isSectionUpdateModalOpen && (
+                  <UpdateSectionForm
+                    isModalOpen={isSectionUpdateModalOpen}
+                    setIsModalOpen={setIsSectionUpdateModalOpen}
+                    section={section}
+                  />
+                )}
+              </ReusableModal>
             </div>
           </div>
 
@@ -106,9 +139,29 @@ const SectionComponent = ({
               </p>
 
               <div className="">
-                <Button className="cursor-pointer bg-navy-blue">
+                <Button
+                  onClick={() => {
+                    setIsSubSectionUpdateModalOpen(true);
+                  }}
+                  className="cursor-pointer bg-navy-blue"
+                >
                   Update Sub Section
                 </Button>
+
+                <ReusableModal
+                  isOpen={isSubSectionUpdateModalOpen}
+                  onClose={() => setIsSubSectionUpdateModalOpen(false)}
+                  title="Update Sub Section Form"
+                  modalStyle={updateSubSectionModalStyle}
+                >
+                  {isSubSectionUpdateModalOpen && (
+                    <UpdateSubSectionForm
+                      isModalOpen={isSubSectionUpdateModalOpen}
+                      setIsModalOpen={setIsSubSectionUpdateModalOpen}
+                      subsection={subsection}
+                    />
+                  )}
+                </ReusableModal>
               </div>
             </div>
           ))}

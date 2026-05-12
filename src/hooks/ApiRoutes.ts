@@ -15,15 +15,22 @@ const getAUserRoute = `users/get-a-user-by-id`;
 const getAllUsersRoute = `users/get-all-users`;
 const fetchTaxLawsRoute = `tax-laws/get-tax-laws`;
 const fetchTaxLawByTaxLawIdRoute = `tax-laws/get-tax-law-by-id`;
+const fetchSchedulesByTaxLawIdRoute = `tax-laws/get-tax-law-schedules-by-taxLawId`;
 const fetchTaxLawChapterByChapterIdRoute = `tax-laws/get-tax-law-chapter-by-chapter-id`;
+const updateSubSectionRoute = `tax-laws/update-tax-law-subsection-by-subsection-id`;
+const updateSectionRoute = `tax-laws/update-tax-law-section-by-section-id`;
+const updateScheduleRoute = `tax-laws/update-tax-law-schedule-by-schedule-id`;
 const updateChapterRoute = `tax-laws/update-tax-law-chapter-by-chapter-id`;
 const updatePartRoute = `tax-laws/update-tax-law-part-by-part-id`;
 const fetchTaxLawSectionBySectionIdRoute = `tax-laws/get-tax-law-section-by-sectionId`;
+const fetchTaxLawScheduleByScheduleIdRoute = `tax-laws/get-tax-law-schedule-by-scheduleId`;
 
 export {
   emailVerificationRoute,
+  fetchSchedulesByTaxLawIdRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
+  fetchTaxLawScheduleByScheduleIdRoute,
   fetchTaxLawSectionBySectionIdRoute,
   fetchTaxLawsRoute,
   forgotPasswordRoute,
@@ -38,5 +45,8 @@ export {
   resetPasswordRoute,
   updateChapterRoute,
   updatePartRoute,
+  updateScheduleRoute,
+  updateSectionRoute,
+  updateSubSectionRoute,
   verifyUserEmailRoute,
 };
