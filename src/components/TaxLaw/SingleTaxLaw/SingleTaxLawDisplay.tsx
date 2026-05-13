@@ -4,6 +4,7 @@ import BackButton from '../../BackButton';
 import ReusableScheduleDisplayTable from '../../ReusableScheduleDisplayTable';
 import ReusableSingleTaxLawDisplayTable from '../../ReusableSingleTaxLawDisplayTable';
 import Search from '../../Search';
+import { Button } from '../../ui/button';
 import { Separator } from '../../ui/separator';
 
 const SingleTaxLawDisplay = ({
@@ -71,27 +72,27 @@ const SingleTaxLawDisplay = ({
       </div>
 
       <div className="flex gap-4 my-6">
-        <button
+        <Button
           onClick={() => setActiveTab('chapters')}
-          className={`px-4 py-2 rounded-md text-sm font-medium ${
+          className={`px-4 py-2 cursor-pointer rounded-md text-sm font-medium ${
             activeTab === 'chapters'
               ? 'bg-blue-600 text-white'
               : 'bg-gray-200 text-gray-700'
           }`}
         >
           Chapters
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={() => setActiveTab('schedules')}
-          className={`px-4 py-2 rounded-md text-sm font-medium ${
+          className={`px-4 py-2 cursor-pointer rounded-md text-sm font-medium ${
             activeTab === 'schedules'
               ? 'bg-blue-600 text-white'
               : 'bg-gray-200 text-gray-700'
           }`}
         >
           Schedules
-        </button>
+        </Button>
       </div>
 
       <div className="mb-20">
