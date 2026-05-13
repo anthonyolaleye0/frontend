@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,6 +22,7 @@ const UpdateScheduleForm: React.FC<UpdateScheduleFormProps> = ({
   schedule,
 }) => {
   const { updateSchedule } = useTaxLawApis();
+  const queryClient = useQueryClient();
 
   type FormValues = {
     number: string;
@@ -51,6 +52,19 @@ const UpdateScheduleForm: React.FC<UpdateScheduleFormProps> = ({
   const { mutateAsync: updateScheduleMutation, isPending: loading } =
     useMutation({
       mutationFn: updateSchedule,
+
+      onSuccess: async (response) => {
+        await queryClient.invalidateQueries({
+          queryKey: ['schedule-details', schedule._id],
+        });
+
+        await queryClient.refetchQueries({
+          queryKey: ['schedule-details'],
+        });
+
+        toast.success(response.message);
+        setIsModalOpen(false);
+      },
     });
 
   const onSubmit = async (data: FormValues) => {
@@ -64,11 +78,14 @@ const UpdateScheduleForm: React.FC<UpdateScheduleFormProps> = ({
       return;
     }
     try {
-      const response = await updateScheduleMutation(schedule);
+      const payload = {
+        _id: schedule._id,
+        taxLaw: schedule.taxLaw,
+        ...data,
+      };
+      const response = await updateScheduleMutation(payload);
 
       if (response) {
-        toast.success(response.message);
-        setIsModalOpen(false);
         return;
       }
     } catch (error: unknown) {

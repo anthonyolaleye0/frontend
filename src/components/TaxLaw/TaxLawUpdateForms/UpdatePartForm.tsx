@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -21,6 +21,7 @@ const UpdatePartForm: React.FC<UpdatePartFormProps> = ({
   part,
 }) => {
   const { updatePart } = useTaxLawApis();
+  const queryClient = useQueryClient();
 
   type FormValues = {
     title: string;
@@ -43,6 +44,19 @@ const UpdatePartForm: React.FC<UpdatePartFormProps> = ({
 
   const { mutateAsync: updatePartMutation, isPending: loading } = useMutation({
     mutationFn: updatePart,
+
+    onSuccess: async (response) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['tax-law-chapter'],
+      });
+
+      await queryClient.refetchQueries({
+        queryKey: ['tax-law-chapter'],
+      });
+
+      toast.success(response.message);
+      setIsModalOpen(false);
+    },
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -56,7 +70,12 @@ const UpdatePartForm: React.FC<UpdatePartFormProps> = ({
       return;
     }
     try {
-      const response = await updatePartMutation(part);
+      const payload = {
+        _id: part._id,
+        number: part.number,
+        ...data,
+      };
+      const response = await updatePartMutation(payload);
 
       if (response) {
         toast.success(response.message);

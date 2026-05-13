@@ -22,7 +22,7 @@ const ScheduleComponent = ({
   const { fetchTaxLawScheduleByScheduleId } = useTaxLawApis();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['section-details', scheduleId],
+    queryKey: ['schedule-details', scheduleId],
     queryFn: () => fetchTaxLawScheduleByScheduleId(scheduleId),
     placeholderData: (prev) => prev,
   });

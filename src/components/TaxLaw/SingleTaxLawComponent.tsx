@@ -73,7 +73,7 @@ const SingleTaxLawComponent: React.FC<IdParamFetch> = ({ id }) => {
         limit,
         searchTrigger,
       ),
-    enabled: activeTab === 'schedules', // 🔥 ONLY RUN WHEN CLICKED
+    enabled: activeTab === 'schedules', // ONLY RUN WHEN CLICKED
   });
 
   const taxLawData = data?.data;

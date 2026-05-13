@@ -112,10 +112,13 @@ export type SectionObjType = {
   subsections: SubSectionObjType[];
 };
 
-export type PartObjType = {
+export type PartObjectType = {
   _id: string;
   title: string;
   number: string;
+};
+
+export type PartObjType = PartObjectType & {
   sections: SectionObjType[];
 };
 

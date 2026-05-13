@@ -1,6 +1,6 @@
 import type {
   ChapterObjType,
-  PartObjType,
+  PartObjectType,
   ScheduleObjType,
   SectionObjType,
   SubSectionObjType,
@@ -65,7 +65,7 @@ const useTaxLawApis = () => {
     return response.data;
   };
 
-  const updatePart = async (payload: PartObjType) => {
+  const updatePart = async (payload: PartObjectType) => {
     const response = await axiosInstance.put(
       `${updatePartRoute}/${payload._id}`,
       { ...payload },
