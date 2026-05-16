@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   createPartModalStyle,
+  createSectionModalStyle,
   updateChapterModalStyle,
 } from '../../constants/styles';
 import type {
@@ -18,6 +19,7 @@ import ReusableModal from '../ReusableModal';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import CreatePartForm from './TaxLawUpdateForms/CreatePartForm';
+import CreateSectionForm from './TaxLawUpdateForms/CreateSectionForm';
 import UpdateChapterForm from './TaxLawUpdateForms/UpdateChapterForm';
 import UpdatePartForm from './TaxLawUpdateForms/UpdatePartForm';
 
@@ -30,6 +32,8 @@ const ChapterComponent = ({
 }) => {
   const { fetchTaxLawChapterByChapterId } = useTaxLawApis();
 
+  const [isCreateSectionModalOpen, setIsCreateSectionModalOpen] =
+    useState(false);
   const [isCreatePartModalOpen, setIsCreatePartModalOpen] = useState(false);
   const [isChapterUpdateModalOpen, setIsChapterUpdateModalOpen] =
     useState(false);
@@ -137,31 +141,31 @@ const ChapterComponent = ({
               key={part._id}
               className="bg-white shadow-sm rounded-2xl p-5 border"
             >
-              {/* <div className="">
+              <div className="">
                 <Button
                   onClick={() => {
-                    setIsUpdatePartModalOpen(true);
+                    setIsCreateSectionModalOpen(true);
                   }}
                   className="cursor-pointer bg-navy-blue"
                 >
-                  Update Part
+                  Create Section
                 </Button>
 
                 <ReusableModal
-                  isOpen={isUpdatePartModalOpen}
-                  onClose={() => setIsUpdatePartModalOpen(false)}
-                  title="Update Part Form"
-                  modalStyle={updateChapterModalStyle}
+                  isOpen={isCreateSectionModalOpen}
+                  onClose={() => setIsCreateSectionModalOpen(false)}
+                  title="Create Section Form"
+                  modalStyle={createSectionModalStyle}
                 >
-                  {isUpdatePartModalOpen && (
-                    <UpdatePartForm
-                      isModalOpen={isUpdatePartModalOpen}
-                      setIsModalOpen={setIsUpdatePartModalOpen}
+                  {isCreateSectionModalOpen && (
+                    <CreateSectionForm
+                      isModalOpen={isCreateSectionModalOpen}
+                      setIsModalOpen={setIsCreateSectionModalOpen}
                       part={part}
                     />
                   )}
                 </ReusableModal>
-              </div> */}
+              </div>
               <div className="flex gap-2">
                 <h2 className="text-xl font-semibold mb-3">
                   Part {part.number}: {part.title}

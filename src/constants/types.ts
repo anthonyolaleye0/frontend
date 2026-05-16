@@ -141,6 +141,13 @@ export type CreateChapterPayload = {
   number: string;
 };
 
+export type CreateSchedulePayload = {
+  taxLawId: string;
+  title: string;
+  number: string;
+  content: string;
+};
+
 export type PartObjType = PartObjectType & {
   sections: SectionObjType[];
 };
@@ -181,10 +188,23 @@ export type UpdateSubSectionFormProps = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   subsection: SubSectionObjType;
 };
+
 export type UpdateChapterFormProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   chapter: ChapterObjType;
+};
+
+export type CreateChapterFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  taxLawId: string;
+};
+
+export type CreateScheduleFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  taxLawId: string;
 };
 
 export type UpdatePartFormProps = {

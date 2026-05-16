@@ -2,6 +2,7 @@ import type {
   ChapterObjType,
   CreateChapterPayload,
   CreatePartPayload,
+  CreateSchedulePayload,
   CreateSectionPayload,
   CreateSubSectionPayload,
   PartObjectType,
@@ -95,36 +96,44 @@ const useTaxLawApis = () => {
   };
 
   const createChapter = async (payload: CreateChapterPayload) => {
+    const { taxLawId, ...others } = payload;
+
     const response = await axiosInstance.put(
-      `${createChapterRoute}/${payload.taxLawId}`,
-      { ...payload },
+      `${createChapterRoute}/${taxLawId}`,
+      { others },
     );
 
     return response.data;
   };
 
   const createPart = async (payload: CreatePartPayload) => {
+    const { chapterId, ...others } = payload;
+
     const response = await axiosInstance.put(
-      `${createPartRoute}/${payload.chapterId}`,
-      { ...payload },
+      `${createPartRoute}/${chapterId}`,
+      { others },
     );
 
     return response.data;
   };
 
   const createSection = async (payload: CreateSectionPayload) => {
+    const { partId, ...others } = payload;
+
     const response = await axiosInstance.put(
-      `${createSectionRoute}/${payload.partId}`,
-      { ...payload },
+      `${createSectionRoute}/${partId}`,
+      { others },
     );
 
     return response.data;
   };
 
-  const createSchedule = async (payload: ScheduleObjType) => {
+  const createSchedule = async (payload: CreateSchedulePayload) => {
+    const { taxLawId, ...others } = payload;
+
     const response = await axiosInstance.put(
-      `${createScheduleRoute}/${payload._id}`,
-      { ...payload },
+      `${createScheduleRoute}/${taxLawId}`,
+      { others },
     );
 
     return response.data;

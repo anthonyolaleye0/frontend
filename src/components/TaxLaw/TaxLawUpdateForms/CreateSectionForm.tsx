@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import type { UpdateChapterFormProps } from '../../../constants/types';
+import type { UpdatePartFormProps } from '../../../constants/types';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -15,42 +15,44 @@ import {
   FormMessage,
 } from '../../ui/form';
 import { Input } from '../../ui/input';
-const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
+import { Textarea } from '../../ui/textarea';
+
+const CreateSectionForm: React.FC<UpdatePartFormProps> = ({
   setIsModalOpen,
-  chapter,
+  part,
 }) => {
-  const { createPart } = useTaxLawApis();
+  const { createSection } = useTaxLawApis();
   const queryClient = useQueryClient();
 
   type FormValues = {
-    title: string;
     number: string;
+    title: string;
+    content: string;
   };
   const form = useForm<FormValues>({
     defaultValues: {
-      title: '',
       number: '',
+      title: '',
+      content: '',
     },
   });
 
   const { control, handleSubmit } = form;
 
-  const { mutateAsync: createPartMutation, isPending: loading } = useMutation({
-    mutationFn: createPart,
+  const { mutateAsync: createSectionMutation, isPending: loading } =
+    useMutation({
+      mutationFn: createSection,
 
-    onSuccess: async (response) => {
-      await queryClient.invalidateQueries({
-        queryKey: ['tax-law-chapter'],
-      });
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: ['tax-law-chapter'],
+        });
 
-      await queryClient.refetchQueries({
-        queryKey: ['tax-law-chapter'],
-      });
-
-      toast.success(response.message);
-      setIsModalOpen(false);
-    },
-  });
+        await queryClient.refetchQueries({
+          queryKey: ['tax-law-chapter'],
+        });
+      },
+    });
 
   const onSubmit = async (data: FormValues) => {
     if (!data) {
@@ -59,16 +61,17 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
     }
 
     if (!data.title) {
-      toast.error('Part title is required.');
+      toast.error('Section title is required.');
       return;
     }
     try {
       const payload = {
-        chapterId: chapter._id,
-        number: data.number,
+        partId: part._id,
         title: data.title,
+        content: data.content,
+        number: data.number,
       };
-      const response = await createPartMutation(payload);
+      const response = await createSectionMutation(payload);
 
       if (response) {
         toast.success(response.message);
@@ -93,10 +96,10 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormField
             control={control}
-            name="title"
+            name="number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Part Title</FormLabel>
+                <FormLabel>Section Number</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -106,12 +109,28 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
           />
           <FormField
             control={control}
-            name="number"
+            name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Part Number</FormLabel>
+                <FormLabel>Section Title</FormLabel>
                 <FormControl>
                   <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Section Content</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    className="h-40 overflow-y-auto resize-none"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,7 +152,7 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
               disabled={loading}
               className={`my-4 cursor-pointer font-normal h-9 w-32 px-4 py-2 rounded-md text-white ${'bg-sky-blue hover:bg-navy-blue'}`}
             >
-              {loading ? 'Creating Part' : 'Create Part'}
+              {loading ? 'Creating Section' : 'Create Section'}
             </Button>
           </div>
         </form>
@@ -142,4 +161,4 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
   );
 };
 
-export default CreatePartForm;
+export default CreateSectionForm;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import type { UpdateChapterFormProps } from '../../../constants/types';
+import type { CreateChapterFormProps } from '../../../constants/types';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -15,11 +15,12 @@ import {
   FormMessage,
 } from '../../ui/form';
 import { Input } from '../../ui/input';
-const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
+
+const CreateChapterForm: React.FC<CreateChapterFormProps> = ({
   setIsModalOpen,
-  chapter,
+  taxLawId,
 }) => {
-  const { createPart } = useTaxLawApis();
+  const { createChapter } = useTaxLawApis();
   const queryClient = useQueryClient();
 
   type FormValues = {
@@ -35,22 +36,20 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
 
   const { control, handleSubmit } = form;
 
-  const { mutateAsync: createPartMutation, isPending: loading } = useMutation({
-    mutationFn: createPart,
+  const { mutateAsync: createChapterMutation, isPending: loading } =
+    useMutation({
+      mutationFn: createChapter,
 
-    onSuccess: async (response) => {
-      await queryClient.invalidateQueries({
-        queryKey: ['tax-law-chapter'],
-      });
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: ['singleTaxLaw'],
+        });
 
-      await queryClient.refetchQueries({
-        queryKey: ['tax-law-chapter'],
-      });
-
-      toast.success(response.message);
-      setIsModalOpen(false);
-    },
-  });
+        await queryClient.refetchQueries({
+          queryKey: ['singleTaxLaw'],
+        });
+      },
+    });
 
   const onSubmit = async (data: FormValues) => {
     if (!data) {
@@ -59,16 +58,22 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
     }
 
     if (!data.title) {
-      toast.error('Part title is required.');
+      toast.error('Chapter title is required.');
       return;
     }
+
+    if (!data.number) {
+      toast.error('Chapter number is required.');
+      return;
+    }
+
     try {
       const payload = {
-        chapterId: chapter._id,
+        taxLawId: taxLawId,
         number: data.number,
         title: data.title,
       };
-      const response = await createPartMutation(payload);
+      const response = await createChapterMutation(payload);
 
       if (response) {
         toast.success(response.message);
@@ -93,10 +98,10 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormField
             control={control}
-            name="title"
+            name="number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Part Title</FormLabel>
+                <FormLabel>Chapter Number</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -106,10 +111,10 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
           />
           <FormField
             control={control}
-            name="number"
+            name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Part Number</FormLabel>
+                <FormLabel>Chapter Title</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -133,7 +138,7 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
               disabled={loading}
               className={`my-4 cursor-pointer font-normal h-9 w-32 px-4 py-2 rounded-md text-white ${'bg-sky-blue hover:bg-navy-blue'}`}
             >
-              {loading ? 'Creating Part' : 'Create Part'}
+              {loading ? 'Creating Chapter' : 'Create Chapter'}
             </Button>
           </div>
         </form>
@@ -142,4 +147,4 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
   );
 };
 
-export default CreatePartForm;
+export default CreateChapterForm;

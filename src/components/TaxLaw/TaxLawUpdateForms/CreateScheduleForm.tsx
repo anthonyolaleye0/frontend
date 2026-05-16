@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import type { UpdateChapterFormProps } from '../../../constants/types';
+import type { CreateScheduleFormProps } from '../../../constants/types';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -15,42 +15,47 @@ import {
   FormMessage,
 } from '../../ui/form';
 import { Input } from '../../ui/input';
-const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
+import { Textarea } from '../../ui/textarea';
+
+const CreateScheduleForm: React.FC<CreateScheduleFormProps> = ({
   setIsModalOpen,
-  chapter,
+  taxLawId,
 }) => {
-  const { createPart } = useTaxLawApis();
+  const { createSchedule } = useTaxLawApis();
   const queryClient = useQueryClient();
 
   type FormValues = {
-    title: string;
     number: string;
+    title: string;
+    content: string;
   };
   const form = useForm<FormValues>({
     defaultValues: {
-      title: '',
       number: '',
+      title: '',
+      content: '',
     },
   });
 
   const { control, handleSubmit } = form;
 
-  const { mutateAsync: createPartMutation, isPending: loading } = useMutation({
-    mutationFn: createPart,
+  const { mutateAsync: createScheduleMutation, isPending: loading } =
+    useMutation({
+      mutationFn: createSchedule,
 
-    onSuccess: async (response) => {
-      await queryClient.invalidateQueries({
-        queryKey: ['tax-law-chapter'],
-      });
+      onSuccess: async (response) => {
+        await queryClient.invalidateQueries({
+          queryKey: ['taxLawSchedules'],
+        });
 
-      await queryClient.refetchQueries({
-        queryKey: ['tax-law-chapter'],
-      });
+        await queryClient.refetchQueries({
+          queryKey: ['taxLawSchedules'],
+        });
 
-      toast.success(response.message);
-      setIsModalOpen(false);
-    },
-  });
+        toast.success(response.message);
+        setIsModalOpen(false);
+      },
+    });
 
   const onSubmit = async (data: FormValues) => {
     if (!data) {
@@ -59,20 +64,27 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
     }
 
     if (!data.title) {
-      toast.error('Part title is required.');
+      toast.error('Schedule title is required.');
+      return;
+    }
+    if (!data.number) {
+      toast.error('Schedule number is required.');
+      return;
+    }
+    if (!data.content) {
+      toast.error('Schedule content is required.');
       return;
     }
     try {
       const payload = {
-        chapterId: chapter._id,
-        number: data.number,
+        taxLawId,
         title: data.title,
+        number: data.number,
+        content: data.content,
       };
-      const response = await createPartMutation(payload);
+      const response = await createScheduleMutation(payload);
 
       if (response) {
-        toast.success(response.message);
-        setIsModalOpen(false);
         return;
       }
     } catch (error: unknown) {
@@ -93,10 +105,10 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormField
             control={control}
-            name="title"
+            name="number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Part Title</FormLabel>
+                <FormLabel>Schedule Number</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -106,12 +118,28 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
           />
           <FormField
             control={control}
-            name="number"
+            name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Part Number</FormLabel>
+                <FormLabel>Schedule Title</FormLabel>
                 <FormControl>
                   <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Schedule Content</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    className="h-40 overflow-y-auto resize-none"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,7 +161,7 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
               disabled={loading}
               className={`my-4 cursor-pointer font-normal h-9 w-32 px-4 py-2 rounded-md text-white ${'bg-sky-blue hover:bg-navy-blue'}`}
             >
-              {loading ? 'Creating Part' : 'Create Part'}
+              {loading ? 'Creating Schedule' : 'Create Schedule'}
             </Button>
           </div>
         </form>
@@ -142,4 +170,4 @@ const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
   );
 };
 
-export default CreatePartForm;
+export default CreateScheduleForm;

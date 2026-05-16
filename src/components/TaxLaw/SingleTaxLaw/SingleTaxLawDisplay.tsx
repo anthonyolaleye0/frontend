@@ -1,11 +1,16 @@
+import { useState } from 'react';
+import { createChapterModalStyle } from '../../../constants/styles';
 import type { SingleTaxLawProp } from '../../../constants/types';
 import { formattedUserRoleForURL } from '../../../hooks/functions';
 import BackButton from '../../BackButton';
+import ReusableModal from '../../ReusableModal';
 import ReusableScheduleDisplayTable from '../../ReusableScheduleDisplayTable';
 import ReusableSingleTaxLawDisplayTable from '../../ReusableSingleTaxLawDisplayTable';
 import Search from '../../Search';
 import { Button } from '../../ui/button';
 import { Separator } from '../../ui/separator';
+import CreateChapterForm from '../TaxLawUpdateForms/CreateChapterForm';
+import CreateScheduleForm from '../TaxLawUpdateForms/CreateScheduleForm';
 
 const SingleTaxLawDisplay = ({
   activeTab,
@@ -22,6 +27,9 @@ const SingleTaxLawDisplay = ({
 }: SingleTaxLawProp) => {
   const formattedUserRole = formattedUserRoleForURL(userRole);
 
+  const [isCreateChapterModalOpen, setIsCreateChapterModalOpen] =
+    useState(false);
+
   console.log('taxLawData:', taxLawData);
 
   const data = {
@@ -33,6 +41,32 @@ const SingleTaxLawDisplay = ({
     totalSubsections: taxLawData?.totalSubsections,
     totalSchedules: taxLawData?.totalSchedules,
   };
+
+  const renderForm = () => {
+    switch (activeTab) {
+      case 'chapters':
+        return (
+          <CreateChapterForm
+            isModalOpen={isCreateChapterModalOpen}
+            setIsModalOpen={setIsCreateChapterModalOpen}
+            taxLawId={taxLawData._id}
+          />
+        );
+
+      case 'schedules':
+        return (
+          <CreateScheduleForm
+            isModalOpen={isCreateChapterModalOpen}
+            setIsModalOpen={setIsCreateChapterModalOpen}
+            taxLawId={taxLawData._id}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="mb-20 mx-8">
       <Separator className="mt-10" />
@@ -41,7 +75,7 @@ const SingleTaxLawDisplay = ({
       </div>
       <Separator />
 
-      <p className="uppercase my-3">All Tax Law Chapters</p>
+      <p className="uppercase my-3">{`All Tax Law ${activeTab}`}</p>
       <Separator />
 
       <div className="my-5">
@@ -93,6 +127,27 @@ const SingleTaxLawDisplay = ({
         >
           Schedules
         </Button>
+      </div>
+      <div className="">
+        <Button
+          onClick={() => {
+            setIsCreateChapterModalOpen(true);
+          }}
+          className="cursor-pointer bg-navy-blue"
+        >{`Create ${activeTab === 'chapters' ? 'Chapter' : 'Schedule'}`}</Button>
+
+        <ReusableModal
+          isOpen={isCreateChapterModalOpen}
+          onClose={() => setIsCreateChapterModalOpen(false)}
+          title={
+            activeTab === 'chapters'
+              ? 'Create Chapter Form'
+              : 'Create Schedule Form'
+          }
+          modalStyle={createChapterModalStyle}
+        >
+          {isCreateChapterModalOpen && renderForm()}
+        </ReusableModal>
       </div>
 
       <div className="mb-20">

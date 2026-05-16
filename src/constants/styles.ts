@@ -13,10 +13,12 @@ const updateChapterModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const updateSectionModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const createSectionModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const createPartModalStyle = `${modalGeneralStyle} !w-[100%]`;
+const createChapterModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const updateScheduleModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const updateSubSectionModalStyle = `${modalGeneralStyle} !w-[100%]`;
 
 export {
+  createChapterModalStyle,
   createPartModalStyle,
   createSectionModalStyle,
   emailVerificationStyle,
