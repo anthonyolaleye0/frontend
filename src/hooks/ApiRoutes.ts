@@ -20,12 +20,24 @@ const fetchTaxLawChapterByChapterIdRoute = `tax-laws/get-tax-law-chapter-by-chap
 const updateSubSectionRoute = `tax-laws/update-tax-law-subsection-by-subsection-id`;
 const updateSectionRoute = `tax-laws/update-tax-law-section-by-section-id`;
 const updateScheduleRoute = `tax-laws/update-tax-law-schedule-by-schedule-id`;
+
+const createSubSectionRoute = `tax-laws/create-tax-law-subsection-in-section-by-section-id`;
+const createSectionRoute = `tax-laws/create-tax-law-section-in-part-by-part-id`;
+
+const createChapterRoute = `tax-laws/create-tax-law-chapter-in-taxlaw-by-taxlaw-id`;
+const createPartRoute = `tax-laws/create-tax-law-part-in-chapter-by-chapter-id`;
+const createScheduleRoute = `tax-laws/create-tax-law-schedule-in-taxlaw-by-taxlaw-id`;
 const updateChapterRoute = `tax-laws/update-tax-law-chapter-by-chapter-id`;
 const updatePartRoute = `tax-laws/update-tax-law-part-by-part-id`;
 const fetchTaxLawSectionBySectionIdRoute = `tax-laws/get-tax-law-section-by-sectionId`;
 const fetchTaxLawScheduleByScheduleIdRoute = `tax-laws/get-tax-law-schedule-by-scheduleId`;
 
 export {
+  createChapterRoute,
+  createPartRoute,
+  createScheduleRoute,
+  createSectionRoute,
+  createSubSectionRoute,
   emailVerificationRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchTaxLawByTaxLawIdRoute,

@@ -104,6 +104,12 @@ export type SubSectionObjType = {
   content: string;
 };
 
+export type CreateSubSectionPayload = {
+  sectionId: string;
+  number: string;
+  content: string;
+};
+
 export type SectionObjType = {
   _id: string;
   title: string;
@@ -114,6 +120,23 @@ export type SectionObjType = {
 
 export type PartObjectType = {
   _id: string;
+  title: string;
+  number: string;
+};
+
+export type CreatePartPayload = {
+  chapterId: string;
+  title: string;
+  number: string;
+};
+
+export type CreateSectionPayload = {
+  partId: string;
+  title: string;
+  number: string;
+};
+export type CreateChapterPayload = {
+  taxLawId: string;
   title: string;
   number: string;
 };

@@ -83,10 +83,27 @@ const formattedUserRoleForURL = (role: string) => {
   return newRole;
 };
 
+const formatLegalText = (text: string) => {
+  return (
+    text
+      // Break before ALL CAPS headings
+      .replace(/([A-Z\s]{5,})/g, '\n\n$1\n')
+
+      // Break numbered sections
+      .replace(/(\d+\.)/g, '\n$1')
+
+      // Break bullet-like structures
+      .replace(/(ACT NO\.\s*\d+)/gi, '\n\n$1\n')
+
+      .trim()
+  );
+};
+
 export {
   capitalizeFirstLetter,
   formatDate,
   formatDateWithoutWeekDay,
+  formatLegalText,
   formattedUserRole,
   formattedUserRoleForURL,
   getNextAvailableColumnNumber,

@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { updateChapterModalStyle } from '../../constants/styles';
+import {
+  createPartModalStyle,
+  updateChapterModalStyle,
+} from '../../constants/styles';
 import type {
   ChapterResType,
   PartObjType,
@@ -14,6 +17,7 @@ import { CircularLoader } from '../Loader';
 import ReusableModal from '../ReusableModal';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
+import CreatePartForm from './TaxLawUpdateForms/CreatePartForm';
 import UpdateChapterForm from './TaxLawUpdateForms/UpdateChapterForm';
 import UpdatePartForm from './TaxLawUpdateForms/UpdatePartForm';
 
@@ -26,6 +30,7 @@ const ChapterComponent = ({
 }) => {
   const { fetchTaxLawChapterByChapterId } = useTaxLawApis();
 
+  const [isCreatePartModalOpen, setIsCreatePartModalOpen] = useState(false);
   const [isChapterUpdateModalOpen, setIsChapterUpdateModalOpen] =
     useState(false);
   const [isUpdatePartModalOpen, setIsUpdatePartModalOpen] = useState(false);
@@ -62,6 +67,33 @@ const ChapterComponent = ({
           <BackButton />
         </div>
         <Separator />
+
+        <div className="my-5">
+          <Button
+            onClick={() => {
+              setIsCreatePartModalOpen(true);
+            }}
+            className="cursor-pointer bg-navy-blue"
+          >
+            Create Part
+          </Button>
+
+          <ReusableModal
+            isOpen={isCreatePartModalOpen}
+            onClose={() => setIsCreatePartModalOpen(false)}
+            title="Create Part Form"
+            modalStyle={createPartModalStyle}
+          >
+            {isCreatePartModalOpen && (
+              <CreatePartForm
+                isModalOpen={isCreatePartModalOpen}
+                setIsModalOpen={setIsCreatePartModalOpen}
+                chapter={chapter}
+              />
+            )}
+          </ReusableModal>
+        </div>
+
         {/* Header */}
         <div className="my-8 border-b pb-4 bg-white shadow-sm rounded-2xl p-5 border">
           <div className="flex gap-4">
@@ -105,6 +137,31 @@ const ChapterComponent = ({
               key={part._id}
               className="bg-white shadow-sm rounded-2xl p-5 border"
             >
+              {/* <div className="">
+                <Button
+                  onClick={() => {
+                    setIsUpdatePartModalOpen(true);
+                  }}
+                  className="cursor-pointer bg-navy-blue"
+                >
+                  Update Part
+                </Button>
+
+                <ReusableModal
+                  isOpen={isUpdatePartModalOpen}
+                  onClose={() => setIsUpdatePartModalOpen(false)}
+                  title="Update Part Form"
+                  modalStyle={updateChapterModalStyle}
+                >
+                  {isUpdatePartModalOpen && (
+                    <UpdatePartForm
+                      isModalOpen={isUpdatePartModalOpen}
+                      setIsModalOpen={setIsUpdatePartModalOpen}
+                      part={part}
+                    />
+                  )}
+                </ReusableModal>
+              </div> */}
               <div className="flex gap-2">
                 <h2 className="text-xl font-semibold mb-3">
                   Part {part.number}: {part.title}

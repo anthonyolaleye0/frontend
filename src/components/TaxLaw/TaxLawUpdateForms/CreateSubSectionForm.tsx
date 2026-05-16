@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { UpdateSectionFormProps } from '../../../constants/types';
@@ -17,41 +16,29 @@ import {
 import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
 
-const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
+const CreateSubSectionForm: React.FC<UpdateSectionFormProps> = ({
   setIsModalOpen,
   section,
 }) => {
-  const { updateSection } = useTaxLawApis();
+  const { createSubSection } = useTaxLawApis();
   const queryClient = useQueryClient();
 
   type FormValues = {
-    number: string;
-    title: string;
     content: string;
+    number: string;
   };
   const form = useForm<FormValues>({
     defaultValues: {
-      number: '',
-      title: '',
       content: '',
+      number: '',
     },
   });
 
   const { control, handleSubmit } = form;
 
-  useEffect(() => {
-    if (section) {
-      form.reset({
-        number: section.number || '',
-        title: section.title || '',
-        content: section.content || '',
-      });
-    }
-  }, [section, form]);
-
-  const { mutateAsync: updateSectionMutation, isPending: loading } =
+  const { mutateAsync: createSubSectionMutation, isPending: loading } =
     useMutation({
-      mutationFn: updateSection,
+      mutationFn: createSubSection,
 
       onSuccess: async () => {
         await queryClient.invalidateQueries({
@@ -65,22 +52,30 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
     });
 
   const onSubmit = async (data: FormValues) => {
+    console.log('data:', data);
     if (!data) {
       toast.error('data not available');
       return;
     }
 
-    if (!section.title) {
-      toast.error('Section title is required.');
+    if (!data.number) {
+      toast.error('Section number is required.');
       return;
     }
+
+    if (!data.content) {
+      toast.error('Section content is required.');
+      return;
+    }
+
     try {
       const payload = {
-        _id: section._id,
-        subsections: section.subsections,
-        ...data,
+        sectionId: section._id,
+        number: data.number,
+        content: data.content,
       };
-      const response = await updateSectionMutation(payload);
+
+      const response = await createSubSectionMutation(payload);
 
       if (response) {
         toast.success(response.message);
@@ -108,7 +103,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
             name="number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Section Number</FormLabel>
+                <FormLabel>Sub Section Number</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -116,25 +111,13 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Section Title</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           <FormField
             control={control}
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Section Content</FormLabel>
+                <FormLabel>Sub Section Content</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
@@ -159,13 +142,9 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
             <Button
               type="submit"
               disabled={loading}
-              className={`my-4 cursor-pointer font-normal h-9 w-32 px-4 py-2 rounded-md text-white ${
-                section.title === ''
-                  ? 'bg-sky-blue'
-                  : 'bg-sky-blue hover:bg-navy-blue'
-              }`}
+              className={`my-4 cursor-pointer font-normal h-9 w-36 px-4 py-2 rounded-md text-white ${'bg-sky-blue hover:bg-navy-blue'}`}
             >
-              {loading ? 'Updating Section' : 'Update Section'}
+              {loading ? 'Creating Sub Section' : 'Create Sub Section'}
             </Button>
           </div>
         </form>
@@ -174,4 +153,4 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
   );
 };
 
-export default UpdateSectionForm;
+export default CreateSubSectionForm;

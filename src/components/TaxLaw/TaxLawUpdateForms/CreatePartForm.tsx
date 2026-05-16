@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import type { UpdateSectionFormProps } from '../../../constants/types';
+import type { UpdateChapterFormProps } from '../../../constants/types';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -15,54 +15,42 @@ import {
   FormMessage,
 } from '../../ui/form';
 import { Input } from '../../ui/input';
-import { Textarea } from '../../ui/textarea';
-
-const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
+const CreatePartForm: React.FC<UpdateChapterFormProps> = ({
   setIsModalOpen,
-  section,
+  chapter,
 }) => {
-  const { updateSection } = useTaxLawApis();
+  const { createPart } = useTaxLawApis();
   const queryClient = useQueryClient();
 
   type FormValues = {
-    number: string;
     title: string;
-    content: string;
+    number: string;
   };
   const form = useForm<FormValues>({
     defaultValues: {
-      number: '',
       title: '',
-      content: '',
+      number: '',
     },
   });
 
   const { control, handleSubmit } = form;
 
-  useEffect(() => {
-    if (section) {
-      form.reset({
-        number: section.number || '',
-        title: section.title || '',
-        content: section.content || '',
+  const { mutateAsync: createPartMutation, isPending: loading } = useMutation({
+    mutationFn: createPart,
+
+    onSuccess: async (response) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['tax-law-chapter'],
       });
-    }
-  }, [section, form]);
 
-  const { mutateAsync: updateSectionMutation, isPending: loading } =
-    useMutation({
-      mutationFn: updateSection,
+      await queryClient.refetchQueries({
+        queryKey: ['tax-law-chapter'],
+      });
 
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: ['section-details'],
-        });
-
-        await queryClient.refetchQueries({
-          queryKey: ['section-details'],
-        });
-      },
-    });
+      toast.success(response.message);
+      setIsModalOpen(false);
+    },
+  });
 
   const onSubmit = async (data: FormValues) => {
     if (!data) {
@@ -70,17 +58,17 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
       return;
     }
 
-    if (!section.title) {
-      toast.error('Section title is required.');
+    if (!data.title) {
+      toast.error('Part title is required.');
       return;
     }
     try {
       const payload = {
-        _id: section._id,
-        subsections: section.subsections,
-        ...data,
+        chapterId: chapter._id,
+        number: data.number,
+        title: data.title,
       };
-      const response = await updateSectionMutation(payload);
+      const response = await createPartMutation(payload);
 
       if (response) {
         toast.success(response.message);
@@ -105,23 +93,10 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormField
             control={control}
-            name="number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Section Number</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Section Title</FormLabel>
+                <FormLabel>Part Title</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -131,15 +106,12 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
           />
           <FormField
             control={control}
-            name="content"
+            name="number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Section Content</FormLabel>
+                <FormLabel>Part Number</FormLabel>
                 <FormControl>
-                  <Textarea
-                    {...field}
-                    className="h-40 overflow-y-auto resize-none"
-                  />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -159,13 +131,9 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
             <Button
               type="submit"
               disabled={loading}
-              className={`my-4 cursor-pointer font-normal h-9 w-32 px-4 py-2 rounded-md text-white ${
-                section.title === ''
-                  ? 'bg-sky-blue'
-                  : 'bg-sky-blue hover:bg-navy-blue'
-              }`}
+              className={`my-4 cursor-pointer font-normal h-9 w-32 px-4 py-2 rounded-md text-white ${'bg-sky-blue hover:bg-navy-blue'}`}
             >
-              {loading ? 'Updating Section' : 'Update Section'}
+              {loading ? 'Updating Part' : 'Update Part'}
             </Button>
           </div>
         </form>
@@ -174,4 +142,4 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
   );
 };
 
-export default UpdateSectionForm;
+export default CreatePartForm;

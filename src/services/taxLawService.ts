@@ -1,11 +1,20 @@
 import type {
   ChapterObjType,
+  CreateChapterPayload,
+  CreatePartPayload,
+  CreateSectionPayload,
+  CreateSubSectionPayload,
   PartObjectType,
   ScheduleObjType,
   SectionObjType,
   SubSectionObjType,
 } from '../constants/types';
 import {
+  createChapterRoute,
+  createPartRoute,
+  createScheduleRoute,
+  createSectionRoute,
+  createSubSectionRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
@@ -47,6 +56,17 @@ const useTaxLawApis = () => {
     return response.data;
   };
 
+  const createSubSection = async (payload: CreateSubSectionPayload) => {
+    const { sectionId, ...others } = payload;
+
+    const response = await axiosInstance.put(
+      `${createSubSectionRoute}/${sectionId}`,
+      { others },
+    );
+
+    return response.data;
+  };
+
   const updateSubSection = async (payload: SubSectionObjType) => {
     const response = await axiosInstance.put(
       `${updateSubSectionRoute}/${payload._id}`,
@@ -68,6 +88,42 @@ const useTaxLawApis = () => {
   const updatePart = async (payload: PartObjectType) => {
     const response = await axiosInstance.put(
       `${updatePartRoute}/${payload._id}`,
+      { ...payload },
+    );
+
+    return response.data;
+  };
+
+  const createChapter = async (payload: CreateChapterPayload) => {
+    const response = await axiosInstance.put(
+      `${createChapterRoute}/${payload.taxLawId}`,
+      { ...payload },
+    );
+
+    return response.data;
+  };
+
+  const createPart = async (payload: CreatePartPayload) => {
+    const response = await axiosInstance.put(
+      `${createPartRoute}/${payload.chapterId}`,
+      { ...payload },
+    );
+
+    return response.data;
+  };
+
+  const createSection = async (payload: CreateSectionPayload) => {
+    const response = await axiosInstance.put(
+      `${createSectionRoute}/${payload.partId}`,
+      { ...payload },
+    );
+
+    return response.data;
+  };
+
+  const createSchedule = async (payload: ScheduleObjType) => {
+    const response = await axiosInstance.put(
+      `${createScheduleRoute}/${payload._id}`,
       { ...payload },
     );
 
@@ -161,12 +217,17 @@ const useTaxLawApis = () => {
   return {
     fetchSchedulesByTaxLawId,
     updateChapter,
+    createChapter,
+    createPart,
+    createSection,
+    createSchedule,
     updateSchedule,
     fetchTaxLawSectionBySectionId,
     fetchTaxLawChapterByChapterId,
     fetchTaxLaws,
     updateSection,
     updateSubSection,
+    createSubSection,
     fetchTaxLawScheduleByScheduleId,
     updatePart,
     fetchTaxLawByTaxLawId,

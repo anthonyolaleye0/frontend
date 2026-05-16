@@ -1,16 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import {
+  createSectionModalStyle,
   updateSectionModalStyle,
   updateSubSectionModalStyle,
 } from '../../constants/styles';
 import type { SectionResType, SubSectionObjType } from '../../constants/types';
+import { formatLegalText } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
 import ReusableModal from '../ReusableModal';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
+import CreateSubSectionForm from './TaxLawUpdateForms/CreateSubSectionForm';
 import UpdateSectionForm from './TaxLawUpdateForms/UpdateSectionForm';
 import UpdateSubSectionForm from './TaxLawUpdateForms/UpdateSubSectionForm';
 
@@ -21,6 +25,9 @@ const SectionComponent = ({
   taxLawId: string;
   sectionId: string;
 }) => {
+  const [isCreateSubSectionModalOpen, setIsCreateSubSectionModalOpen] =
+    useState(false);
+
   const [isSubSectionUpdateModalOpen, setIsSubSectionUpdateModalOpen] =
     useState(false);
   const [isSectionUpdateModalOpen, setIsSectionUpdateModalOpen] =
@@ -63,7 +70,33 @@ const SectionComponent = ({
         </div>
         <Separator />
 
-        <div className="space-y-6 bg-white shadow-sm rounded-2xl p-5 border my-10">
+        <div className="my-5">
+          <Button
+            onClick={() => {
+              setIsCreateSubSectionModalOpen(true);
+            }}
+            className="cursor-pointer bg-navy-blue"
+          >
+            Create Sub Section
+          </Button>
+
+          <ReusableModal
+            isOpen={isCreateSubSectionModalOpen}
+            onClose={() => setIsCreateSubSectionModalOpen(false)}
+            title="Create Sub Section Form"
+            modalStyle={createSectionModalStyle}
+          >
+            {isCreateSubSectionModalOpen && (
+              <CreateSubSectionForm
+                isModalOpen={isCreateSubSectionModalOpen}
+                setIsModalOpen={setIsCreateSubSectionModalOpen}
+                section={section}
+              />
+            )}
+          </ReusableModal>
+        </div>
+
+        <div className="space-y-6 bg-white shadow-sm rounded-2xl p-5 border mb-10">
           <p className=" mb-3 text-center font-bold text-2xl">
             <span className="uppercase underline mr-1">Section Number:</span>
             <span>{section.number}</span>
@@ -110,61 +143,72 @@ const SectionComponent = ({
               <span className="text-xl font-semibold uppercase underline mr-1">
                 Content:
               </span>
-              <span>{section.content}</span>
+              {/* <span>{section.content}</span> */}
+              <div className="prose max-w-none">
+                <ReactMarkdown>
+                  {formatLegalText(section.content)}
+                </ReactMarkdown>
+              </div>
             </p>
           </div>
         </div>
 
         {/* Subsections */}
         <div className="space-y-6">
-          {section.subsections?.map((subsection: SubSectionObjType) => (
-            <div
-              key={subsection._id}
-              className="bg-white shadow-sm rounded-2xl p-5 border"
-            >
-              <p className=" mb-3 text-center font-bold text-2xl">
-                <span className="uppercase underline mr-1">
-                  Sub Section Number:
-                </span>
-                <span>{subsection.number}</span>
-              </p>
+          {section.subsections.length !== 0 ? (
+            section.subsections?.map((subsection: SubSectionObjType) => (
+              <div
+                key={subsection._id}
+                className="bg-white shadow-sm rounded-2xl p-5 border"
+              >
+                <p className=" mb-3 text-center font-bold text-2xl">
+                  <span className="uppercase underline mr-1">
+                    Sub Section Number:
+                  </span>
+                  <span>{subsection.number}</span>
+                </p>
 
-              <Separator />
+                <Separator />
 
-              <p className=" my-3">
-                <span className="text-xl font-semibold uppercase underline mr-1">
-                  Content:
-                </span>
-                <span>{subsection.content}</span>
-              </p>
+                <p className=" my-3">
+                  <span className="text-xl font-semibold uppercase underline mr-1">
+                    Content:
+                  </span>
+                  <span>{subsection.content}</span>
+                </p>
 
-              <div className="">
-                <Button
-                  onClick={() => {
-                    setIsSubSectionUpdateModalOpen(true);
-                  }}
-                  className="cursor-pointer bg-navy-blue"
-                >
-                  Update Sub Section
-                </Button>
+                <div className="">
+                  <Button
+                    onClick={() => {
+                      setIsSubSectionUpdateModalOpen(true);
+                    }}
+                    className="cursor-pointer bg-navy-blue"
+                  >
+                    Update Sub Section
+                  </Button>
 
-                <ReusableModal
-                  isOpen={isSubSectionUpdateModalOpen}
-                  onClose={() => setIsSubSectionUpdateModalOpen(false)}
-                  title="Update Sub Section Form"
-                  modalStyle={updateSubSectionModalStyle}
-                >
-                  {isSubSectionUpdateModalOpen && (
-                    <UpdateSubSectionForm
-                      isModalOpen={isSubSectionUpdateModalOpen}
-                      setIsModalOpen={setIsSubSectionUpdateModalOpen}
-                      subsection={subsection}
-                    />
-                  )}
-                </ReusableModal>
+                  <ReusableModal
+                    isOpen={isSubSectionUpdateModalOpen}
+                    onClose={() => setIsSubSectionUpdateModalOpen(false)}
+                    title="Update Sub Section Form"
+                    modalStyle={updateSubSectionModalStyle}
+                  >
+                    {isSubSectionUpdateModalOpen && (
+                      <UpdateSubSectionForm
+                        isModalOpen={isSubSectionUpdateModalOpen}
+                        setIsModalOpen={setIsSubSectionUpdateModalOpen}
+                        subsection={subsection}
+                      />
+                    )}
+                  </ReusableModal>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="">
+              <p>No sub section for this section</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>
