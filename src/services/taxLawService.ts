@@ -60,9 +60,9 @@ const useTaxLawApis = () => {
   const createSubSection = async (payload: CreateSubSectionPayload) => {
     const { sectionId, ...others } = payload;
 
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.post(
       `${createSubSectionRoute}/${sectionId}`,
-      { others },
+      others,
     );
 
     return response.data;
@@ -98,9 +98,9 @@ const useTaxLawApis = () => {
   const createChapter = async (payload: CreateChapterPayload) => {
     const { taxLawId, ...others } = payload;
 
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.post(
       `${createChapterRoute}/${taxLawId}`,
-      { others },
+      others,
     );
 
     return response.data;
@@ -109,9 +109,9 @@ const useTaxLawApis = () => {
   const createPart = async (payload: CreatePartPayload) => {
     const { chapterId, ...others } = payload;
 
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.post(
       `${createPartRoute}/${chapterId}`,
-      { others },
+      others,
     );
 
     return response.data;
@@ -120,9 +120,9 @@ const useTaxLawApis = () => {
   const createSection = async (payload: CreateSectionPayload) => {
     const { partId, ...others } = payload;
 
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.post(
       `${createSectionRoute}/${partId}`,
-      { others },
+      others,
     );
 
     return response.data;
@@ -131,9 +131,9 @@ const useTaxLawApis = () => {
   const createSchedule = async (payload: CreateSchedulePayload) => {
     const { taxLawId, ...others } = payload;
 
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.post(
       `${createScheduleRoute}/${taxLawId}`,
-      { others },
+      others,
     );
 
     return response.data;
