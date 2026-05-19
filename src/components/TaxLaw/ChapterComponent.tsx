@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 import {
   createPartModalStyle,
@@ -12,6 +13,7 @@ import type {
   SectionObjType,
   SubSectionObjType,
 } from '../../constants/types';
+import { formatLegalContent } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
@@ -220,7 +222,11 @@ const ChapterComponent = ({
                       {section.subsections?.map((sub: SubSectionObjType) => (
                         <p key={sub._id} className="leading-relaxed">
                           <span className="font-medium">({sub.number})</span>{' '}
-                          {sub.content}
+                          <div className="prose max-w-none">
+                            <ReactMarkdown>
+                              {formatLegalContent(sub.content)}
+                            </ReactMarkdown>
+                          </div>
                         </p>
                       ))}
                     </div>

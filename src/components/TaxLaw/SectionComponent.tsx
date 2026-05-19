@@ -7,7 +7,7 @@ import {
   updateSubSectionModalStyle,
 } from '../../constants/styles';
 import type { SectionResType, SubSectionObjType } from '../../constants/types';
-import { formatLegalText } from '../../hooks/functions';
+import { formatLegalContent } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
@@ -146,7 +146,7 @@ const SectionComponent = ({
               {/* <span>{section.content}</span> */}
               <div className="prose max-w-none">
                 <ReactMarkdown>
-                  {formatLegalText(section.content)}
+                  {formatLegalContent(section.content)}
                 </ReactMarkdown>
               </div>
             </p>
@@ -174,7 +174,12 @@ const SectionComponent = ({
                   <span className="text-xl font-semibold uppercase underline mr-1">
                     Content:
                   </span>
-                  <span>{subsection.content}</span>
+                  {/* <span>{subsection.content}</span> */}
+                  <div className="prose max-w-none">
+                    <ReactMarkdown>
+                      {formatLegalContent(subsection.content)}
+                    </ReactMarkdown>
+                  </div>
                 </p>
 
                 <div className="">

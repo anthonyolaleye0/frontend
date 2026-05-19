@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { UpdateSectionFormProps } from '../../../constants/types';
+import { formatLegalContent } from '../../../hooks/functions';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -78,7 +79,9 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
       const payload = {
         _id: section._id,
         subsections: section.subsections,
-        ...data,
+        number: data.number,
+        title: data.title,
+        content: formatLegalContent(data.content),
       };
       const response = await updateSectionMutation(payload);
 

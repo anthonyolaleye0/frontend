@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { UpdateScheduleFormProps } from '../../../constants/types';
+import { formatLegalContent } from '../../../hooks/functions';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -81,7 +82,9 @@ const UpdateScheduleForm: React.FC<UpdateScheduleFormProps> = ({
       const payload = {
         _id: schedule._id,
         taxLaw: schedule.taxLaw,
-        ...data,
+        number: data.number,
+        title: data.title,
+        content: formatLegalContent(data.content),
       };
       const response = await updateScheduleMutation(payload);
 

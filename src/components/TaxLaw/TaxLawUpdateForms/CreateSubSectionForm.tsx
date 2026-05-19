@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { UpdateSectionFormProps } from '../../../constants/types';
+import { formatLegalContent } from '../../../hooks/functions';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -72,7 +73,7 @@ const CreateSubSectionForm: React.FC<UpdateSectionFormProps> = ({
       const payload = {
         sectionId: section._id,
         number: data.number,
-        content: data.content,
+        content: formatLegalContent(data.content),
       };
 
       const response = await createSubSectionMutation(payload);

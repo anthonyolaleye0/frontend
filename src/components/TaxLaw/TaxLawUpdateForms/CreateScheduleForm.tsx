@@ -4,6 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { CreateScheduleFormProps } from '../../../constants/types';
+import { formatLegalContent } from '../../../hooks/functions';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -78,9 +79,9 @@ const CreateScheduleForm: React.FC<CreateScheduleFormProps> = ({
     try {
       const payload = {
         taxLawId,
-        title: data.title,
         number: data.number,
-        content: data.content,
+        title: data.title,
+        content: formatLegalContent(data.content),
       };
       const response = await createScheduleMutation(payload);
 

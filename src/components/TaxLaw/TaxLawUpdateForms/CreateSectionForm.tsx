@@ -4,6 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { UpdatePartFormProps } from '../../../constants/types';
+import { formatLegalContent } from '../../../hooks/functions';
 import useTaxLawApis from '../../../services/taxLawService';
 import { Button } from '../../ui/button';
 import {
@@ -67,9 +68,9 @@ const CreateSectionForm: React.FC<UpdatePartFormProps> = ({
     try {
       const payload = {
         partId: part._id,
-        title: data.title,
-        content: data.content,
         number: data.number,
+        title: data.title,
+        content: formatLegalContent(data.content),
       };
       const response = await createSectionMutation(payload);
 

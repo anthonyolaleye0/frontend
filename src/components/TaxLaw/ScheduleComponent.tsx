@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { updateScheduleModalStyle } from '../../constants/styles';
 import type { ScheduleResType } from '../../constants/types';
+import { formatLegalContent } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
@@ -74,7 +76,11 @@ const ScheduleComponent = ({
                 <span className="text-xl font-semibold uppercase underline mr-1">
                   Content:
                 </span>
-                <span className="">{schedule.content}</span>
+                <div className="prose max-w-none">
+                  <ReactMarkdown>
+                    {formatLegalContent(schedule.content)}
+                  </ReactMarkdown>
+                </div>
               </p>
             </div>
             <div className="">

@@ -83,17 +83,20 @@ const formattedUserRoleForURL = (role: string) => {
   return newRole;
 };
 
-const formatLegalText = (text: string) => {
+const formatLegalContent = (text: string) => {
   return (
     text
-      // Break before ALL CAPS headings
-      .replace(/([A-Z\s]{5,})/g, '\n\n$1\n')
+      // Preserve existing line breaks
+      .replace(/\r\n/g, '\n')
 
-      // Break numbered sections
-      .replace(/(\d+\.)/g, '\n$1')
+      // Ensure spacing before (a), (b), etc becomes new line
+      .replace(/\s\(([a-z])\)/g, '\n\n($1)')
 
-      // Break bullet-like structures
-      .replace(/(ACT NO\.\s*\d+)/gi, '\n\n$1\n')
+      // Ensure semicolon-separated legal clauses break properly
+      .replace(/;\s*\(([a-z])\)/g, ';\n\n($1)')
+
+      // Clean excessive spaces but KEEP line breaks
+      .replace(/[ \t]+/g, ' ')
 
       .trim()
   );
@@ -103,7 +106,7 @@ export {
   capitalizeFirstLetter,
   formatDate,
   formatDateWithoutWeekDay,
-  formatLegalText,
+  formatLegalContent,
   formattedUserRole,
   formattedUserRoleForURL,
   getNextAvailableColumnNumber,
