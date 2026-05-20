@@ -128,27 +128,29 @@ const SingleTaxLawDisplay = ({
           Schedules
         </Button>
       </div>
-      <div className="">
-        <Button
-          onClick={() => {
-            setIsCreateChapterModalOpen(true);
-          }}
-          className="cursor-pointer bg-navy-blue"
-        >{`Create ${activeTab === 'chapters' ? 'Chapter' : 'Schedule'}`}</Button>
+      {userRole === 'admin' && (
+        <div className="">
+          <Button
+            onClick={() => {
+              setIsCreateChapterModalOpen(true);
+            }}
+            className="cursor-pointer bg-navy-blue"
+          >{`Create ${activeTab === 'chapters' ? 'Chapter' : 'Schedule'}`}</Button>
 
-        <ReusableModal
-          isOpen={isCreateChapterModalOpen}
-          onClose={() => setIsCreateChapterModalOpen(false)}
-          title={
-            activeTab === 'chapters'
-              ? 'Create Chapter Form'
-              : 'Create Schedule Form'
-          }
-          modalStyle={createChapterModalStyle}
-        >
-          {isCreateChapterModalOpen && renderForm()}
-        </ReusableModal>
-      </div>
+          <ReusableModal
+            isOpen={isCreateChapterModalOpen}
+            onClose={() => setIsCreateChapterModalOpen(false)}
+            title={
+              activeTab === 'chapters'
+                ? 'Create Chapter Form'
+                : 'Create Schedule Form'
+            }
+            modalStyle={createChapterModalStyle}
+          >
+            {isCreateChapterModalOpen && renderForm()}
+          </ReusableModal>
+        </div>
+      )}
 
       <div className="mb-20">
         {activeTab === 'chapters' && (

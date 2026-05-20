@@ -1,6 +1,10 @@
-import { LayoutDashboard, User } from 'lucide-react';
+import { CircleDollarSign, LayoutDashboard, User } from 'lucide-react';
+import { useState } from 'react';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { NavLink } from 'react-router-dom';
 import type { AdminSidebarProps } from '../../constants/types';
+import { Button } from '../ui/button';
+import UserTaxLawDropDown from '../User/DropDownMenus/UserTaxLawDropDown';
 
 const UserSidebar = ({ closeDrawer }: AdminSidebarProps) => {
   // const [overviewToggle, setOverviewToggle] = useState(false);
@@ -13,6 +17,11 @@ const UserSidebar = ({ closeDrawer }: AdminSidebarProps) => {
   // const handleUsersMgtToggle = () => {
   //   setUsersMgtToggle(!usersMgtToggle);
   // };
+  const [taxLawToggle, setTaxLawToggle] = useState(false);
+
+  const handleTaxLawToggle = () => {
+    setTaxLawToggle(!taxLawToggle);
+  };
 
   return (
     <>
@@ -31,6 +40,28 @@ const UserSidebar = ({ closeDrawer }: AdminSidebarProps) => {
             <LayoutDashboard size={18} />
             Dashboard
           </NavLink>
+        </div>
+
+        <div>
+          <Button
+            className="cursor-pointer bg-teal text-black hover:bg-skyblue w-full px-4"
+            onClick={handleTaxLawToggle}
+          >
+            <div className="grid grid-cols-[1fr_80px] w-full">
+              <div className="flex items-center gap-1 text-start">
+                <span>
+                  <CircleDollarSign size={18} />
+                </span>
+                <span>Tax Laws</span>
+              </div>{' '}
+              {taxLawToggle ? (
+                <IoIosArrowDown className="text-xl justify-self-end " />
+              ) : (
+                <IoIosArrowUp className="text-xl justify-self-end " />
+              )}
+            </div>
+          </Button>
+          {taxLawToggle && <UserTaxLawDropDown closeDrawer={closeDrawer} />}
         </div>
 
         <div className="ml-6 flex flex-col mt-2 gap-1">

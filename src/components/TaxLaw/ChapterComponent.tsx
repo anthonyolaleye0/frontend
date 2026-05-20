@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   createPartModalStyle,
@@ -12,6 +13,7 @@ import type {
   PartObjType,
   SectionObjType,
   SubSectionObjType,
+  UserState,
 } from '../../constants/types';
 import { formatLegalContent } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
@@ -32,6 +34,12 @@ const ChapterComponent = ({
   chapterId: string;
   taxLawId: string;
 }) => {
+  const { currentUser } = useSelector(
+    (state: { user: UserState }) => state.user,
+  );
+
+  const userRole = currentUser?.role;
+
   const { fetchTaxLawChapterByChapterId } = useTaxLawApis();
 
   const [isCreateSectionModalOpen, setIsCreateSectionModalOpen] =
@@ -74,31 +82,33 @@ const ChapterComponent = ({
         </div>
         <Separator />
 
-        <div className="my-5">
-          <Button
-            onClick={() => {
-              setIsCreatePartModalOpen(true);
-            }}
-            className="cursor-pointer bg-navy-blue"
-          >
-            Create Part
-          </Button>
+        {userRole === 'admin' && (
+          <div className="my-5">
+            <Button
+              onClick={() => {
+                setIsCreatePartModalOpen(true);
+              }}
+              className="cursor-pointer bg-navy-blue"
+            >
+              Create Part
+            </Button>
 
-          <ReusableModal
-            isOpen={isCreatePartModalOpen}
-            onClose={() => setIsCreatePartModalOpen(false)}
-            title="Create Part Form"
-            modalStyle={createPartModalStyle}
-          >
-            {isCreatePartModalOpen && (
-              <CreatePartForm
-                isModalOpen={isCreatePartModalOpen}
-                setIsModalOpen={setIsCreatePartModalOpen}
-                chapter={chapter}
-              />
-            )}
-          </ReusableModal>
-        </div>
+            <ReusableModal
+              isOpen={isCreatePartModalOpen}
+              onClose={() => setIsCreatePartModalOpen(false)}
+              title="Create Part Form"
+              modalStyle={createPartModalStyle}
+            >
+              {isCreatePartModalOpen && (
+                <CreatePartForm
+                  isModalOpen={isCreatePartModalOpen}
+                  setIsModalOpen={setIsCreatePartModalOpen}
+                  chapter={chapter}
+                />
+              )}
+            </ReusableModal>
+          </div>
+        )}
 
         {/* Header */}
         <div className="my-8 border-b pb-4 bg-white shadow-sm rounded-2xl p-5 border">
@@ -107,31 +117,33 @@ const ChapterComponent = ({
               Chapter {chapter.number}
             </h1>
 
-            <div className="">
-              <Button
-                onClick={() => {
-                  setIsChapterUpdateModalOpen(true);
-                }}
-                className="cursor-pointer bg-navy-blue"
-              >
-                Update Chapter
-              </Button>
+            {userRole === 'admin' && (
+              <div className="">
+                <Button
+                  onClick={() => {
+                    setIsChapterUpdateModalOpen(true);
+                  }}
+                  className="cursor-pointer bg-navy-blue"
+                >
+                  Update Chapter
+                </Button>
 
-              <ReusableModal
-                isOpen={isChapterUpdateModalOpen}
-                onClose={() => setIsChapterUpdateModalOpen(false)}
-                title="Update Chapter Form"
-                modalStyle={updateChapterModalStyle}
-              >
-                {isChapterUpdateModalOpen && (
-                  <UpdateChapterForm
-                    isModalOpen={isChapterUpdateModalOpen}
-                    setIsModalOpen={setIsChapterUpdateModalOpen}
-                    chapter={chapter}
-                  />
-                )}
-              </ReusableModal>
-            </div>
+                <ReusableModal
+                  isOpen={isChapterUpdateModalOpen}
+                  onClose={() => setIsChapterUpdateModalOpen(false)}
+                  title="Update Chapter Form"
+                  modalStyle={updateChapterModalStyle}
+                >
+                  {isChapterUpdateModalOpen && (
+                    <UpdateChapterForm
+                      isModalOpen={isChapterUpdateModalOpen}
+                      setIsModalOpen={setIsChapterUpdateModalOpen}
+                      chapter={chapter}
+                    />
+                  )}
+                </ReusableModal>
+              </div>
+            )}
           </div>
           <p className="text-gray-600 text-lg">{chapter.title}</p>
         </div>
@@ -143,58 +155,65 @@ const ChapterComponent = ({
               key={part._id}
               className="bg-white shadow-sm rounded-2xl p-5 border"
             >
-              <div className="">
-                <Button
-                  onClick={() => {
-                    setIsCreateSectionModalOpen(true);
-                  }}
-                  className="cursor-pointer bg-navy-blue"
-                >
-                  Create Section
-                </Button>
+              {userRole === 'admin' && (
+                <div className="">
+                  <Button
+                    onClick={() => {
+                      setIsCreateSectionModalOpen(true);
+                    }}
+                    className="cursor-pointer bg-navy-blue"
+                  >
+                    Create Section
+                  </Button>
 
-                <ReusableModal
-                  isOpen={isCreateSectionModalOpen}
-                  onClose={() => setIsCreateSectionModalOpen(false)}
-                  title="Create Section Form"
-                  modalStyle={createSectionModalStyle}
-                >
-                  {isCreateSectionModalOpen && (
-                    <CreateSectionForm
-                      isModalOpen={isCreateSectionModalOpen}
-                      setIsModalOpen={setIsCreateSectionModalOpen}
-                      part={part}
-                    />
-                  )}
-                </ReusableModal>
-              </div>
+                  <ReusableModal
+                    isOpen={isCreateSectionModalOpen}
+                    onClose={() => setIsCreateSectionModalOpen(false)}
+                    title="Create Section Form"
+                    modalStyle={createSectionModalStyle}
+                  >
+                    {isCreateSectionModalOpen && (
+                      <CreateSectionForm
+                        isModalOpen={isCreateSectionModalOpen}
+                        setIsModalOpen={setIsCreateSectionModalOpen}
+                        part={part}
+                      />
+                    )}
+                  </ReusableModal>
+                </div>
+              )}
               <div className="flex gap-2">
                 <h2 className="text-xl font-semibold mb-3">
                   Part {part.number}: {part.title}
                 </h2>
-                <Button
-                  onClick={() => {
-                    setIsUpdatePartModalOpen(true);
-                  }}
-                  className="cursor-pointer bg-navy-blue"
-                >
-                  Update Part
-                </Button>
 
-                <ReusableModal
-                  isOpen={isUpdatePartModalOpen}
-                  onClose={() => setIsUpdatePartModalOpen(false)}
-                  title="Update Part Form"
-                  modalStyle={updateChapterModalStyle}
-                >
-                  {isUpdatePartModalOpen && (
-                    <UpdatePartForm
-                      isModalOpen={isUpdatePartModalOpen}
-                      setIsModalOpen={setIsUpdatePartModalOpen}
-                      part={part}
-                    />
-                  )}
-                </ReusableModal>
+                {userRole === 'admin' && (
+                  <div className="">
+                    <Button
+                      onClick={() => {
+                        setIsUpdatePartModalOpen(true);
+                      }}
+                      className="cursor-pointer bg-navy-blue"
+                    >
+                      Update Part
+                    </Button>
+
+                    <ReusableModal
+                      isOpen={isUpdatePartModalOpen}
+                      onClose={() => setIsUpdatePartModalOpen(false)}
+                      title="Update Part Form"
+                      modalStyle={updateChapterModalStyle}
+                    >
+                      {isUpdatePartModalOpen && (
+                        <UpdatePartForm
+                          isModalOpen={isUpdatePartModalOpen}
+                          setIsModalOpen={setIsUpdatePartModalOpen}
+                          part={part}
+                        />
+                      )}
+                    </ReusableModal>
+                  </div>
+                )}
               </div>
 
               <div className="my-2">
@@ -209,7 +228,7 @@ const ChapterComponent = ({
                     className="border rounded-xl p-4 hover:shadow transition"
                   >
                     <Link
-                      to={`/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/section/${section?._id}`}
+                      to={`/dashboard/${userRole}/tax-laws/${taxLawId}/chapters/${chapterId}/section/${section?._id}`}
                       className="cursor-pointer bg-gray-200"
                     >
                       <h3 className="font-semibold text-lg mb-2">

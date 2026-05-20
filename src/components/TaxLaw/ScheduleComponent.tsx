@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useSelector } from 'react-redux';
 import { updateScheduleModalStyle } from '../../constants/styles';
-import type { ScheduleResType } from '../../constants/types';
+import type { ScheduleResType, UserState } from '../../constants/types';
 import { formatLegalContent } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
 import BackButton from '../BackButton';
@@ -18,6 +19,12 @@ const ScheduleComponent = ({
   scheduleId: string;
   taxLawId: string;
 }) => {
+  const { currentUser } = useSelector(
+    (state: { user: UserState }) => state.user,
+  );
+
+  const userRole = currentUser?.role;
+
   const [isScheduleUpdateModalOpen, setIsScheduleUpdateModalOpen] =
     useState(false);
 
@@ -83,31 +90,33 @@ const ScheduleComponent = ({
                 </div>
               </p>
             </div>
-            <div className="">
-              <Button
-                onClick={() => {
-                  setIsScheduleUpdateModalOpen(true);
-                }}
-                className="cursor-pointer bg-navy-blue"
-              >
-                Update Schedule
-              </Button>
+            {userRole === 'admin' && (
+              <div className="">
+                <Button
+                  onClick={() => {
+                    setIsScheduleUpdateModalOpen(true);
+                  }}
+                  className="cursor-pointer bg-navy-blue"
+                >
+                  Update Schedule
+                </Button>
 
-              <ReusableModal
-                isOpen={isScheduleUpdateModalOpen}
-                onClose={() => setIsScheduleUpdateModalOpen(false)}
-                title="Update Schedule Form"
-                modalStyle={updateScheduleModalStyle}
-              >
-                {isScheduleUpdateModalOpen && (
-                  <UpdateScheduleForm
-                    isModalOpen={isScheduleUpdateModalOpen}
-                    setIsModalOpen={setIsScheduleUpdateModalOpen}
-                    schedule={schedule}
-                  />
-                )}
-              </ReusableModal>
-            </div>
+                <ReusableModal
+                  isOpen={isScheduleUpdateModalOpen}
+                  onClose={() => setIsScheduleUpdateModalOpen(false)}
+                  title="Update Schedule Form"
+                  modalStyle={updateScheduleModalStyle}
+                >
+                  {isScheduleUpdateModalOpen && (
+                    <UpdateScheduleForm
+                      isModalOpen={isScheduleUpdateModalOpen}
+                      setIsModalOpen={setIsScheduleUpdateModalOpen}
+                      schedule={schedule}
+                    />
+                  )}
+                </ReusableModal>
+              </div>
+            )}
           </div>
         </div>
       </div>

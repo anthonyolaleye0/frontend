@@ -20,6 +20,11 @@ import SingleUserPage from './pages/dashboard/admin/users/SingleUserPage';
 import Users from './pages/dashboard/admin/users/Users';
 import UserDashboard from './pages/dashboard/user/overview/UserDashboard';
 import UserProfile from './pages/dashboard/user/overview/UserProfile';
+import UserChapterPage from './pages/dashboard/user/taxLaws/UserChapterPage';
+import UserSchedulePage from './pages/dashboard/user/taxLaws/UserSchedulePage';
+import UserSectionPage from './pages/dashboard/user/taxLaws/UserSectionPage';
+import UserSingleTaxLaw from './pages/dashboard/user/taxLaws/UserSingleTaxLaw';
+import UserTaxLaws from './pages/dashboard/user/taxLaws/UserTaxLaws';
 import EmailVerification from './pages/EmailVerification';
 import Faq from './pages/Faq';
 import ForgotPassword from './pages/ForgotPassword';
@@ -100,6 +105,30 @@ function App() {
               <Route
                 element={<UserDashboard />}
                 path="/dashboard/user/overview"
+              />
+
+              <Route
+                element={<UserChapterPage />}
+                path="/dashboard/user/tax-laws/:taxLawId/chapters/:chapterId"
+              />
+
+              <Route
+                element={<UserSectionPage />}
+                path="/dashboard/user/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId"
+              />
+
+              <Route
+                element={<UserSchedulePage />}
+                path="/dashboard/user/tax-laws/:taxLawId/schedules/:scheduleId"
+              />
+
+              <Route
+                element={<UserTaxLaws />}
+                path="/dashboard/user/tax-laws"
+              />
+              <Route
+                element={<UserSingleTaxLaw />}
+                path="/dashboard/user/tax-laws/:taxLawId"
               />
             </Route>
 
