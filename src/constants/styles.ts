@@ -10,7 +10,10 @@ const emailVerificationStyle = `${LoginButtonContainerStyle} w-70`;
 const modalGeneralStyle = `bg-gray-50 border border-gray-400 mb-20 p-3 rounded-lg shadow-xl max-w-lg w-full mx-2 md:mx-auto mt-10 outline-none`;
 
 const updateChapterModalStyle = `${modalGeneralStyle} !w-[100%]`;
+const amendChapterModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const updateSectionModalStyle = `${modalGeneralStyle} !w-[100%]`;
+const amendSectionModalStyle = `${modalGeneralStyle} !w-[100%] h-[80%] overflow-y-auto`;
+const amendSubSectionModalStyle = `${modalGeneralStyle} !w-[100%] h-[80%] overflow-y-auto`;
 const createSectionModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const createPartModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const createChapterModalStyle = `${modalGeneralStyle} !w-[100%]`;
@@ -18,6 +21,9 @@ const updateScheduleModalStyle = `${modalGeneralStyle} !w-[100%]`;
 const updateSubSectionModalStyle = `${modalGeneralStyle} !w-[100%]`;
 
 export {
+  amendChapterModalStyle,
+  amendSectionModalStyle,
+  amendSubSectionModalStyle,
   createChapterModalStyle,
   createPartModalStyle,
   createSectionModalStyle,

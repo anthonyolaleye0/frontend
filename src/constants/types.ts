@@ -148,6 +148,88 @@ export type CreateSchedulePayload = {
   content: string;
 };
 
+export type AmendSectionPayload = {
+  target: {
+    level: string;
+    entityId: string;
+    path: {
+      sectionNumber: string;
+    };
+  };
+  type: string;
+  changes: {
+    title: string;
+    content: string;
+  };
+  effectiveDate: Date;
+  description: string;
+  metadata: {
+    financeAct?: string | undefined;
+    year?: number | undefined;
+  };
+};
+
+export type AmendSubSectionPayload = {
+  target: {
+    level: string;
+    entityId: string;
+    path: {
+      subSectionNumber: string;
+      sectionNumber: string;
+    };
+  };
+  type: string;
+  changes: {
+    content: string;
+  };
+  effectiveDate: Date;
+  description: string;
+  metadata: {
+    financeAct?: string | undefined;
+    year?: number | undefined;
+  };
+};
+
+export type AmendPartPayload = {
+  target: {
+    level: string;
+    entityId: string;
+    path: {
+      partNumber: string;
+    };
+  };
+  type: string;
+  changes: {
+    title: string;
+  };
+  effectiveDate: Date;
+  description: string;
+  metadata: {
+    financeAct?: string | undefined;
+    year?: number | undefined;
+  };
+};
+
+export type AmendChapterPayload = {
+  target: {
+    level: string;
+    entityId: string;
+    path: {
+      chapterNumber: string;
+    };
+  };
+  type: string;
+  changes: {
+    title: string;
+  };
+  effectiveDate: Date;
+  description: string;
+  metadata: {
+    financeAct?: string | undefined;
+    year?: number | undefined;
+  };
+};
+
 export type PartObjType = PartObjectType & {
   sections: SectionObjType[];
 };
@@ -163,6 +245,12 @@ export type ChapterResType = {
 export type SectionResType = SectionObjType;
 
 export type UpdateSectionFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  section: SectionObjType;
+};
+
+export type AmendSectionFormProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   section: SectionObjType;
@@ -189,7 +277,19 @@ export type UpdateSubSectionFormProps = {
   subsection: SubSectionObjType;
 };
 
+export type AmendSubSectionFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  subsection: SubSectionObjType;
+};
+
 export type UpdateChapterFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  chapter: ChapterObjType;
+};
+
+export type AmendChapterFormProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   chapter: ChapterObjType;
@@ -208,6 +308,12 @@ export type CreateScheduleFormProps = {
 };
 
 export type UpdatePartFormProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  part: PartObjType;
+};
+
+export type AmendPartFormProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   part: PartObjType;

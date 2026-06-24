@@ -3,6 +3,8 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useSelector } from 'react-redux';
 import {
+  amendSectionModalStyle,
+  amendSubSectionModalStyle,
   createSectionModalStyle,
   updateSectionModalStyle,
   updateSubSectionModalStyle,
@@ -14,6 +16,8 @@ import type {
 } from '../../constants/types';
 import { formatLegalContent } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
+import AmendSectionForm from '../Amendment/TaxLawAmendmentForms/AmendSectionForm';
+import AmendSubSectionForm from '../Amendment/TaxLawAmendmentForms/AmendSubSectionForm';
 import BackButton from '../BackButton';
 import { CircularLoader } from '../Loader';
 import ReusableModal from '../ReusableModal';
@@ -42,6 +46,9 @@ const SectionComponent = ({
   const [isSubSectionUpdateModalOpen, setIsSubSectionUpdateModalOpen] =
     useState(false);
   const [isSectionUpdateModalOpen, setIsSectionUpdateModalOpen] =
+    useState(false);
+  const [isSectionAmendModalOpen, setIsSectionAmendModalOpen] = useState(false);
+  const [isAmendSubSectionModalOpen, setIsAmendSubSectionModalOpen] =
     useState(false);
 
   const { fetchTaxLawSectionBySectionId } = useTaxLawApis();
@@ -114,7 +121,7 @@ const SectionComponent = ({
             <span className="uppercase underline mr-1">Section Number:</span>
             <span>{section.number}</span>
           </p>
-          <div className="flex gap-15">
+          <div className="flex flex-col gap-1">
             <div className="">
               <p className=" mb-3">
                 <span className="text-xl font-semibold uppercase underline mr-1">
@@ -123,33 +130,64 @@ const SectionComponent = ({
                 <span className="text-xl">{section.title}</span>
               </p>
             </div>
-            {userRole === 'admin' && (
-              <div className="">
-                <Button
-                  onClick={() => {
-                    setIsSectionUpdateModalOpen(true);
-                  }}
-                  className="cursor-pointer bg-navy-blue"
-                >
-                  Update Section
-                </Button>
 
-                <ReusableModal
-                  isOpen={isSectionUpdateModalOpen}
-                  onClose={() => setIsSectionUpdateModalOpen(false)}
-                  title="Update Section Form"
-                  modalStyle={updateSectionModalStyle}
-                >
-                  {isSectionUpdateModalOpen && (
-                    <UpdateSectionForm
-                      isModalOpen={isSectionUpdateModalOpen}
-                      setIsModalOpen={setIsSectionUpdateModalOpen}
-                      section={section}
-                    />
-                  )}
-                </ReusableModal>
-              </div>
-            )}
+            <div className="flex">
+              {userRole === 'admin' && (
+                <div className="">
+                  <Button
+                    onClick={() => {
+                      setIsSectionUpdateModalOpen(true);
+                    }}
+                    className="cursor-pointer bg-navy-blue"
+                  >
+                    Update Section
+                  </Button>
+
+                  <ReusableModal
+                    isOpen={isSectionUpdateModalOpen}
+                    onClose={() => setIsSectionUpdateModalOpen(false)}
+                    title="Update Section Form"
+                    modalStyle={updateSectionModalStyle}
+                  >
+                    {isSectionUpdateModalOpen && (
+                      <UpdateSectionForm
+                        isModalOpen={isSectionUpdateModalOpen}
+                        setIsModalOpen={setIsSectionUpdateModalOpen}
+                        section={section}
+                      />
+                    )}
+                  </ReusableModal>
+                </div>
+              )}
+
+              {userRole === 'admin' && (
+                <div className="">
+                  <Button
+                    onClick={() => {
+                      setIsSectionAmendModalOpen(true);
+                    }}
+                    className="cursor-pointer bg-navy-blue"
+                  >
+                    Amend Section
+                  </Button>
+
+                  <ReusableModal
+                    isOpen={isSectionAmendModalOpen}
+                    onClose={() => setIsSectionAmendModalOpen(false)}
+                    title="Amend Section Form"
+                    modalStyle={amendSectionModalStyle}
+                  >
+                    {isSectionAmendModalOpen && (
+                      <AmendSectionForm
+                        isModalOpen={isSectionAmendModalOpen}
+                        setIsModalOpen={setIsSectionAmendModalOpen}
+                        section={section}
+                      />
+                    )}
+                  </ReusableModal>
+                </div>
+              )}
+            </div>
           </div>
 
           <Separator />
@@ -197,33 +235,63 @@ const SectionComponent = ({
                   </div>
                 </p>
 
-                {userRole === 'admin' && (
-                  <div className="">
-                    <Button
-                      onClick={() => {
-                        setIsSubSectionUpdateModalOpen(true);
-                      }}
-                      className="cursor-pointer bg-navy-blue"
-                    >
-                      Update Sub Section
-                    </Button>
+                <div className="flex">
+                  {userRole === 'admin' && (
+                    <div className="">
+                      <Button
+                        onClick={() => {
+                          setIsSubSectionUpdateModalOpen(true);
+                        }}
+                        className="cursor-pointer bg-navy-blue"
+                      >
+                        Update Sub Section
+                      </Button>
 
-                    <ReusableModal
-                      isOpen={isSubSectionUpdateModalOpen}
-                      onClose={() => setIsSubSectionUpdateModalOpen(false)}
-                      title="Update Sub Section Form"
-                      modalStyle={updateSubSectionModalStyle}
-                    >
-                      {isSubSectionUpdateModalOpen && (
-                        <UpdateSubSectionForm
-                          isModalOpen={isSubSectionUpdateModalOpen}
-                          setIsModalOpen={setIsSubSectionUpdateModalOpen}
-                          subsection={subsection}
-                        />
-                      )}
-                    </ReusableModal>
-                  </div>
-                )}
+                      <ReusableModal
+                        isOpen={isSubSectionUpdateModalOpen}
+                        onClose={() => setIsSubSectionUpdateModalOpen(false)}
+                        title="Update Sub Section Form"
+                        modalStyle={updateSubSectionModalStyle}
+                      >
+                        {isSubSectionUpdateModalOpen && (
+                          <UpdateSubSectionForm
+                            isModalOpen={isSubSectionUpdateModalOpen}
+                            setIsModalOpen={setIsSubSectionUpdateModalOpen}
+                            subsection={subsection}
+                          />
+                        )}
+                      </ReusableModal>
+                    </div>
+                  )}
+
+                  {userRole === 'admin' && (
+                    <div className="">
+                      <Button
+                        onClick={() => {
+                          setIsAmendSubSectionModalOpen(true);
+                        }}
+                        className="cursor-pointer bg-navy-blue"
+                      >
+                        Amend Sub Section
+                      </Button>
+
+                      <ReusableModal
+                        isOpen={isAmendSubSectionModalOpen}
+                        onClose={() => setIsAmendSubSectionModalOpen(false)}
+                        title="Amend Sub Section Form"
+                        modalStyle={amendSubSectionModalStyle}
+                      >
+                        {isAmendSubSectionModalOpen && (
+                          <AmendSubSectionForm
+                            isModalOpen={isAmendSubSectionModalOpen}
+                            setIsModalOpen={setIsAmendSubSectionModalOpen}
+                            subsection={subsection}
+                          />
+                        )}
+                      </ReusableModal>
+                    </div>
+                  )}
+                </div>
               </div>
             ))
           ) : (
