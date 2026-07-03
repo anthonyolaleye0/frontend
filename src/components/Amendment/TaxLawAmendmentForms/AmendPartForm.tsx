@@ -24,6 +24,8 @@ const AmendPartForm: React.FC<AmendPartFormProps> = ({
   const { amendPart } = useAmendmentApis();
   const queryClient = useQueryClient();
 
+  console.log('part:', part);
+  console.log('part:', part._id);
   type FormValues = {
     title: string;
     effectiveDate: string;

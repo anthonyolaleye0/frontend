@@ -16,6 +16,7 @@ import {
   createScheduleRoute,
   createSectionRoute,
   createSubSectionRoute,
+  fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
@@ -31,9 +32,25 @@ import {
 import axiosInstance from '../hooks/axiosInstance';
 
 const useTaxLawApis = () => {
-  const fetchTaxLawChapterByChapterId = async (chapterId: string) => {
+  const fetchTaxLawChapterByChapterId = async (
+    chapterId: string,
+    selectedDate?: string,
+  ) => {
     const response = await axiosInstance.get(
-      `${fetchTaxLawChapterByChapterIdRoute}/${chapterId}`,
+      `${fetchTaxLawChapterByChapterIdRoute}/${chapterId}?`,
+      {
+        params: {
+          ...(selectedDate && { asOf: selectedDate }), // 👈 only add if exists
+        },
+      },
+    );
+
+    return response.data;
+  };
+
+  const fetchChapterHistoryByChapterId = async (chapterId: string) => {
+    const response = await axiosInstance.get(
+      `${fetchChapterHistoryByChapterIdRoute}/${chapterId}`,
     );
 
     return response.data;
@@ -226,6 +243,7 @@ const useTaxLawApis = () => {
   return {
     fetchSchedulesByTaxLawId,
     updateChapter,
+    fetchChapterHistoryByChapterId,
     createChapter,
     createPart,
     createSection,

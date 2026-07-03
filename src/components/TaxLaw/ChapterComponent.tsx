@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   amendChapterModalStyle,
   createPartModalStyle,
@@ -37,6 +37,7 @@ const ChapterComponent = ({
   chapterId: string;
   taxLawId: string;
 }) => {
+  const navigate = useNavigate();
   const { currentUser } = useSelector(
     (state: { user: UserState }) => state.user,
   );
@@ -44,6 +45,14 @@ const ChapterComponent = ({
   const userRole = currentUser?.role;
 
   const { fetchTaxLawChapterByChapterId } = useTaxLawApis();
+
+  const handleViewChapterHistory = (chapterId: string, taxLawId: string) => {
+    navigate(
+      `/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/history`,
+    );
+
+    return;
+  };
 
   const [isCreateSectionModalOpen, setIsCreateSectionModalOpen] =
     useState(false);
@@ -175,6 +184,13 @@ const ChapterComponent = ({
                   </ReusableModal>
                 </div>
               )}
+
+              <Button
+                onClick={() => handleViewChapterHistory(chapterId, taxLawId)}
+                className="cursor-pointer bg-navy-blue"
+              >
+                View History
+              </Button>
             </div>
             <h1 className="text-3xl font-bold mb-2">
               Chapter {chapter.number}

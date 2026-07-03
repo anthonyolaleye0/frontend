@@ -17,6 +17,8 @@ const fetchTaxLawsRoute = `tax-laws/get-tax-laws`;
 const fetchTaxLawByTaxLawIdRoute = `tax-laws/get-tax-law-by-id`;
 const fetchSchedulesByTaxLawIdRoute = `tax-laws/get-tax-law-schedules-by-taxLawId`;
 const fetchTaxLawChapterByChapterIdRoute = `tax-laws/get-tax-law-chapter-by-chapter-id`;
+
+const fetchChapterHistoryByChapterIdRoute = `tax-laws/get-tax-law-chapter-history-by-chapter-id`;
 const updateSubSectionRoute = `tax-laws/update-tax-law-subsection-by-subsection-id`;
 const updateSectionRoute = `tax-laws/update-tax-law-section-by-section-id`;
 const updateScheduleRoute = `tax-laws/update-tax-law-schedule-by-schedule-id`;
@@ -42,6 +44,7 @@ export {
   createSectionRoute,
   createSubSectionRoute,
   emailVerificationRoute,
+  fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,

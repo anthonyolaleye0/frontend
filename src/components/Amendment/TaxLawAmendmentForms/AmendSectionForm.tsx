@@ -258,7 +258,7 @@ const AmendSectionForm: React.FC<AmendSectionFormProps> = ({
             <Button
               type="submit"
               disabled={loading}
-              className="my-4 bg-sky-blue hover:bg-navy-blue text-white"
+              className="my-4 bg-sky-blue hover:bg-navy-blue text-white cursor-pointer"
             >
               {loading ? 'Amending Section...' : 'Amend Section'}
             </Button>

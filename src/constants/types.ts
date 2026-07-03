@@ -234,6 +234,28 @@ export type PartObjType = PartObjectType & {
   sections: SectionObjType[];
 };
 
+export type HistoryTimelineType = {
+  amendmentId: string;
+  description: string;
+  effectiveDate: string;
+  entityId: string;
+  target: {
+    level: string;
+    entityId: string;
+    path?: {
+      chapterNumber?: number;
+      sectionNumber?: number;
+      subSectionNumber?: number;
+    };
+  };
+  metadata: {
+    year: Date;
+    _id: string;
+    financeAct: string;
+  };
+  type: string;
+};
+
 export type ChapterResType = {
   _id: string;
   taxLaw: string;
