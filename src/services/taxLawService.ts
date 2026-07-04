@@ -18,6 +18,7 @@ import {
   createSubSectionRoute,
   fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
+  fetchSectionHistoryBySectionIdRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
   fetchTaxLawScheduleByScheduleIdRoute,
@@ -40,7 +41,7 @@ const useTaxLawApis = () => {
       `${fetchTaxLawChapterByChapterIdRoute}/${chapterId}?`,
       {
         params: {
-          ...(selectedDate && { asOf: selectedDate }), // 👈 only add if exists
+          ...(selectedDate && { asOf: selectedDate }),
         },
       },
     );
@@ -51,6 +52,14 @@ const useTaxLawApis = () => {
   const fetchChapterHistoryByChapterId = async (chapterId: string) => {
     const response = await axiosInstance.get(
       `${fetchChapterHistoryByChapterIdRoute}/${chapterId}`,
+    );
+
+    return response.data;
+  };
+
+  const fetchSectionHistoryBySectionId = async (sectionId: string) => {
+    const response = await axiosInstance.get(
+      `${fetchSectionHistoryBySectionIdRoute}/${sectionId}`,
     );
 
     return response.data;
@@ -156,9 +165,17 @@ const useTaxLawApis = () => {
     return response.data;
   };
 
-  const fetchTaxLawSectionBySectionId = async (sectionId: string) => {
+  const fetchTaxLawSectionBySectionId = async (
+    sectionId: string,
+    selectedDate?: string,
+  ) => {
     const response = await axiosInstance.get(
       `${fetchTaxLawSectionBySectionIdRoute}/${sectionId}`,
+      {
+        params: {
+          ...(selectedDate && { asOf: selectedDate }),
+        },
+      },
     );
 
     console.log('response:', response);
@@ -257,6 +274,7 @@ const useTaxLawApis = () => {
     createSubSection,
     fetchTaxLawScheduleByScheduleId,
     updatePart,
+    fetchSectionHistoryBySectionId,
     fetchTaxLawByTaxLawId,
   };
 };

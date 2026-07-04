@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   amendSectionModalStyle,
   amendSubSectionModalStyle,
@@ -28,17 +29,29 @@ import UpdateSectionForm from './TaxLawUpdateForms/UpdateSectionForm';
 import UpdateSubSectionForm from './TaxLawUpdateForms/UpdateSubSectionForm';
 
 const SectionComponent = ({
+  chapterId,
+  taxLawId,
   sectionId,
 }: {
   chapterId: string;
   taxLawId: string;
   sectionId: string;
 }) => {
+  const navigate = useNavigate();
+
   const { currentUser } = useSelector(
     (state: { user: UserState }) => state.user,
   );
 
   const userRole = currentUser?.role;
+
+  const handleViewSectionHistory = () => {
+    navigate(
+      `/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/history`,
+    );
+
+    return;
+  };
 
   const [isCreateSubSectionModalOpen, setIsCreateSubSectionModalOpen] =
     useState(false);
@@ -187,6 +200,13 @@ const SectionComponent = ({
                   </ReusableModal>
                 </div>
               )}
+
+              <Button
+                onClick={() => handleViewSectionHistory()}
+                className="cursor-pointer bg-navy-blue"
+              >
+                View History
+              </Button>
             </div>
           </div>
 

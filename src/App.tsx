@@ -17,6 +17,7 @@ import SectionPage from './pages/dashboard/admin/taxLaws/SectionPage';
 import SingleTaxLaw from './pages/dashboard/admin/taxLaws/SingleTaxLaw';
 import TaxLaws from './pages/dashboard/admin/taxLaws/TaxLaws';
 import ChapterHistoryPage from './pages/dashboard/admin/taxLawsHistories/ChapterHistoryPage';
+import SectionHistoryPage from './pages/dashboard/admin/taxLawsHistories/SectionHistoryPage';
 import SingleUserPage from './pages/dashboard/admin/users/SingleUserPage';
 import Users from './pages/dashboard/admin/users/Users';
 import UserDashboard from './pages/dashboard/user/overview/UserDashboard';
@@ -144,6 +145,10 @@ function App() {
               <Route
                 element={<ChapterHistoryPage />}
                 path="/dashboard/admin/tax-laws/:taxLawId/chapters/:chapterId/history"
+              />
+              <Route
+                element={<SectionHistoryPage />}
+                path="/dashboard/admin/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId/history"
               />
 
               <Route
