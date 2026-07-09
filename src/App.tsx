@@ -15,9 +15,11 @@ import ChapterPage from './pages/dashboard/admin/taxLaws/ChapterPage';
 import SchedulePage from './pages/dashboard/admin/taxLaws/SchedulePage';
 import SectionPage from './pages/dashboard/admin/taxLaws/SectionPage';
 import SingleTaxLaw from './pages/dashboard/admin/taxLaws/SingleTaxLaw';
+import SubSectionPage from './pages/dashboard/admin/taxLaws/SubSectionPage';
 import TaxLaws from './pages/dashboard/admin/taxLaws/TaxLaws';
 import ChapterHistoryPage from './pages/dashboard/admin/taxLawsHistories/ChapterHistoryPage';
 import SectionHistoryPage from './pages/dashboard/admin/taxLawsHistories/SectionHistoryPage';
+import SubSectionHistoryPage from './pages/dashboard/admin/taxLawsHistories/SubSectionHistoryPage';
 import SingleUserPage from './pages/dashboard/admin/users/SingleUserPage';
 import Users from './pages/dashboard/admin/users/Users';
 import UserDashboard from './pages/dashboard/user/overview/UserDashboard';
@@ -159,6 +161,16 @@ function App() {
               <Route
                 element={<SectionPage />}
                 path="/dashboard/admin/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId"
+              />
+
+              <Route
+                element={<SubSectionPage />}
+                path="/dashboard/admin/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId/subSection/:subSectionId"
+              />
+
+              <Route
+                element={<SubSectionHistoryPage />}
+                path="/dashboard/admin/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId/subSection/:subSectionId/history"
               />
 
               <Route

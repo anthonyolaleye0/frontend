@@ -19,11 +19,13 @@ import {
   fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchSectionHistoryBySectionIdRoute,
+  fetchSubSectionHistoryBySubSectionIdRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
   fetchTaxLawScheduleByScheduleIdRoute,
   fetchTaxLawSectionBySectionIdRoute,
   fetchTaxLawsRoute,
+  fetchTaxLawSubSectionBySubSectionIdRoute,
   updateChapterRoute,
   updatePartRoute,
   updateScheduleRoute,
@@ -57,6 +59,13 @@ const useTaxLawApis = () => {
     return response.data;
   };
 
+  const fetchSubSectionHistoryBySubSectionId = async (subSectionId: string) => {
+    const response = await axiosInstance.get(
+      `${fetchSubSectionHistoryBySubSectionIdRoute}/${subSectionId}`,
+    );
+
+    return response.data;
+  };
   const fetchSectionHistoryBySectionId = async (sectionId: string) => {
     const response = await axiosInstance.get(
       `${fetchSectionHistoryBySectionIdRoute}/${sectionId}`,
@@ -183,6 +192,24 @@ const useTaxLawApis = () => {
     return response.data;
   };
 
+  const fetchTaxLawSubSectionBySubSectionId = async (
+    subSectionId: string,
+    selectedDate?: string,
+  ) => {
+    const response = await axiosInstance.get(
+      `${fetchTaxLawSubSectionBySubSectionIdRoute}/${subSectionId}`,
+      {
+        params: {
+          ...(selectedDate && { asOf: selectedDate }),
+        },
+      },
+    );
+
+    console.log('response:', response);
+
+    return response.data;
+  };
+
   const fetchTaxLawScheduleByScheduleId = async (scheduleId: string) => {
     const response = await axiosInstance.get(
       `${fetchTaxLawScheduleByScheduleIdRoute}/${scheduleId}`,
@@ -262,6 +289,7 @@ const useTaxLawApis = () => {
     updateChapter,
     fetchChapterHistoryByChapterId,
     createChapter,
+    fetchTaxLawSubSectionBySubSectionId,
     createPart,
     createSection,
     createSchedule,
@@ -270,6 +298,7 @@ const useTaxLawApis = () => {
     fetchTaxLawChapterByChapterId,
     fetchTaxLaws,
     updateSection,
+    fetchSubSectionHistoryBySubSectionId,
     updateSubSection,
     createSubSection,
     fetchTaxLawScheduleByScheduleId,

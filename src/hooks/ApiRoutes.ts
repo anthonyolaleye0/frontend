@@ -20,6 +20,7 @@ const fetchTaxLawChapterByChapterIdRoute = `tax-laws/get-tax-law-chapter-by-chap
 
 const fetchChapterHistoryByChapterIdRoute = `tax-laws/get-tax-law-chapter-history-by-chapter-id`;
 const fetchSectionHistoryBySectionIdRoute = `tax-laws/get-tax-law-section-history-by-section-id`;
+const fetchSubSectionHistoryBySubSectionIdRoute = `tax-laws/get-tax-law-sub-section-history-by-sub-section-id`;
 
 const updateSubSectionRoute = `tax-laws/update-tax-law-subsection-by-subsection-id`;
 const updateSectionRoute = `tax-laws/update-tax-law-section-by-section-id`;
@@ -36,6 +37,7 @@ const createScheduleRoute = `tax-laws/create-tax-law-schedule-in-taxlaw-by-taxla
 const updateChapterRoute = `tax-laws/update-tax-law-chapter-by-chapter-id`;
 const updatePartRoute = `tax-laws/update-tax-law-part-by-part-id`;
 const fetchTaxLawSectionBySectionIdRoute = `tax-laws/get-tax-law-section-by-sectionId`;
+const fetchTaxLawSubSectionBySubSectionIdRoute = `tax-laws/get-tax-law-sub-section-by-subSectionId`;
 const fetchTaxLawScheduleByScheduleIdRoute = `tax-laws/get-tax-law-schedule-by-scheduleId`;
 
 export {
@@ -49,11 +51,13 @@ export {
   fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchSectionHistoryBySectionIdRoute,
+  fetchSubSectionHistoryBySubSectionIdRoute,
   fetchTaxLawByTaxLawIdRoute,
   fetchTaxLawChapterByChapterIdRoute,
   fetchTaxLawScheduleByScheduleIdRoute,
   fetchTaxLawSectionBySectionIdRoute,
   fetchTaxLawsRoute,
+  fetchTaxLawSubSectionBySubSectionIdRoute,
   forgotPasswordRoute,
   getAllUsersRoute,
   getAUserRoute,

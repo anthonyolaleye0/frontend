@@ -60,19 +60,18 @@ const AmendSubSectionForm: React.FC<AmendSubSectionFormProps> = ({
     }
   }, [subsection, form]);
 
-  console.log('subsection.content:', subsection.content);
-
+  console.log('subsection.number:', subsection.number);
   const { mutateAsync: amendSubSectionMutation, isPending: loading } =
     useMutation({
       mutationFn: amendSubSection,
 
       onSuccess: async () => {
         await queryClient.invalidateQueries({
-          queryKey: ['section-details'],
+          queryKey: ['sub-section-details'],
         });
 
         await queryClient.refetchQueries({
-          queryKey: ['section-details'],
+          queryKey: ['sub-section-details'],
         });
       },
     });
@@ -100,7 +99,6 @@ const AmendSubSectionForm: React.FC<AmendSubSectionFormProps> = ({
           level: targetLevel.SUBSECTION,
           entityId: subsection._id,
           path: {
-            sectionNumber: subsection.section,
             subSectionNumber: subsection.number,
           },
         },
@@ -241,7 +239,7 @@ const AmendSubSectionForm: React.FC<AmendSubSectionFormProps> = ({
             <Button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="my-4 bg-red-500 text-white hover:bg-red-400"
+              className="my-4 cursor-pointer bg-red-500 text-white hover:bg-red-400"
             >
               Cancel
             </Button>
@@ -249,7 +247,7 @@ const AmendSubSectionForm: React.FC<AmendSubSectionFormProps> = ({
             <Button
               type="submit"
               disabled={loading}
-              className="my-4 bg-sky-blue hover:bg-navy-blue text-white"
+              className="my-4 cursor-pointer bg-sky-blue hover:bg-navy-blue text-white"
             >
               {loading ? 'Amending Sub-section...' : 'Amend Sub-section'}
             </Button>

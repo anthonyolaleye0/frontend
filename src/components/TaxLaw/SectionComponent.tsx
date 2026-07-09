@@ -53,6 +53,14 @@ const SectionComponent = ({
     return;
   };
 
+  const handleViewSubSectionDetails = (subsectionId: string) => {
+    navigate(
+      `/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/subSection/${subsectionId}`,
+    );
+
+    return;
+  };
+
   const [isCreateSubSectionModalOpen, setIsCreateSubSectionModalOpen] =
     useState(false);
 
@@ -63,6 +71,8 @@ const SectionComponent = ({
   const [isSectionAmendModalOpen, setIsSectionAmendModalOpen] = useState(false);
   const [isAmendSubSectionModalOpen, setIsAmendSubSectionModalOpen] =
     useState(false);
+  const [selectedSubSection, setSelectedSubSection] =
+    useState<SubSectionObjType | null>(null);
 
   const { fetchTaxLawSectionBySectionId } = useTaxLawApis();
 
@@ -261,26 +271,12 @@ const SectionComponent = ({
                       <Button
                         onClick={() => {
                           setIsSubSectionUpdateModalOpen(true);
+                          setSelectedSubSection(subsection);
                         }}
                         className="cursor-pointer bg-navy-blue"
                       >
                         Update Sub Section
                       </Button>
-
-                      <ReusableModal
-                        isOpen={isSubSectionUpdateModalOpen}
-                        onClose={() => setIsSubSectionUpdateModalOpen(false)}
-                        title="Update Sub Section Form"
-                        modalStyle={updateSubSectionModalStyle}
-                      >
-                        {isSubSectionUpdateModalOpen && (
-                          <UpdateSubSectionForm
-                            isModalOpen={isSubSectionUpdateModalOpen}
-                            setIsModalOpen={setIsSubSectionUpdateModalOpen}
-                            subsection={subsection}
-                          />
-                        )}
-                      </ReusableModal>
                     </div>
                   )}
 
@@ -289,28 +285,23 @@ const SectionComponent = ({
                       <Button
                         onClick={() => {
                           setIsAmendSubSectionModalOpen(true);
+                          setSelectedSubSection(subsection);
                         }}
                         className="cursor-pointer bg-navy-blue"
                       >
                         Amend Sub Section
                       </Button>
-
-                      <ReusableModal
-                        isOpen={isAmendSubSectionModalOpen}
-                        onClose={() => setIsAmendSubSectionModalOpen(false)}
-                        title="Amend Sub Section Form"
-                        modalStyle={amendSubSectionModalStyle}
-                      >
-                        {isAmendSubSectionModalOpen && (
-                          <AmendSubSectionForm
-                            isModalOpen={isAmendSubSectionModalOpen}
-                            setIsModalOpen={setIsAmendSubSectionModalOpen}
-                            subsection={subsection}
-                          />
-                        )}
-                      </ReusableModal>
                     </div>
                   )}
+
+                  <Button
+                    onClick={() =>
+                      handleViewSubSectionDetails(subsection._id.toString())
+                    }
+                    className="cursor-pointer bg-navy-blue"
+                  >
+                    View Subsection Details
+                  </Button>
                 </div>
               </div>
             ))
@@ -319,6 +310,39 @@ const SectionComponent = ({
               <p>No sub section for this section</p>
             </div>
           )}
+
+          <ReusableModal
+            isOpen={isSubSectionUpdateModalOpen}
+            onClose={() => setIsSubSectionUpdateModalOpen(false)}
+            title="Update Sub Section Form"
+            modalStyle={updateSubSectionModalStyle}
+          >
+            {isSubSectionUpdateModalOpen && selectedSubSection && (
+              <UpdateSubSectionForm
+                isModalOpen={isSubSectionUpdateModalOpen}
+                setIsModalOpen={setIsSubSectionUpdateModalOpen}
+                subsection={selectedSubSection}
+              />
+            )}
+          </ReusableModal>
+
+          <ReusableModal
+            isOpen={isAmendSubSectionModalOpen}
+            onClose={() => {
+              setIsAmendSubSectionModalOpen(false);
+              setSelectedSubSection(null);
+            }}
+            title="Amend Sub Section Form"
+            modalStyle={amendSubSectionModalStyle}
+          >
+            {isAmendSubSectionModalOpen && selectedSubSection && (
+              <AmendSubSectionForm
+                isModalOpen={isAmendSubSectionModalOpen}
+                setIsModalOpen={setIsAmendSubSectionModalOpen}
+                subsection={selectedSubSection}
+              />
+            )}
+          </ReusableModal>
         </div>
       </div>
     </div>

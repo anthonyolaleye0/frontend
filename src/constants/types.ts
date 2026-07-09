@@ -175,7 +175,6 @@ export type AmendSubSectionPayload = {
     entityId: string;
     path: {
       subSectionNumber: string;
-      sectionNumber: string;
     };
   };
   type: string;

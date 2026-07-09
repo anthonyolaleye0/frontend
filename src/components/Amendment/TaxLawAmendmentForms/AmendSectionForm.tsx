@@ -250,7 +250,7 @@ const AmendSectionForm: React.FC<AmendSectionFormProps> = ({
             <Button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="my-4 bg-red-500 text-white hover:bg-red-400"
+              className="my-4 cursor-pointer bg-red-500 text-white hover:bg-red-400"
             >
               Cancel
             </Button>
