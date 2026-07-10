@@ -92,12 +92,12 @@ const SubSectionHistoryComponent = ({
                 }`}
               >
                 <p className="font-medium">
-                  {item.target.level === 'SESSION' &&
-                    item.target.path?.sectionNumber}
-                  {item.target.level === 'SUBSECTION' &&
-                    item.target.path?.subSectionNumber}
-                  {item.target.level === 'CHAPTER' &&
-                    item.target.path?.chapterNumber}
+                  {item?.target?.level === 'SESSION' &&
+                    item?.target?.path?.sectionNumber}
+                  {item?.target?.level === 'SUBSECTION' &&
+                    item?.target?.path?.subSectionNumber}
+                  {item?.target?.level === 'CHAPTER' &&
+                    item?.target?.path?.chapterNumber}
                 </p>
                 <p className="text-sm opacity-70">
                   {new Date(item.effectiveDate).toDateString()}
@@ -130,6 +130,7 @@ const SubSectionHistoryComponent = ({
               </h2>
 
               <p className="text-gray-700 mb-6">{subSection.title}</p>
+              <p className="text-gray-700 mb-6">{subSection.content}</p>
             </div>
           )}
         </div>

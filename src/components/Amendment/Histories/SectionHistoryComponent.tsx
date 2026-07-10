@@ -35,8 +35,13 @@ const SectionHistoryComponent = ({
 
   const timeline = historyData?.data?.data?.timeline || [];
 
+  const filtered = timeline.filter(
+    (a: HistoryTimelineType) => a.target.level === 'SECTION',
+  );
+
   console.log('historyData?.data?.data:', historyData?.data?.data);
   console.log('timeline:', timeline);
+  console.log('filtered:', filtered);
 
   // Fetch selected version
   const { data: versionData, isLoading: isVersionLoading } = useQuery({
@@ -80,7 +85,7 @@ const SectionHistoryComponent = ({
           </div>
 
           <div className="space-y-3">
-            {timeline.map((item: HistoryTimelineType) => (
+            {filtered.map((item: HistoryTimelineType) => (
               <div
                 key={item.effectiveDate}
                 onClick={() => setSelectedDate(item.effectiveDate)}
@@ -132,10 +137,13 @@ const SectionHistoryComponent = ({
 
               {/* SUBSECTION */}
               <div className="space-y-6">
-                {section.subsection?.map((sub: SubSectionObjType) => (
+                {section.subsections?.map((sub: SubSectionObjType) => (
                   <div key={sub._id}>
+                    <p key={sub._id} className="font-semibold text-sm mt-1">
+                      Sub section ({sub.number})
+                    </p>
                     <p key={sub._id} className="text-sm mt-1">
-                      ({sub.number}) {sub.content}
+                      {sub.content}
                     </p>
                   </div>
                 ))}

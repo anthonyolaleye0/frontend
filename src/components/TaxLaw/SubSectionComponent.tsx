@@ -3,10 +3,7 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  amendSubSectionModalStyle,
-  updateSubSectionModalStyle,
-} from '../../constants/styles';
+import { amendSubSectionModalStyle } from '../../constants/styles';
 import type { SubSectionObjType, UserState } from '../../constants/types';
 import { formatLegalContent } from '../../hooks/functions';
 import useTaxLawApis from '../../services/taxLawService';
@@ -16,7 +13,6 @@ import { CircularLoader } from '../Loader';
 import ReusableModal from '../ReusableModal';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
-import UpdateSubSectionForm from './TaxLawUpdateForms/UpdateSubSectionForm';
 
 const SubSectionComponent = ({
   chapterId,
@@ -45,8 +41,6 @@ const SubSectionComponent = ({
     return;
   };
 
-  const [isSubSectionUpdateModalOpen, setIsSubSectionUpdateModalOpen] =
-    useState(false);
   const [isAmendSubSectionModalOpen, setIsAmendSubSectionModalOpen] =
     useState(false);
 
@@ -119,19 +113,6 @@ const SubSectionComponent = ({
                 <div className="">
                   <Button
                     onClick={() => {
-                      setIsSubSectionUpdateModalOpen(true);
-                    }}
-                    className="cursor-pointer bg-navy-blue"
-                  >
-                    Update Sub Section
-                  </Button>
-                </div>
-              )}
-
-              {userRole === 'admin' && (
-                <div className="">
-                  <Button
-                    onClick={() => {
                       setIsAmendSubSectionModalOpen(true);
                     }}
                     className="cursor-pointer bg-navy-blue"
@@ -149,21 +130,6 @@ const SubSectionComponent = ({
               </Button>
             </div>
           </div>
-
-          <ReusableModal
-            isOpen={isSubSectionUpdateModalOpen}
-            onClose={() => setIsSubSectionUpdateModalOpen(false)}
-            title="Update Sub Section Form"
-            modalStyle={updateSubSectionModalStyle}
-          >
-            {isSubSectionUpdateModalOpen && (
-              <UpdateSubSectionForm
-                isModalOpen={isSubSectionUpdateModalOpen}
-                setIsModalOpen={setIsSubSectionUpdateModalOpen}
-                subsection={subSection}
-              />
-            )}
-          </ReusableModal>
 
           <ReusableModal
             isOpen={isAmendSubSectionModalOpen}
