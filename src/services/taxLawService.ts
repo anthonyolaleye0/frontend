@@ -16,6 +16,7 @@ import {
   createScheduleRoute,
   createSectionRoute,
   createSubSectionRoute,
+  createTaxLawRoute,
   fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchSectionHistoryBySectionIdRoute,
@@ -31,6 +32,7 @@ import {
   updateScheduleRoute,
   updateSectionRoute,
   updateSubSectionRoute,
+  uploadTaxLawRoute,
 } from '../hooks/ApiRoutes';
 import axiosInstance from '../hooks/axiosInstance';
 
@@ -284,7 +286,24 @@ const useTaxLawApis = () => {
     return response.data;
   };
 
+  const uploadTaxLaw = async (formData: FormData) => {
+    const response = await axiosInstance.post(uploadTaxLawRoute, formData, {
+      headers: {
+        // Let browser set it automatically
+        'Content-Type': undefined,
+      },
+    });
+
+    return response.data;
+  };
+
+  const createTaxLaw = async (payload: { title: string }) => {
+    const response = await axiosInstance.post(createTaxLawRoute, payload);
+    return response.data;
+  };
+
   return {
+    uploadTaxLaw,
     fetchSchedulesByTaxLawId,
     updateChapter,
     fetchChapterHistoryByChapterId,
@@ -300,6 +319,7 @@ const useTaxLawApis = () => {
     updateSection,
     fetchSubSectionHistoryBySubSectionId,
     updateSubSection,
+    createTaxLaw,
     createSubSection,
     fetchTaxLawScheduleByScheduleId,
     updatePart,

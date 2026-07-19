@@ -128,29 +128,37 @@ const SingleTaxLawDisplay = ({
           Schedules
         </Button>
       </div>
-      {userRole === 'admin' && (
-        <div className="">
-          <Button
-            onClick={() => {
-              setIsCreateChapterModalOpen(true);
-            }}
-            className="cursor-pointer bg-navy-blue"
-          >{`Create ${activeTab === 'chapters' ? 'Chapter' : 'Schedule'}`}</Button>
 
-          <ReusableModal
-            isOpen={isCreateChapterModalOpen}
-            onClose={() => setIsCreateChapterModalOpen(false)}
-            title={
-              activeTab === 'chapters'
-                ? 'Create Chapter Form'
-                : 'Create Schedule Form'
-            }
-            modalStyle={createChapterModalStyle}
-          >
-            {isCreateChapterModalOpen && renderForm()}
-          </ReusableModal>
-        </div>
-      )}
+      <div className="flex gap-2">
+        {userRole === 'admin' && (
+          <div>
+            <Button className="bg-navy-blue">Upload Tax Law</Button>
+          </div>
+        )}
+        {userRole === 'admin' && (
+          <div className="">
+            <Button
+              onClick={() => {
+                setIsCreateChapterModalOpen(true);
+              }}
+              className="cursor-pointer bg-navy-blue"
+            >{`Create ${activeTab === 'chapters' ? 'Chapter' : 'Schedule'}`}</Button>
+
+            <ReusableModal
+              isOpen={isCreateChapterModalOpen}
+              onClose={() => setIsCreateChapterModalOpen(false)}
+              title={
+                activeTab === 'chapters'
+                  ? 'Create Chapter Form'
+                  : 'Create Schedule Form'
+              }
+              modalStyle={createChapterModalStyle}
+            >
+              {isCreateChapterModalOpen && renderForm()}
+            </ReusableModal>
+          </div>
+        )}
+      </div>
 
       <div className="mb-20">
         {activeTab === 'chapters' && (

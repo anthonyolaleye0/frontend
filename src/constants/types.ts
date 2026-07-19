@@ -233,6 +233,12 @@ export type PartObjType = PartObjectType & {
   sections: SectionObjType[];
 };
 
+export type UploadTaxLawModalProps = {
+  onClose: () => void;
+  onUpload: (formData: FormData) => void;
+  isLoading: boolean;
+};
+
 export type HistoryTimelineType = {
   amendmentId: string;
   description: string;

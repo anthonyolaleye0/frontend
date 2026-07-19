@@ -31,6 +31,9 @@ const createSectionRoute = `tax-laws/create-tax-law-section-in-part-by-part-id`;
 
 const createAmendmentRoute = `amendments/create-amendment`;
 
+const uploadTaxLawRoute = `tax-laws/upload-tax-file`;
+const createTaxLawRoute = `tax-laws/create-tax-law`;
+
 const createChapterRoute = `tax-laws/create-tax-law-chapter-in-taxlaw-by-taxlaw-id`;
 const createPartRoute = `tax-laws/create-tax-law-part-in-chapter-by-chapter-id`;
 const createScheduleRoute = `tax-laws/create-tax-law-schedule-in-taxlaw-by-taxlaw-id`;
@@ -47,6 +50,7 @@ export {
   createScheduleRoute,
   createSectionRoute,
   createSubSectionRoute,
+  createTaxLawRoute,
   emailVerificationRoute,
   fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
@@ -73,5 +77,6 @@ export {
   updateScheduleRoute,
   updateSectionRoute,
   updateSubSectionRoute,
+  uploadTaxLawRoute,
   verifyUserEmailRoute,
 };

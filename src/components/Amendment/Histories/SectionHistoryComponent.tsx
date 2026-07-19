@@ -39,10 +39,6 @@ const SectionHistoryComponent = ({
     (a: HistoryTimelineType) => a.target.level === 'SECTION',
   );
 
-  console.log('historyData?.data?.data:', historyData?.data?.data);
-  console.log('timeline:', timeline);
-  console.log('filtered:', filtered);
-
   // Fetch selected version
   const { data: versionData, isLoading: isVersionLoading } = useQuery({
     queryKey: ['section-version', sectionId, selectedDate],
