@@ -286,13 +286,18 @@ const useTaxLawApis = () => {
     return response.data;
   };
 
-  const uploadTaxLaw = async (formData: FormData) => {
-    const response = await axiosInstance.post(uploadTaxLawRoute, formData, {
-      headers: {
-        // Let browser set it automatically
-        'Content-Type': undefined,
+  const uploadTaxLaw = async (taxLawId: string, formData: FormData) => {
+    console.log('taxLawId:', taxLawId);
+    const response = await axiosInstance.post(
+      `${uploadTaxLawRoute}/${taxLawId}`,
+      formData,
+      {
+        headers: {
+          // Let browser set it automatically
+          'Content-Type': undefined,
+        },
       },
-    });
+    );
 
     return response.data;
   };
