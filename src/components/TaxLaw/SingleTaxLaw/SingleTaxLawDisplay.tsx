@@ -203,12 +203,44 @@ const SingleTaxLawDisplay = ({
       <div className="flex gap-2">
         {userRole === 'admin' && (
           <div className="flex flex-col gap-2">
-            <Button
-              className="cursor-pointer bg-navy-blue w-52"
-              onClick={handleButtonClick}
-            >
-              Upload Tax Law Files
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                className="cursor-pointer bg-navy-blue w-52"
+                onClick={handleButtonClick}
+              >
+                Upload Tax Law Files
+              </Button>
+
+              {hasChapters && userRole === 'admin' && (
+                <div className="">
+                  <Button
+                    onClick={() => {
+                      setIsCreateChapterModalOpen(true);
+                    }}
+                    className="cursor-pointer bg-navy-blue"
+                  >{`Create ${activeTab === 'chapters' ? 'Chapter' : 'Schedule'}`}</Button>
+
+                  <ReusableModal
+                    isOpen={isCreateChapterModalOpen}
+                    onClose={() => setIsCreateChapterModalOpen(false)}
+                    title={
+                      activeTab === 'chapters'
+                        ? 'Create Chapter Form'
+                        : 'Create Schedule Form'
+                    }
+                    modalStyle={createChapterModalStyle}
+                  >
+                    {isCreateChapterModalOpen && renderForm()}
+                  </ReusableModal>
+                </div>
+              )}
+
+              {hasChapters && userRole === 'admin' && (
+                <div className="">
+                  <Button>Tax file upload complete</Button>
+                </div>
+              )}
+            </div>
 
             <div className="flex gap-3 mb-5">
               {file && (
@@ -256,7 +288,7 @@ const SingleTaxLawDisplay = ({
           </div>
         )}
 
-        {hasChapters && userRole === 'admin' && (
+        {/* {hasChapters && userRole === 'admin' && (
           <div className="">
             <Button
               onClick={() => {
@@ -278,7 +310,7 @@ const SingleTaxLawDisplay = ({
               {isCreateChapterModalOpen && renderForm()}
             </ReusableModal>
           </div>
-        )}
+        )} */}
       </div>
 
       {!hasChapters && (
