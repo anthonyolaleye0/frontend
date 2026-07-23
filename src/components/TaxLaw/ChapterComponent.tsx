@@ -48,7 +48,7 @@ const ChapterComponent = ({
 
   const handleViewChapterHistory = (chapterId: string, taxLawId: string) => {
     navigate(
-      `/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/history`,
+      `/dashboard/${userRole}/tax-laws/${taxLawId}/chapters/${chapterId}/history`,
     );
 
     return;

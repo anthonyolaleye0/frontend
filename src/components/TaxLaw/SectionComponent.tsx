@@ -45,7 +45,7 @@ const SectionComponent = ({
 
   const handleViewSectionHistory = () => {
     navigate(
-      `/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/history`,
+      `/dashboard/${userRole}/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/history`,
     );
 
     return;
@@ -53,7 +53,7 @@ const SectionComponent = ({
 
   const handleViewSubSectionDetails = (subsectionId: string) => {
     navigate(
-      `/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/subSection/${subsectionId}`,
+      `/dashboard/${userRole}/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/subSection/${subsectionId}`,
     );
 
     return;

@@ -7,6 +7,7 @@ import type { SingleTaxLawProp } from '../../../constants/types';
 import { formattedUserRoleForURL } from '../../../hooks/functions';
 import useTaxLawApis from '../../../services/taxLawService';
 import BackButton from '../../BackButton';
+import { CircularLoader } from '../../Loader';
 import ReusableModal from '../../ReusableModal';
 import ReusableScheduleDisplayTable from '../../ReusableScheduleDisplayTable';
 import ReusableSingleTaxLawDisplayTable from '../../ReusableSingleTaxLawDisplayTable';
@@ -120,7 +121,6 @@ const SingleTaxLawDisplay = ({
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('taxLawId', taxLawData._id);
 
     uploadTaxLawMutation.mutate({
       taxLawId: taxLawData._id,
@@ -129,6 +129,14 @@ const SingleTaxLawDisplay = ({
 
     setFile(null);
   };
+
+  if (isLoading) {
+    return (
+      <div className="mt-[20%]">
+        <CircularLoader text="Loading single tax law..." />
+      </div>
+    );
+  }
 
   return (
     <div className="mb-20 mx-8">

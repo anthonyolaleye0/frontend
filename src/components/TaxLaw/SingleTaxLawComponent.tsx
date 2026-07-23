@@ -78,11 +78,6 @@ const SingleTaxLawComponent: React.FC<IdParamFetch> = ({ id }) => {
 
   const taxLawData = data?.data;
 
-  console.log('data:', data);
-  console.log('taxLawData:', taxLawData);
-  console.log('searchValue:', searchValue);
-  console.log('setSearchValue:', setSearchValue);
-  console.log('schedulesData:', schedulesData);
   return (
     <SingleTaxLawDisplay
       activeTab={activeTab}

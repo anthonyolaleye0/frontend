@@ -28,7 +28,11 @@ import UserChapterPage from './pages/dashboard/user/taxLaws/UserChapterPage';
 import UserSchedulePage from './pages/dashboard/user/taxLaws/UserSchedulePage';
 import UserSectionPage from './pages/dashboard/user/taxLaws/UserSectionPage';
 import UserSingleTaxLaw from './pages/dashboard/user/taxLaws/UserSingleTaxLaw';
+import UserSubSectionPage from './pages/dashboard/user/taxLaws/UserSubSectionPage';
 import UserTaxLaws from './pages/dashboard/user/taxLaws/UserTaxLaws';
+import UserChapterHistoryPage from './pages/dashboard/user/taxLawsHistories/UserChapterHistoryPage';
+import UserSectionHistoryPage from './pages/dashboard/user/taxLawsHistories/UserSectionHistoryPage';
+import UserSubSectionHistoryPage from './pages/dashboard/user/taxLawsHistories/UserSubSectionHistoryPage';
 import EmailVerification from './pages/EmailVerification';
 import Faq from './pages/Faq';
 import ForgotPassword from './pages/ForgotPassword';
@@ -133,6 +137,25 @@ function App() {
               <Route
                 element={<UserSingleTaxLaw />}
                 path="/dashboard/user/tax-laws/:taxLawId"
+              />
+
+              <Route
+                element={<UserChapterHistoryPage />}
+                path="/dashboard/user/tax-laws/:taxLawId/chapters/:chapterId/history"
+              />
+              <Route
+                element={<UserSectionHistoryPage />}
+                path="/dashboard/user/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId/history"
+              />
+
+              <Route
+                element={<UserSubSectionHistoryPage />}
+                path="/dashboard/user/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId/subSection/:subSectionId/history"
+              />
+
+              <Route
+                element={<UserSubSectionPage />}
+                path="/dashboard/user/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId/subSection/:subSectionId"
               />
             </Route>
 

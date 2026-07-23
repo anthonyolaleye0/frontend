@@ -35,7 +35,7 @@ const SubSectionComponent = ({
 
   const handleViewSubSectionHistory = () => {
     navigate(
-      `/dashboard/admin/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/subsection/${subSectionId}/history`,
+      `/dashboard/${userRole}/tax-laws/${taxLawId}/chapters/${chapterId}/section/${sectionId}/subsection/${subSectionId}/history`,
     );
 
     return;
