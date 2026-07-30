@@ -31,6 +31,8 @@ const createSectionRoute = `tax-laws/create-tax-law-section-in-part-by-part-id`;
 
 const createAmendmentRoute = `amendments/create-amendment`;
 
+const fetchAdminDashboardStatsRoute = `dashboard/admin`;
+
 const uploadTaxLawRoute = `tax-laws/upload-tax-file`;
 const createTaxLawRoute = `tax-laws/create-tax-law`;
 
@@ -52,6 +54,7 @@ export {
   createSubSectionRoute,
   createTaxLawRoute,
   emailVerificationRoute,
+  fetchAdminDashboardStatsRoute,
   fetchChapterHistoryByChapterIdRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchSectionHistoryBySectionIdRoute,

@@ -148,6 +148,30 @@ export type CreateSchedulePayload = {
   content: string;
 };
 
+export type TaxLawStatsType = { totalTaxLaws: 6 };
+
+export type StructureStatsType = {
+  totalChapters: number;
+  totalParts: number;
+  totalSections: number;
+  totalSubsections: number;
+  totalSchedules: number;
+};
+
+export type UploadStatsType = [{ _id: string; count: number }];
+export type UserStatsType = {
+  totalUsers: number;
+  totalAdmins: number;
+  totalRegularUsers: number;
+};
+export type RecentActivityType = {
+  _id: string;
+  title: string;
+  status: string;
+  createdAt: string;
+};
+export type UploadTrendsType = { count: number; date: string };
+
 export type AmendSectionPayload = {
   target: {
     level: string;
