@@ -64,7 +64,7 @@ const AdminDashboard = () => {
           <StructureStats data={data?.data?.structureStats} />
           <UserStats data={data?.data?.userStats} />
           <UploadTrendChart data={data?.data?.uploadTrends} />
-          <div className="flex gap-5 md:flex-col md:items-center">
+          {/* <div className="flex gap-5 flex-col md:flex-row items-center">
             <TaxLawBarChart
               title="Chapters Per Tax Law"
               dataKey="count"
@@ -76,13 +76,39 @@ const AdminDashboard = () => {
               data={dataObj?.partsPerTaxLaw}
             />
           </div>
-          <div className="flex gap-5 md:flex-col md:items-center">
+          <div className="flex gap-5 flex-col md:flex-row items-center">
             <TaxLawBarChart
               title="Sections Per Tax Law"
               dataKey="count"
               data={dataObj?.sectionsPerTaxLaw}
             />
 
+            <TaxLawBarChart
+              title="Sub Sections Per Tax Law"
+              dataKey="count"
+              data={dataObj?.subSectionsPerTaxLaw}
+            />
+          </div> */}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <TaxLawBarChart
+              title="Chapters Per Tax Law"
+              dataKey="count"
+              data={dataObj?.chaptersPerTaxLaw}
+            />
+            <TaxLawBarChart
+              title="Parts Per Tax Law"
+              dataKey="count"
+              data={dataObj?.partsPerTaxLaw}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <TaxLawBarChart
+              title="Sections Per Tax Law"
+              dataKey="count"
+              data={dataObj?.sectionsPerTaxLaw}
+            />
             <TaxLawBarChart
               title="Sub Sections Per Tax Law"
               dataKey="count"
