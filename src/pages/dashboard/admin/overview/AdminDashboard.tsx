@@ -3,6 +3,7 @@ import { AlertTriangle, Shield } from 'lucide-react';
 import RecentActivity from '../../../../components/Admin/dashboard/RecentActivity';
 import StatsCards from '../../../../components/Admin/dashboard/StatsCards';
 import StructureStats from '../../../../components/Admin/dashboard/StructureStats';
+import TaxLawBarChart from '../../../../components/Admin/dashboard/TaxLawBarChart';
 import UploadTrendChart from '../../../../components/Admin/dashboard/UploadTrendChart';
 import UserStats from '../../../../components/Admin/dashboard/UserStats';
 import { CircularLoader } from '../../../../components/Loader';
@@ -21,10 +22,10 @@ const AdminDashboard = () => {
   const isLoading = isPending;
   const hasError = isError;
 
-  console.log('data:', data);
+  const dataObj = data?.data;
 
   return (
-    <div className="mx-10 my-10">
+    <div className="mx-10 mt-10 mb-30">
       {/* Header */}
       <div className="mb-5">
         <div className="flex items-center gap-3">
@@ -60,9 +61,35 @@ const AdminDashboard = () => {
       {!isLoading && !hasError && data && (
         <div className="space-y-6 mt-6">
           <StatsCards data={data?.data} />
-          <UploadTrendChart data={data?.data?.uploadTrends} />
           <StructureStats data={data?.data?.structureStats} />
           <UserStats data={data?.data?.userStats} />
+          <UploadTrendChart data={data?.data?.uploadTrends} />
+          <div className="flex gap-5">
+            <TaxLawBarChart
+              title="Chapters Per Tax Law"
+              dataKey="count"
+              data={dataObj?.chaptersPerTaxLaw}
+            />
+            <TaxLawBarChart
+              title="Parts Per Tax Law"
+              dataKey="count"
+              data={dataObj?.partsPerTaxLaw}
+            />
+          </div>
+          <div className="flex gap-5">
+            <TaxLawBarChart
+              title="Sections Per Tax Law"
+              dataKey="count"
+              data={dataObj?.sectionsPerTaxLaw}
+            />
+
+            <TaxLawBarChart
+              title="Sub Sections Per Tax Law"
+              dataKey="count"
+              data={dataObj?.subSectionsPerTaxLaw}
+            />
+          </div>
+
           <RecentActivity data={data?.data?.recentActivity} />
         </div>
       )}
