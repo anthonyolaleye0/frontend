@@ -64,7 +64,7 @@ const AdminDashboard = () => {
           <StructureStats data={data?.data?.structureStats} />
           <UserStats data={data?.data?.userStats} />
           <UploadTrendChart data={data?.data?.uploadTrends} />
-          <div className="flex gap-5">
+          <div className="flex gap-5 md:flex-col md:items-center">
             <TaxLawBarChart
               title="Chapters Per Tax Law"
               dataKey="count"
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
               data={dataObj?.partsPerTaxLaw}
             />
           </div>
-          <div className="flex gap-5">
+          <div className="flex gap-5 md:flex-col md:items-center">
             <TaxLawBarChart
               title="Sections Per Tax Law"
               dataKey="count"
