@@ -28,6 +28,7 @@ const ReusableDecidedCaseTable: React.FC<ReusableTaxLawTableProps> = ({
   // roleToFetch,
 }) => {
   console.log('data:', data);
+  console.log('errorMessage:', errorMessage);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -330,7 +331,7 @@ const ReusableDecidedCaseTable: React.FC<ReusableTaxLawTableProps> = ({
         onChangePage={onPageChange}
         noDataComponent={
           <div className="py-6 text-center text-gray-500">
-            {errorMessage || 'No tax laws found...'}
+            {errorMessage || 'No decided cases found...'}
           </div>
         }
       />
