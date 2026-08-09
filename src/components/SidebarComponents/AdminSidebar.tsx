@@ -3,14 +3,20 @@ import { useState } from 'react';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { NavLink } from 'react-router-dom';
 import type { AdminSidebarProps } from '../../constants/types';
+import DecidedCasesDropDown from '../Admin/DropDownMenus/DecidedCasesDropDown';
 import TaxLawManagementDropDown from '../Admin/DropDownMenus/TaxLawManagementDropDown';
 import { Button } from '../ui/button';
 
 const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
   const [taxLawToggle, setTaxLawToggle] = useState(false);
+  const [decidedCasesToggle, setDecidedCasesToggle] = useState(false);
 
-  const handlePaymentToggle = () => {
+  const handleTaxLawToggle = () => {
     setTaxLawToggle(!taxLawToggle);
+  };
+
+  const handleDecidedCasesToggle = () => {
+    setDecidedCasesToggle(!decidedCasesToggle);
   };
 
   return (
@@ -51,7 +57,7 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
         <div>
           <Button
             className="cursor-pointer bg-teal text-black hover:bg-skyblue w-full px-4"
-            onClick={handlePaymentToggle}
+            onClick={handleTaxLawToggle}
           >
             <div className="grid grid-cols-[1fr_80px] w-full">
               <div className="flex items-center gap-1 text-start">
@@ -69,6 +75,29 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
           </Button>
           {taxLawToggle && (
             <TaxLawManagementDropDown closeDrawer={closeDrawer} />
+          )}
+        </div>
+        <div>
+          <Button
+            className="cursor-pointer bg-teal text-black hover:bg-skyblue w-full px-4"
+            onClick={handleDecidedCasesToggle}
+          >
+            <div className="grid grid-cols-[1fr_50px] w-full">
+              <div className="flex items-center gap-1 text-start">
+                <span>
+                  <CircleDollarSign size={18} />
+                </span>
+                <span>Decided Cases</span>
+              </div>{' '}
+              {taxLawToggle ? (
+                <IoIosArrowDown className="text-xl justify-self-end " />
+              ) : (
+                <IoIosArrowUp className="text-xl justify-self-end " />
+              )}
+            </div>
+          </Button>
+          {decidedCasesToggle && (
+            <DecidedCasesDropDown closeDrawer={closeDrawer} />
           )}
         </div>
 

@@ -263,6 +263,12 @@ export type UploadTaxLawModalProps = {
   isLoading: boolean;
 };
 
+export type UploadDecidedCaseModalProps = {
+  onClose: () => void;
+  onUpload: (formData: FormData) => void;
+  isLoading: boolean;
+};
+
 export type HistoryTimelineType = {
   amendmentId: string;
   description: string;
@@ -381,6 +387,15 @@ export type AllTaxLawType = {
   totalParts: number;
   totalSubsections: number;
   totalSchedules: number;
+};
+
+export type AllDecidedCasesProp = SearchProp & {
+  totalDecidedCasesCount: number;
+  allDecidedCases: [];
+  userRole: string;
+  isLoading: boolean;
+  handlePageChange: (page: number) => void;
+  errorMessage?: string;
 };
 
 export type AllTaxLawsProp = SearchProp & {

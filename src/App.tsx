@@ -9,6 +9,7 @@ import PublicRoutes from './components/PublicRoutes';
 import Sidebar from './components/Sidebar';
 import type { UserState } from './constants/types';
 import ContactUs from './pages/ContactUs';
+import DecidedCases from './pages/dashboard/admin/decidedCases/DecidedCases';
 import AdminDashboard from './pages/dashboard/admin/overview/AdminDashboard';
 import AdminProfile from './pages/dashboard/admin/overview/AdminProfile';
 import ChapterPage from './pages/dashboard/admin/taxLaws/ChapterPage';
@@ -202,6 +203,10 @@ function App() {
               />
 
               <Route element={<TaxLaws />} path="/dashboard/admin/tax-laws" />
+              <Route
+                element={<DecidedCases />}
+                path="/dashboard/admin/decided-cases"
+              />
               <Route
                 element={<SingleTaxLaw />}
                 path="/dashboard/admin/tax-laws/:taxLawId"

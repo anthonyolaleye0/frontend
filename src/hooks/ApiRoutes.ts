@@ -33,6 +33,9 @@ const createAmendmentRoute = `amendments/create-amendment`;
 
 const fetchAdminDashboardStatsRoute = `dashboard/admin`;
 
+const uploadDecidedCaseRoute = `decided-cases/upload-decided-case`;
+const fetchDecidedCasesRoute = `decided-cases/get-all-decided-cases`;
+
 const uploadTaxLawRoute = `tax-laws/upload-tax-file`;
 const createTaxLawRoute = `tax-laws/create-tax-law`;
 
@@ -56,6 +59,7 @@ export {
   emailVerificationRoute,
   fetchAdminDashboardStatsRoute,
   fetchChapterHistoryByChapterIdRoute,
+  fetchDecidedCasesRoute,
   fetchSchedulesByTaxLawIdRoute,
   fetchSectionHistoryBySectionIdRoute,
   fetchSubSectionHistoryBySubSectionIdRoute,
@@ -80,6 +84,7 @@ export {
   updateScheduleRoute,
   updateSectionRoute,
   updateSubSectionRoute,
+  uploadDecidedCaseRoute,
   uploadTaxLawRoute,
   verifyUserEmailRoute,
 };
