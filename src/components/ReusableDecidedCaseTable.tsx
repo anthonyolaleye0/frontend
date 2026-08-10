@@ -10,14 +10,14 @@ import {
 import { Link } from 'react-router-dom';
 import type {
   DecidedCaseType,
-  ReusableTaxLawTableProps,
+  ReusableDecidedCaseTableProps,
 } from '../constants/types';
 import { capitalizeFirstLetter, formatDate } from '../hooks/functions';
 import { CircularLoader } from './Loader';
 import MyCustomTooltip from './MyCustomTooltip';
 import { Separator } from './ui/separator';
 
-const ReusableDecidedCaseTable: React.FC<ReusableTaxLawTableProps> = ({
+const ReusableDecidedCaseTable: React.FC<ReusableDecidedCaseTableProps> = ({
   data,
   loading,
   title,

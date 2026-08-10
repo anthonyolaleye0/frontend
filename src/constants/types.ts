@@ -573,8 +573,17 @@ export type SearchProp = {
   handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-export type ReusableTaxLawTableProps = {
+export type ReusableDecidedCaseTableProps = {
   data: DecidedCaseType[];
+  loading: boolean;
+  userRole: string;
+  errorMessage?: string;
+  title: string;
+  totalRows: number;
+  onPageChange: (page: number) => void;
+};
+export type ReusableTaxLawTableProps = {
+  data: AllTaxLawType[];
   loading: boolean;
   userRole: string;
   errorMessage?: string;
