@@ -389,6 +389,20 @@ export type AllTaxLawType = {
   totalSchedules: number;
 };
 
+export type DecidedCaseType = {
+  _id: string;
+  suitNumber: string;
+  title: string;
+  judgmentDate: Date;
+  court: string;
+  keywords: string[];
+  relatedTaxLaws: string[];
+  fileUrl: string;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type AllDecidedCasesProp = SearchProp & {
   totalDecidedCasesCount: number;
   allDecidedCases: [];
@@ -560,7 +574,7 @@ export type SearchProp = {
 };
 
 export type ReusableTaxLawTableProps = {
-  data: AllTaxLawType[];
+  data: DecidedCaseType[];
   loading: boolean;
   userRole: string;
   errorMessage?: string;

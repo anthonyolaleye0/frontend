@@ -9,10 +9,10 @@ import {
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import type {
-  AllTaxLawType,
+  DecidedCaseType,
   ReusableTaxLawTableProps,
 } from '../constants/types';
-import { capitalizeFirstLetter } from '../hooks/functions';
+import { capitalizeFirstLetter, formatDate } from '../hooks/functions';
 import { CircularLoader } from './Loader';
 import MyCustomTooltip from './MyCustomTooltip';
 import { Separator } from './ui/separator';
@@ -183,7 +183,7 @@ const ReusableDecidedCaseTable: React.FC<ReusableTaxLawTableProps> = ({
     );
   };
 
-  const columns: TableColumn<AllTaxLawType>[] = [
+  const columns: TableColumn<DecidedCaseType>[] = [
     {
       name: (
         <button className="text-[18px]" onClick={handleSelectAll}>
@@ -226,56 +226,28 @@ const ReusableDecidedCaseTable: React.FC<ReusableTaxLawTableProps> = ({
       name: 'Title',
       selector: (row) => capitalizeFirstLetter(row.title || ''),
       sortable: true,
-      width: '180px',
-      grow: 0,
-    },
-    // {
-    //   name: 'Description',
-    //   selector: (row) => row.description,
-    //   sortable: true,
-    //   width: '320px',
-    //   grow: 0,
-    // },
-    {
-      name: 'Year',
-      selector: (row) => row.year,
-      sortable: true,
-      width: '90px',
+      width: '230px',
       grow: 0,
     },
     {
-      name: 'Total Chapters',
-      selector: (row) => row.totalChapters,
-      sortable: true,
-      width: '130px',
-      grow: 0,
-    },
-    {
-      name: 'Total Parts',
-      selector: (row) => row.totalParts,
-      sortable: true,
-      width: '130px',
-      grow: 0,
-    },
-    {
-      name: 'Total Sections',
-      selector: (row) => row.totalSections,
-      sortable: true,
-      width: '130px',
-      grow: 0,
-    },
-    {
-      name: 'Total Subsections',
-      selector: (row) => row.totalSubsections,
+      name: 'Suit No',
+      selector: (row) => row.suitNumber,
       sortable: true,
       width: '150px',
       grow: 0,
     },
     {
-      name: 'Total Schedules',
-      selector: (row) => row.totalSchedules,
+      name: 'Court',
+      selector: (row) => row.court,
       sortable: true,
-      width: '150px',
+      width: '130px',
+      grow: 0,
+    },
+    {
+      name: 'Judgement Date',
+      selector: (row) => formatDate(row.judgmentDate),
+      sortable: true,
+      width: '230px',
       grow: 0,
     },
     {

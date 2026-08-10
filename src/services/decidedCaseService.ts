@@ -1,5 +1,7 @@
 import {
   fetchDecidedCasesRoute,
+  getDecidedCaseByIdRoute,
+  getDecidedCaseStreamConfigRoute,
   uploadDecidedCaseRoute,
 } from '../hooks/ApiRoutes';
 import axiosInstance from '../hooks/axiosInstance';
@@ -40,7 +42,31 @@ const useDecidedCaseApis = () => {
     return response.data;
   };
 
-  return { fetchDecidedCases, uploadDecidedCase };
+  const getDecidedCaseById = async (decidedCaseId: string) => {
+    const response = await axiosInstance.get(
+      `${getDecidedCaseByIdRoute}/${decidedCaseId}`,
+    );
+
+    return response.data;
+  };
+
+  const getDecidedCaseStreamConfig = async (decidedCaseId: string) => {
+    const response = await axiosInstance.get(
+      `${getDecidedCaseStreamConfigRoute}/${decidedCaseId}`,
+      {
+        responseType: 'arraybuffer', // Receive raw binary data
+      },
+    );
+
+    return new Uint8Array(response.data);
+  };
+
+  return {
+    fetchDecidedCases,
+    uploadDecidedCase,
+    getDecidedCaseById,
+    getDecidedCaseStreamConfig,
+  };
 };
 
 export default useDecidedCaseApis;

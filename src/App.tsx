@@ -10,6 +10,7 @@ import Sidebar from './components/Sidebar';
 import type { UserState } from './constants/types';
 import ContactUs from './pages/ContactUs';
 import DecidedCases from './pages/dashboard/admin/decidedCases/DecidedCases';
+import SingleDecidedCase from './pages/dashboard/admin/decidedCases/SingleDecidedCase';
 import AdminDashboard from './pages/dashboard/admin/overview/AdminDashboard';
 import AdminProfile from './pages/dashboard/admin/overview/AdminProfile';
 import ChapterPage from './pages/dashboard/admin/taxLaws/ChapterPage';
@@ -206,6 +207,10 @@ function App() {
               <Route
                 element={<DecidedCases />}
                 path="/dashboard/admin/decided-cases"
+              />
+              <Route
+                element={<SingleDecidedCase />}
+                path="/dashboard/admin/decided-cases/:decidedCaseId"
               />
               <Route
                 element={<SingleTaxLaw />}

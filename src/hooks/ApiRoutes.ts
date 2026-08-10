@@ -35,6 +35,8 @@ const fetchAdminDashboardStatsRoute = `dashboard/admin`;
 
 const uploadDecidedCaseRoute = `decided-cases/upload-decided-case`;
 const fetchDecidedCasesRoute = `decided-cases/get-all-decided-cases`;
+const getDecidedCaseByIdRoute = `decided-cases/get-decided-case-by-id`;
+const getDecidedCaseStreamConfigRoute = `decided-cases/get-decided-case-stream-by-id`;
 
 const uploadTaxLawRoute = `tax-laws/upload-tax-file`;
 const createTaxLawRoute = `tax-laws/create-tax-law`;
@@ -72,6 +74,8 @@ export {
   forgotPasswordRoute,
   getAllUsersRoute,
   getAUserRoute,
+  getDecidedCaseByIdRoute,
+  getDecidedCaseStreamConfigRoute,
   loginUserRoute,
   logoutUserRoute,
   registerUserRoute,
