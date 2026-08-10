@@ -189,8 +189,6 @@ const useTaxLawApis = () => {
       },
     );
 
-    console.log('response:', response);
-
     return response.data;
   };
 

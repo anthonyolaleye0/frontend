@@ -30,7 +30,6 @@ const SingleDecidedCaseComponent: React.FC<IdParamFetch> = ({ id }) => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [zoom, setZoom] = useState<number>(1.2);
 
-  // 1. API CALL 1: Fetch Metadata
   const {
     data: caseData,
     isLoading: isMetadataLoading,
@@ -44,14 +43,12 @@ const SingleDecidedCaseComponent: React.FC<IdParamFetch> = ({ id }) => {
 
   const decidedCase = caseData?.data || caseData;
 
-  // 2. API CALL 2: Fetch PDF Binary Data
   const { data: pdfArrayBuffer, isLoading: isPdfLoading } = useQuery({
     queryKey: ['decided-case-pdf', id],
     queryFn: () => getDecidedCaseStreamConfig(id),
     enabled: !!id,
   });
 
-  // Pass binary data object to Document
   const pdfStreamFile = useMemo(() => {
     if (!pdfArrayBuffer) return undefined;
     return { data: pdfArrayBuffer };
