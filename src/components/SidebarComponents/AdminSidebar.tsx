@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { NavLink } from 'react-router-dom';
 import type { AdminSidebarProps } from '../../constants/types';
+import DailyTipsDropDown from '../Admin/DropDownMenus/DailyTipsDropDown';
 import DecidedCasesDropDown from '../Admin/DropDownMenus/DecidedCasesDropDown';
 import TaxLawManagementDropDown from '../Admin/DropDownMenus/TaxLawManagementDropDown';
 import { Button } from '../ui/button';
@@ -10,6 +11,7 @@ import { Button } from '../ui/button';
 const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
   const [taxLawToggle, setTaxLawToggle] = useState(false);
   const [decidedCasesToggle, setDecidedCasesToggle] = useState(false);
+  const [dailyTipsToggle, setDailyTipsToggle] = useState(false);
 
   const handleTaxLawToggle = () => {
     setTaxLawToggle(!taxLawToggle);
@@ -17,6 +19,10 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
 
   const handleDecidedCasesToggle = () => {
     setDecidedCasesToggle(!decidedCasesToggle);
+  };
+
+  const handleDailyTipsToggle = () => {
+    setDailyTipsToggle(!dailyTipsToggle);
   };
 
   return (
@@ -77,6 +83,7 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
             <TaxLawManagementDropDown closeDrawer={closeDrawer} />
           )}
         </div>
+
         <div>
           <Button
             className="cursor-pointer bg-teal text-black hover:bg-skyblue w-full px-4"
@@ -89,7 +96,7 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
                 </span>
                 <span>Decided Cases</span>
               </div>{' '}
-              {taxLawToggle ? (
+              {decidedCasesToggle ? (
                 <IoIosArrowDown className="text-xl justify-self-end " />
               ) : (
                 <IoIosArrowUp className="text-xl justify-self-end " />
@@ -99,6 +106,28 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
           {decidedCasesToggle && (
             <DecidedCasesDropDown closeDrawer={closeDrawer} />
           )}
+        </div>
+
+        <div>
+          <Button
+            className="cursor-pointer bg-teal text-black hover:bg-skyblue w-full px-4"
+            onClick={handleDailyTipsToggle}
+          >
+            <div className="grid grid-cols-[1fr_50px] w-full">
+              <div className="flex items-center gap-1 text-start">
+                <span>
+                  <CircleDollarSign size={18} />
+                </span>
+                <span>Daily Tips</span>
+              </div>{' '}
+              {dailyTipsToggle ? (
+                <IoIosArrowDown className="text-xl justify-self-end " />
+              ) : (
+                <IoIosArrowUp className="text-xl justify-self-end " />
+              )}
+            </div>
+          </Button>
+          {dailyTipsToggle && <DailyTipsDropDown closeDrawer={closeDrawer} />}
         </div>
 
         <div className="ml-6 flex flex-col mt-2 gap-1">
