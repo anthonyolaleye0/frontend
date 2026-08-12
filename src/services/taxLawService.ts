@@ -242,7 +242,6 @@ const useTaxLawApis = () => {
     limit?: string,
     searchValue?: string,
   ) => {
-    console.log('I am being triggered...');
     const params: Record<string, string> = {};
 
     if (searchValue) params.searchParams = searchValue;

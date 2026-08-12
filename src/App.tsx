@@ -10,6 +10,7 @@ import Sidebar from './components/Sidebar';
 import type { UserState } from './constants/types';
 import ContactUs from './pages/ContactUs';
 import DailyTips from './pages/dashboard/admin/dailyTips/DailyTips';
+import SingleDailyTip from './pages/dashboard/admin/dailyTips/SingleDailyTip';
 import DecidedCases from './pages/dashboard/admin/decidedCases/DecidedCases';
 import SingleDecidedCase from './pages/dashboard/admin/decidedCases/SingleDecidedCase';
 import AdminDashboard from './pages/dashboard/admin/overview/AdminDashboard';
@@ -212,6 +213,11 @@ function App() {
               <Route
                 element={<DailyTips />}
                 path="/dashboard/admin/daily-tips"
+              />
+
+              <Route
+                element={<SingleDailyTip />}
+                path="/dashboard/admin/daily-tips/:dailyTipId"
               />
               <Route
                 element={<SingleDecidedCase />}

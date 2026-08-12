@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import type { IdParamFetch } from '../../constants/types';
 import useDecidedCaseApis from '../../services/decidedCaseService';
 import BackButton from '../BackButton';
+import { CircularLoader } from '../Loader';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
@@ -88,9 +89,7 @@ const SingleDecidedCaseComponent: React.FC<IdParamFetch> = ({ id }) => {
   if (isMetadataLoading || isPdfLoading) {
     return (
       <div className="p-8 flex justify-center items-center min-h-[400px]">
-        <p className="text-gray-500 animate-pulse">
-          Loading decided case document...
-        </p>
+        <CircularLoader text="Loading decided case document..." />
       </div>
     );
   }

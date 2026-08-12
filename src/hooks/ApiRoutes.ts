@@ -38,6 +38,9 @@ const fetchDecidedCasesRoute = `decided-cases/get-all-decided-cases`;
 const getDecidedCaseByIdRoute = `decided-cases/get-decided-case-by-id`;
 const getDecidedCaseStreamConfigRoute = `decided-cases/get-decided-case-stream-by-id`;
 
+const getUserInboxRoute = `user-daily-tips/get-inbox-messages`;
+const getDailyTipByIdRoute = `user-daily-tips/get-inbox-message-details-by-id`;
+
 const uploadTaxLawRoute = `tax-laws/upload-tax-file`;
 const createTaxLawRoute = `tax-laws/create-tax-law`;
 
@@ -74,8 +77,10 @@ export {
   forgotPasswordRoute,
   getAllUsersRoute,
   getAUserRoute,
+  getDailyTipByIdRoute,
   getDecidedCaseByIdRoute,
   getDecidedCaseStreamConfigRoute,
+  getUserInboxRoute,
   loginUserRoute,
   logoutUserRoute,
   registerUserRoute,

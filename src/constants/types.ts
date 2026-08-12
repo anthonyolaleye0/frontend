@@ -412,6 +412,15 @@ export type AllDecidedCasesProp = SearchProp & {
   errorMessage?: string;
 };
 
+export type AllDailyTipsProp = SearchProp & {
+  totalDailyTipsCount: number;
+  allDailyTips: [];
+  userRole: string;
+  isLoading: boolean;
+  handlePageChange: (page: number) => void;
+  errorMessage?: string;
+};
+
 export type AllTaxLawsProp = SearchProp & {
   totalTaxLawsCount: number;
   allTaxLaws: AllTaxLawType[];
@@ -582,8 +591,39 @@ export type ReusableDecidedCaseTableProps = {
   totalRows: number;
   onPageChange: (page: number) => void;
 };
+
 export type ReusableTaxLawTableProps = {
   data: AllTaxLawType[];
+  loading: boolean;
+  userRole: string;
+  errorMessage?: string;
+  title: string;
+  totalRows: number;
+  onPageChange: (page: number) => void;
+};
+
+export type AllDailyTipType = {
+  createdAt: Date;
+  updatedAt: Date;
+  _id: string;
+  userId: string;
+  tipId: {
+    createdAt: Date;
+    updatedAt: Date;
+    _id: string;
+    title: string;
+    content: string;
+    sectionId: string;
+    sentAt: Date;
+    subSectionId: string;
+  };
+  isRead: boolean;
+  readAt: Date;
+  isDeleted: boolean;
+};
+
+export type ReusableDailyTipsTableProps = {
+  data: AllDailyTipType[];
   loading: boolean;
   userRole: string;
   errorMessage?: string;
