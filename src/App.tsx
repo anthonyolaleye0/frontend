@@ -26,6 +26,10 @@ import SectionHistoryPage from './pages/dashboard/admin/taxLawsHistories/Section
 import SubSectionHistoryPage from './pages/dashboard/admin/taxLawsHistories/SubSectionHistoryPage';
 import SingleUserPage from './pages/dashboard/admin/users/SingleUserPage';
 import Users from './pages/dashboard/admin/users/Users';
+import UserDailyTips from './pages/dashboard/user/dailyTips/UserDailyTips';
+import UserSingleDailyTip from './pages/dashboard/user/dailyTips/UserSingleDailyTip';
+import UserDecidedCases from './pages/dashboard/user/decidedCases/UserDecidedCases';
+import UserSingleDecidedCase from './pages/dashboard/user/decidedCases/UserSingleDecidedCase';
 import UserDashboard from './pages/dashboard/user/overview/UserDashboard';
 import UserProfile from './pages/dashboard/user/overview/UserProfile';
 import UserChapterPage from './pages/dashboard/user/taxLaws/UserChapterPage';
@@ -161,6 +165,24 @@ function App() {
                 element={<UserSubSectionPage />}
                 path="/dashboard/user/tax-laws/:taxLawId/chapters/:chapterId/section/:sectionId/subSection/:subSectionId"
               />
+
+              <Route
+                element={<UserDecidedCases />}
+                path="/dashboard/user/decided-cases"
+              />
+              <Route
+                element={<UserDailyTips />}
+                path="/dashboard/user/daily-tips"
+              />
+
+              <Route
+                element={<UserSingleDailyTip />}
+                path="/dashboard/user/daily-tips/:dailyTipId"
+              />
+              <Route
+                element={<UserSingleDecidedCase />}
+                path="/dashboard/user/decided-cases/:decidedCaseId"
+              />
             </Route>
 
             {/* ADMIN */}
@@ -206,6 +228,7 @@ function App() {
               />
 
               <Route element={<TaxLaws />} path="/dashboard/admin/tax-laws" />
+
               <Route
                 element={<DecidedCases />}
                 path="/dashboard/admin/decided-cases"
@@ -223,6 +246,7 @@ function App() {
                 element={<SingleDecidedCase />}
                 path="/dashboard/admin/decided-cases/:decidedCaseId"
               />
+
               <Route
                 element={<SingleTaxLaw />}
                 path="/dashboard/admin/tax-laws/:taxLawId"
