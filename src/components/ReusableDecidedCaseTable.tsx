@@ -7,14 +7,17 @@ import {
   MdOutlineCheckBox,
   MdOutlineCheckBoxOutlineBlank,
 } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import type {
   DecidedCaseType,
   ReusableDecidedCaseTableProps,
+  UserState,
 } from '../constants/types';
 import { capitalizeFirstLetter, formatDate } from '../hooks/functions';
 import { CircularLoader } from './Loader';
 import MyCustomTooltip from './MyCustomTooltip';
+import SubscriptionModal from './SubscriptionModal';
 import { Separator } from './ui/separator';
 
 const ReusableDecidedCaseTable: React.FC<ReusableDecidedCaseTableProps> = ({
@@ -27,16 +30,37 @@ const ReusableDecidedCaseTable: React.FC<ReusableDecidedCaseTableProps> = ({
   errorMessage,
   // roleToFetch,
 }) => {
-  console.log('data:', data);
-  console.log('errorMessage:', errorMessage);
+  const { currentUser } = useSelector(
+    (state: { user: UserState }) => state.user,
+  );
+
+  const navigate = useNavigate();
+
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
 
   const dropdownRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const isChosenRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const dropdownContainerRef = useRef<HTMLDivElement | null>(null);
   const isAllSelected =
     selectedIds?.length === data?.length && data?.length > 0;
+
+  const hasActiveSub = Boolean(
+    currentUser?.subscription?.hasActiveSubscription,
+  );
+  const allowedFeatures: string[] =
+    currentUser?.subscription?.allowedFeatures || [];
+  const hasDecidedCasesAccess =
+    hasActiveSub && allowedFeatures.includes('DECIDED_CASES');
+
+  const handleViewDetails = (rowId: string) => {
+    if (hasDecidedCasesAccess) {
+      navigate(`/dashboard/${userRole}/decided-cases/${rowId}`);
+    } else {
+      setIsSubscriptionModalOpen(true);
+    }
+  };
 
   const handleSelectAll = () => {
     if (isAllSelected) {
@@ -58,32 +82,6 @@ const ReusableDecidedCaseTable: React.FC<ReusableDecidedCaseTableProps> = ({
   const handleToggleDropdown = (rowId: string) => {
     setOpenDropdownId((prevId) => (prevId === rowId ? null : rowId));
   };
-
-  // const handleToggleModal = (rowId: string) => {
-  //   setIsModalOpen(true);
-
-  //   setActiveRowId(rowId);
-  //   setOpenDropdownId(null);
-  //   console.log('rowId:', rowId);
-  // };
-
-  // useEffect(() => {
-  //   const updateDropdownPositions = () => {
-  //     const newMap: Record<string, boolean> = {};
-  //     Object.entries(dropdownRefs.current).forEach(([id, el]) => {
-  //       if (el) {
-  //         const rect = el.getBoundingClientRect();
-  //         const spaceBelow = window.innerHeight - rect.bottom;
-  //         newMap[id] = spaceBelow < 150;
-  //       }
-  //     });
-  //     setDropUpMap(newMap);
-  //   };
-
-  //   updateDropdownPositions();
-  //   window.addEventListener('resize', updateDropdownPositions);
-  //   return () => window.removeEventListener('resize', updateDropdownPositions);
-  // }, [data]);
 
   const handleCopyId = async (id: string) => {
     try {
@@ -260,16 +258,25 @@ const ReusableDecidedCaseTable: React.FC<ReusableDecidedCaseTableProps> = ({
           <div className="relative inline-block text-left">
             <div className="flex items-center gap-2 justify-center">
               <MyCustomTooltip
-                content="View Details"
+                content={
+                  hasDecidedCasesAccess ? 'View Details' : 'Unlock Access'
+                }
                 bgColor="bg-blue-gray"
                 textColor="text-white"
               >
-                <Link
+                {/* <Link
                   to={`/dashboard/${userRole}/decided-cases/${rowId}`}
                   className="bg-sky-blue text-white px-3 py-1 rounded cursor-pointer"
                 >
                   <Eye size={18} />
-                </Link>
+                </Link> */}
+                <button
+                  type="button"
+                  onClick={() => handleViewDetails(rowId)}
+                  className="bg-sky-blue text-white px-3 py-1 rounded cursor-pointer hover:opacity-90 flex items-center justify-center"
+                >
+                  <Eye size={18} />
+                </button>
               </MyCustomTooltip>
 
               <button
@@ -306,6 +313,12 @@ const ReusableDecidedCaseTable: React.FC<ReusableDecidedCaseTableProps> = ({
             {errorMessage || 'No decided cases found...'}
           </div>
         }
+      />
+
+      <SubscriptionModal
+        isOpen={isSubscriptionModalOpen}
+        onClose={() => setIsSubscriptionModalOpen(false)}
+        highlightedFeature="DECIDED_CASES"
       />
     </div>
   );

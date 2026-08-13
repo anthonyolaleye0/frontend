@@ -511,6 +511,18 @@ export type CurrentUserType = {
   taxTypes: string[];
   isWhatsAppVerified: boolean;
   isSubscribedToTips: boolean;
+  subscription: {
+    hasActiveSubscription: boolean;
+    allowedFeatures: string[];
+    subscription: {
+      userId: string;
+      planId: string;
+      tier: string;
+      status: string;
+      startDate: Date;
+      endDate: Date;
+    };
+  };
 };
 
 type ImgProp = {
@@ -600,6 +612,20 @@ export type ReusableTaxLawTableProps = {
   title: string;
   totalRows: number;
   onPageChange: (page: number) => void;
+};
+
+export type PlanType = {
+  _id: string;
+  tier: string;
+  allowedFeatures: string[];
+  amount: number;
+  billingCycle: string;
+  createdAt: Date;
+  description: string;
+  durationInDays: number;
+  isActive: boolean;
+  name: string;
+  updatedAt: Date;
 };
 
 export type AllDailyTipType = {

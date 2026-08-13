@@ -38,6 +38,9 @@ const fetchDecidedCasesRoute = `decided-cases/get-all-decided-cases`;
 const getDecidedCaseByIdRoute = `decided-cases/get-decided-case-by-id`;
 const getDecidedCaseStreamConfigRoute = `decided-cases/get-decided-case-stream-by-id`;
 
+const getSubscriptionPlansRoute = `subscriptions/get-plans`;
+const initializePaymentRoute = `subscriptions/subscribe-to-plan`;
+
 const getUserInboxRoute = `user-daily-tips/get-inbox-messages`;
 const getDailyTipByIdRoute = `user-daily-tips/get-inbox-message-details-by-id`;
 
@@ -80,7 +83,9 @@ export {
   getDailyTipByIdRoute,
   getDecidedCaseByIdRoute,
   getDecidedCaseStreamConfigRoute,
+  getSubscriptionPlansRoute,
   getUserInboxRoute,
+  initializePaymentRoute,
   loginUserRoute,
   logoutUserRoute,
   registerUserRoute,

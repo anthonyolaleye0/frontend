@@ -49,9 +49,6 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginUserPayloadProps) => {
     try {
       const response = await loginUserMutation(data);
-      console.log('response:', response);
-
-      console.log('I am running here');
 
       if (response) {
         dispatch(loginSuccess(response?.data));
