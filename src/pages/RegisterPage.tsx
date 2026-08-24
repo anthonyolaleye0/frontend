@@ -3,17 +3,14 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { IoEye, IoEyeOff } from 'react-icons/io5';
+import { IoEye, IoEyeOff, IoMailOutline, IoLockClosedOutline, IoCallOutline } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+
 import logo from '../assets/images/smartTaxApp-removebg.png';
+import smartTaxBanner from '../assets/images/smartTaxBanner.png'; // Import your exact banner image here
+
 import { Button } from '../components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '../components/ui/card';
 import {
   Form,
   FormControl,
@@ -30,15 +27,8 @@ import useAuthApis from '../services/authService';
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   const form = useForm<RegisterUserPayloadProps>({
     resolver: joiResolver(joiRegisterValidationSchema, {
@@ -64,76 +54,83 @@ const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterUserPayloadProps) => {
     try {
-      console.log('data:', data);
-
       const response = await registerStudentMutation(data);
       if (response) {
-        console.log('response:', response);
-        toast.success(response.message);
+        toast.success(response.message || 'Registration successful!');
         navigate('/email-verification');
         form.reset();
         setShowPassword(false);
-        return;
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error(error.response.data.message);
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message || 'Registration failed.');
       } else {
-        console.error('An Error occurred:', error);
-        toast.error('An error occurred');
+        toast.error('An unexpected error occurred. Please try again.');
       }
     }
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-4 pb-20 pt-10">
-      <p className=" pt-[-200px] -mt-10 -mb-5">
-        <img src={logo} alt="" className="h-28 w-28" />
-      </p>
-      <Card className="w-100 md:w-125 mt-1">
-        <CardHeader>
-          <CardTitle className="text-center underline italic text-[15px] -mb-3 -mt-2">
-            Register
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit, (errors) =>
-                console.log('Validation errors:', errors),
-              )}
-              className="space-y-1.5"
-            >
-              {/* First Name */}
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>FIrst Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your first name." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 px-4 py-8">
+      {/* Top Navigation Links */}
+      <div className="w-full max-w-5xl flex justify-end items-center gap-6 mb-4 text-sm font-medium text-slate-600 px-2">
+        <button onClick={() => navigate('/support')} className="hover:text-blue-600 transition-colors cursor-pointer">Support</button>
+        <button onClick={() => navigate('/about')} className="hover:text-blue-600 transition-colors cursor-pointer">About Us</button>
+      </div>
 
-              {/* Last Name */}
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your last name." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+      {/* Main Split Container Card */}
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl border border-slate-200/80 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+        
+        {/* Left Side: Exact City Skyline Branded Banner Image */}
+        <div className="relative bg-slate-900 overflow-hidden flex items-center justify-center min-h-[440px] lg:min-h-[600px]">
+          <img 
+            src={smartTaxBanner} 
+            alt="Smart Tax Arena Skyline Banner" 
+            className="w-full h-full object-cover object-center absolute inset-0" 
+          />
+        </div>
+
+        {/* Right Side: Registration Form */}
+        <div className="p-6 lg:p-10 flex flex-col justify-center bg-white">
+          <div className="text-center mb-6">
+            <div className="flex justify-center mb-2">
+              <img src={logo} alt="Logo Small" className="h-10 w-auto lg:hidden object-contain" />
+            </div>
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">Create Your Account</h1>
+          </div>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3.5">
+              
+              {/* First Name & Last Name Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-semibold text-slate-700">First Name</FormLabel>
+                      <FormControl>
+                        <Input className="bg-slate-50/50 border-slate-200 h-9 text-sm" placeholder="First name" {...field} />
+                      </FormControl>
+                      <FormMessage className="text-[11px] text-rose-500" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-semibold text-slate-700">Last Name</FormLabel>
+                      <FormControl>
+                        <Input className="bg-slate-50/50 border-slate-200 h-9 text-sm" placeholder="Last name" {...field} />
+                      </FormControl>
+                      <FormMessage className="text-[11px] text-rose-500" />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               {/* Email */}
               <FormField
@@ -141,46 +138,36 @@ const RegisterPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-xs font-semibold text-slate-700">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your email." {...field} />
+                      <div className="relative">
+                        <span className="absolute left-3 top-2.5 text-slate-400">
+                          <IoMailOutline size={16} />
+                        </span>
+                        <Input className="pl-9 bg-slate-50/50 border-slate-200 h-9 text-sm" placeholder="Email" {...field} />
+                      </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-[11px] text-rose-500" />
                   </FormItem>
                 )}
               />
 
-              {/* Phone Number */}
+              {/* WhatsApp Phone Number */}
               <FormField
                 control={form.control}
                 name="whatsappPhoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Whatsapp Number</FormLabel>
+                    <FormLabel className="text-xs font-semibold text-slate-700">WhatsApp #:</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter your Whatsapp number."
-                        {...field}
-                      />
+                      <div className="relative">
+                        <span className="absolute left-3 top-2.5 text-slate-400">
+                          <IoCallOutline size={16} />
+                        </span>
+                        <Input className="pl-9 bg-slate-50/50 border-slate-200 h-9 text-sm" placeholder="+234 ___ ___ ____" {...field} />
+                      </div>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="businessType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Business Type</FormLabel>
-                    <FormControl>
-                      <select {...field} className="w-full border p-2 rounded">
-                        <option value="Individual">Individual</option>
-                        <option value="SME">SME</option>
-                        <option value="Consultant">Consultant</option>
-                      </select>
-                    </FormControl>
+                    <FormMessage className="text-[11px] text-rose-500" />
                   </FormItem>
                 )}
               />
@@ -191,72 +178,64 @@ const RegisterPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-xs font-semibold text-slate-700">Password</FormLabel>
                     <FormControl>
                       <div className="relative">
+                        <span className="absolute left-3 top-2.5 text-slate-400">
+                          <IoLockClosedOutline size={16} />
+                        </span>
                         <Input
+                          className="pl-9 pr-9 bg-slate-50/50 border-slate-200 h-9 text-sm"
                           type={showPassword ? 'text' : 'password'}
+                          placeholder="••••••••••••"
                           {...field}
                         />
-                        <span
+                        <button
+                          type="button"
                           onClick={handleShowPassword}
-                          className="absolute right-3 top-3 cursor-pointer text-gray-500"
+                          className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 focus:outline-none cursor-pointer"
                         >
-                          {showPassword ? <IoEye /> : <IoEyeOff />}
-                        </span>
+                          {showPassword ? <IoEye size={16} /> : <IoEyeOff size={16} />}
+                        </button>
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-[11px] text-rose-500" />
                   </FormItem>
                 )}
               />
 
-              {/* Confirm Password */}
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          type={showConfirmPassword ? 'text' : 'password'}
-                          {...field}
-                        />
-                        <span
-                          onClick={handleShowConfirmPassword}
-                          className="absolute right-3 top-3 cursor-pointer text-gray-500"
-                        >
-                          {showConfirmPassword ? <IoEye /> : <IoEyeOff />}
-                        </span>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex justify-between items-center">
-                <Link className="text-sm text-blue-600" to="/forgot-password">
-                  Forgot Password?
-                </Link>
-                <Link className="text-sm text-blue-600" to="/login">
-                  Have account?
-                </Link>
+              {/* Terms & Privacy Checkbox */}
+              <div className="flex items-center space-x-2 pt-1">
+                <input type="checkbox" id="terms" required className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 h-4 w-4 cursor-pointer" />
+                <label htmlFor="terms" className="text-xs text-slate-600">
+                  I agree to <span className="text-blue-600 font-medium">Terms & Privacy Policy</span>
+                </label>
               </div>
 
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-navy-blue hover:bg-navy-blue active:bg-orange cursor-pointer"
+                className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-md shadow-blue-500/20 transition-all cursor-pointer mt-2"
                 disabled={loading}
               >
-                {loading ? 'Registering...' : 'Register'}
+                {loading ? 'Creating account...' : 'Create Account'}
               </Button>
+
+              {/* Footer Sign in navigation link */}
+              <div className="text-center pt-2">
+                <p className="text-xs text-slate-500">
+                  Already have an account?{' '}
+                  <Link to="/login" className="text-blue-600 font-semibold hover:underline">
+                    Sign In
+                  </Link>
+                </p>
+              </div>
+
             </form>
           </Form>
-        </CardContent>
-      </Card>
+        </div>
+
+      </div>
     </div>
   );
 };

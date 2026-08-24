@@ -4,8 +4,10 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+
+import logo from '../assets/images/smartTaxApp-removebg.png';
+import smartTaxBanner from '../assets/images/smartTaxBanner.png';
 import { Button } from '../components/ui/button';
-import { CardFooter } from '../components/ui/card';
 import { Form, FormControl, FormItem } from '../components/ui/form';
 import { Input } from '../components/ui/input';
 import useAuthApis from '../services/authService';
@@ -33,11 +35,6 @@ const EmailVerification = () => {
     if (value && index < 5) {
       inputsRef.current[index + 1]?.focus();
     }
-
-    if (newCodes.every((v) => v !== '')) {
-      const fullCode = newCodes.join('');
-      console.log('Submitted Code:', fullCode);
-    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
@@ -53,9 +50,6 @@ const EmailVerification = () => {
 
   const sendCode = codes.join('');
 
-  console.log('code:', codes);
-  console.log('sendCode:', sendCode.length);
-
   const onSubmit = async () => {
     try {
       if (!sendCode) {
@@ -69,88 +63,111 @@ const EmailVerification = () => {
         );
         return;
       }
-      console.log('sendCode when calling backend:', sendCode);
+
       const response = await emailVerificationMutation(sendCode);
       if (response) {
-        console.log('response:', response);
-        toast.success(response?.message);
+        toast.success(response?.message || 'Email verified successfully!');
         navigate('/login');
         form.reset();
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error(error.response.data.message);
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message || 'Verification failed.');
       } else {
-        console.error('An Error occurred:', error);
-        toast.error('An error occurred');
+        toast.error('An unexpected error occurred. Please try again.');
       }
     }
   };
 
   return (
-    <div className="flex justify-center gap-2 mt-4">
-      <div className="md:w-125 w-95 mt-14 px-8 border rounded-lg py-10">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="text-center">
-              <p className="mb-5 -mt-5 text-2xl underline font-bold ">
-                Email Verification
-              </p>
-              <p className="mb-1 text-start">
-                Enter the 6-digit token sent to your email address
-              </p>
-            </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 px-4 py-8">
+      {/* Top Navigation Links */}
+      <div className="w-full max-w-5xl flex justify-end items-center gap-6 mb-4 text-sm font-medium text-slate-600 px-2">
+        <button onClick={() => navigate('/support')} className="hover:text-blue-600 transition-colors cursor-pointer">Support</button>
+        <button onClick={() => navigate('/about')} className="hover:text-blue-600 transition-colors cursor-pointer">About Us</button>
+      </div>
 
-            <div className="flex gap-2 justify-center flex-col">
-              <div className="">
-                <p className="mb-2 font-bold  underline">Verification token</p>
+      {/* Main Split Container Card */}
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl border border-slate-200/80 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+        
+        {/* Left Side: Branded Graphic Banner */}
+        <div className="relative bg-slate-900 overflow-hidden flex items-center justify-center min-h-[440px] lg:min-h-[600px]">
+          <img 
+            src={smartTaxBanner} 
+            alt="Smart Tax Arena Skyline Banner" 
+            className="w-full h-full object-cover object-center absolute inset-0" 
+          />
+        </div>
+
+        {/* Right Side: Verification Form */}
+        <div className="p-6 lg:p-10 flex flex-col justify-center bg-white">
+          <div className="text-center mb-6">
+            <div className="flex justify-center mb-2">
+              <img src={logo} alt="Logo Small" className="h-10 w-auto lg:hidden object-contain" />
+            </div>
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">Email Verification</h1>
+            <p className="text-xs text-slate-500 mt-1">Enter the 6-digit token sent to your email address.</p>
+          </div>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              
+              <div className="flex flex-col items-center space-y-3">
+                <p className="text-xs font-semibold text-slate-700">Verification Token</p>
+                <div className="flex gap-2 justify-center">
+                  {codes.map((code, index) => (
+                    <FormItem key={index}>
+                      <FormControl>
+                        <Input
+                          ref={(el) => {
+                            inputsRef.current[index] = el;
+                          }}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          className="w-11 h-11 text-center text-lg bg-slate-50/50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          value={code}
+                          onChange={(e) => handleChange(e.target.value, index)}
+                          onKeyDown={(e) => handleKeyDown(e, index)}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex gap-2 justify-start">
-                {codes.map((code, index) => (
-                  <FormItem key={index}>
-                    <FormControl>
-                      <Input
-                        ref={(el) => {
-                          inputsRef.current[index] = el;
-                        }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        className="w-12 h-12 text-center text-xl border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={code}
-                        onChange={(e) => handleChange(e.target.value, index)}
-                        onKeyDown={(e) => handleKeyDown(e, index)}
-                      />
-                    </FormControl>
-                  </FormItem>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center">
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-navy-blue hover:bg-navy-blue active:bg-orange cursor-pointer"
+                className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-md shadow-blue-500/20 transition-all cursor-pointer"
                 disabled={loading}
               >
-                {loading ? 'Verifying...' : 'Verify'}
+                {loading ? 'Verifying...' : 'Verify Email'}
               </Button>
-            </div>
-          </form>
-          <CardFooter className="flex flex-col items-start gap-2">
-            <p className="italic text-sm">
-              Didn't receive email verification?{' '}
-              <Link
-                className="text-green-500 font-bold"
-                to="/request-email-verification"
-              >
-                Click Here
-              </Link>
-            </p>
-          </CardFooter>
-        </Form>
+
+              {/* Footer / Resend Link */}
+              <div className="text-center pt-4 border-t border-slate-100 space-y-2">
+                <p className="text-xs text-slate-500">
+                  Didn't receive email verification?{' '}
+                  <Link
+                    className="text-emerald-600 font-semibold hover:underline"
+                    to="/request-email-verification"
+                  >
+                    Click Here
+                  </Link>
+                </p>
+                <p className="text-xs text-slate-500">
+                  Remember your password?{' '}
+                  <Link className="text-blue-600 font-semibold hover:underline" to="/login">
+                    Sign In
+                  </Link>
+                </p>
+              </div>
+
+            </form>
+          </Form>
+        </div>
+
       </div>
     </div>
   );

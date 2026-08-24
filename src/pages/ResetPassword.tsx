@@ -27,6 +27,9 @@ import type { ResetPasswordPayloadProps } from '../constants/types';
 import { joiResetPasswordValidationSchema } from '../hooks/validation';
 import useAuthApis from '../services/authService';
 
+import logo from '../assets/images/smartTaxApp-removebg.png';
+import smartTaxBanner from '../assets/images/smartTaxBanner.png';
+
 const ResetPassword = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -58,7 +61,6 @@ const ResetPassword = () => {
     },
   });
 
-  console.log('Form errors:', form.formState.errors);
   useEffect(() => {
     const errors = form.formState.errors;
     if (errors.password) {
@@ -83,10 +85,6 @@ const ResetPassword = () => {
       inputsRef.current[index + 1]?.focus();
     }
 
-    if (newCodes.every((v) => v !== '')) {
-      const fullCode = newCodes.join('');
-      console.log('Submitted Code:', fullCode);
-    }
     form.setValue('token', newCodes.join(''), { shouldValidate: true });
   };
 
@@ -98,12 +96,10 @@ const ResetPassword = () => {
     });
 
   const onSubmit = async (data: ResetPasswordPayloadProps) => {
-    // const fullCode = codes.join('');
     const payload = { ...data };
     try {
       const response = await resetPasswordMutation(payload);
       if (response) {
-        console.log('response:', response);
         toast.success(response.message);
         navigate('/login');
         form.reset();
@@ -112,7 +108,6 @@ const ResetPassword = () => {
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error(error.response.data.message);
         toast.error(error.response.data.message);
         if (
           error?.response?.data?.message.includes(
@@ -123,113 +118,151 @@ const ResetPassword = () => {
           return;
         }
       } else {
-        console.error('An Error occurred:', error);
         toast.error('An error occurred');
       }
     }
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-4 ">
-      <Card className="w-100 md:w-125 mt-20 gap-20">
-        <CardHeader>
-          <CardTitle className="text-center underline italic text-xl -mb-6.25">
-            Reset Password
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-1.5"
-            >
-              <div className="flex gap-2 justify-center">
-                {codes.map((code, index) => (
-                  <FormItem key={index}>
-                    <FormControl>
-                      <Input
-                        ref={(el) => {
-                          inputsRef.current[index] = el;
-                        }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        className="w-12 h-12 text-center text-xl border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={code}
-                        onChange={(e) => handleChange(e.target.value, index)}
-                        onKeyDown={(e) => handleKeyDown(e, index)}
-                      />
-                    </FormControl>
-                  </FormItem>
-                ))}
-              </div>
-              {/* Password */}
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          type={showPassword ? 'text' : 'password'}
-                          {...field}
-                        />
-                        <span
-                          onClick={handleShowPassword}
-                          className="absolute right-3 top-3 cursor-pointer text-gray-500"
-                        >
-                          {showPassword ? <IoEye /> : <IoEyeOff />}
-                        </span>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 px-4 py-8">
+      
+      {/* Topmost Navigation Panel with Logo and Links */}
+      <div className="w-full max-w-5xl flex justify-between items-center mb-4 text-sm font-medium text-slate-600 px-2 border-0 shadow-none bg-transparent">
+        <button 
+          onClick={() => navigate('/')} 
+          className="flex items-center focus:outline-none cursor-pointer"
+        >
+          <img src={logo} alt="Smart Tax Arena Logo" className="h-10 w-auto object-contain" />
+        </button>
 
-              {/* Confirm Password */}
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          type={showConfirmPassword ? 'text' : 'password'}
-                          {...field}
-                        />
-                        <span
-                          onClick={handleShowConfirmPassword}
-                          className="absolute right-3 top-3 cursor-pointer text-gray-500"
-                        >
-                          {showConfirmPassword ? <IoEye /> : <IoEyeOff />}
-                        </span>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <div className="flex items-center gap-6">
+          <button onClick={() => navigate('/support')} className="hover:text-blue-600 transition-colors cursor-pointer">Support</button>
+          <button onClick={() => navigate('/about')} className="hover:text-blue-600 transition-colors cursor-pointer">About Us</button>
+        </div>
+      </div>
 
-              <Button
-                type="submit"
-                className="w-full bg-navy-blue hover:bg-navy-blue active:bg-orange cursor-pointer"
-                disabled={loading}
-              >
-                {loading ? (
-                  <TextLoader className="text-white" text="Submitting..." />
-                ) : (
-                  'Reset Password'
-                )}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+      {/* Main Split Container Card */}
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl border border-slate-200/80 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+        
+        {/* Left Side: Branded Graphic Banner */}
+        <div className="relative bg-slate-900 overflow-hidden flex items-center justify-center min-h-[440px] lg:min-h-[640px]">
+          <img 
+            src={smartTaxBanner} 
+            alt="Smart Tax Arena Skyline Banner" 
+            className="w-full h-full object-cover object-center absolute inset-0" 
+          />
+        </div>
+
+        {/* Right Side: Form Card Content */}
+        <div className="p-6 lg:p-10 flex flex-col justify-center bg-white">
+          <Card className="border-0 shadow-none bg-transparent p-0">
+            <CardHeader className="p-0 mb-6 text-center">
+              <CardTitle className="text-xl font-bold text-slate-900 tracking-tight">
+                Reset Password
+              </CardTitle>
+              <p className="text-xs text-slate-500 mt-1">Enter the 6-digit code sent to your email and your new password.</p>
+            </CardHeader>
+            <CardContent className="p-0">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
+                  <div className="flex gap-2 justify-center">
+                    {codes.map((code, index) => (
+                      <FormItem key={index}>
+                        <FormControl>
+                          <Input
+                            ref={(el) => {
+                              inputsRef.current[index] = el;
+                            }}
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={1}
+                            className="w-11 h-11 text-center text-xl border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50/50"
+                            value={code}
+                            onChange={(e) => handleChange(e.target.value, index)}
+                            onKeyDown={(e) => handleKeyDown(e, index)}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    ))}
+                  </div>
+
+                  {/* Password */}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold text-slate-700">Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? 'text' : 'password'}
+                              className="bg-slate-50/50 border-slate-200 h-9 text-sm pr-10"
+                              placeholder="Enter new password"
+                              {...field}
+                            />
+                            <span
+                              onClick={handleShowPassword}
+                              className="absolute right-3 top-2.5 cursor-pointer text-slate-400 hover:text-slate-600"
+                            >
+                              {showPassword ? <IoEye size={18} /> : <IoEyeOff size={18} />}
+                            </span>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Confirm Password */}
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold text-slate-700">Confirm Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showConfirmPassword ? 'text' : 'password'}
+                              className="bg-slate-50/50 border-slate-200 h-9 text-sm pr-10"
+                              placeholder="Confirm new password"
+                              {...field}
+                            />
+                            <span
+                              onClick={handleShowConfirmPassword}
+                              className="absolute right-3 top-2.5 cursor-pointer text-slate-400 hover:text-slate-600"
+                            >
+                              {showConfirmPassword ? <IoEye size={18} /> : <IoEyeOff size={18} />}
+                            </span>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-md shadow-blue-500/20 transition-all cursor-pointer mt-2"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <TextLoader className="text-white" text="Submitting..." />
+                    ) : (
+                      'Reset Password'
+                    )}
+                  </Button>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </div>
+
+      </div>
     </div>
   );
 };
