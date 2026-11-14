@@ -28,15 +28,6 @@ const Navbar = ({ handleSideToggle }: SidebarComponentsProps) => {
     }
   };
 
-  // const imageObj = currentUser?.profileImage && {
-  //   src: currentUser?.profileImage?.url,
-  //   alt: `${currentUser?.firstName}`,
-  // };
-
-  // const redirectRole = currentUser?.role
-  //   ? roleRedirectMap[currentUser?.role]
-  //   : '/';
-
   return (
     <div className="bg-blue-gray border-b-gray-700 border-b">
       <div className="flex justify-between px-5 h-17.5 items-center">

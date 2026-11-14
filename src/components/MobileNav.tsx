@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { UserState } from '../constants/types';
@@ -8,6 +8,7 @@ import AdminSidebar from './SidebarComponents/AdminSidebar';
 import { Button } from './ui/button';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -16,6 +17,7 @@ import {
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
+
   const handleLogout = useLogout();
 
   const closeDrawer = () => setOpen(false);
@@ -37,16 +39,49 @@ const MobileNav = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="default" className="text-white">
-          <Menu className="h-6 w-6" />
-        </Button>
-      </SheetTrigger>
+      {!open ? (
+        <SheetTrigger asChild>
+          <Button
+            variant="ghost"
+            size="default"
+            className="absolute top-3 right-3 cursor-pointer"
+            aria-label="Open menu"
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
+        </SheetTrigger>
+      ) : (
+        <SheetClose asChild>
+          <Button
+            variant="ghost"
+            size="default"
+            className="text-white relative cursor-pointer z-60 bg-transparent hover:bg-transparent"
+            aria-label="Close menu"
+          >
+            <X className="h-6 w-6" />
+          </Button>
+        </SheetClose>
+      )}
 
-      <SheetContent side="right" className="bg-navy-blue">
+      <SheetContent
+        side="right"
+        className="bg-blue-gray"
+        showCloseButton={false}
+      >
         <SheetHeader className="bg-white">
-          <SheetTitle>Kay Brooks</SheetTitle>
+          <SheetTitle>Smart Tax Arena</SheetTitle>
         </SheetHeader>
+
+        <SheetClose asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-3 right-3 cursor-pointer"
+            aria-label="Close menu"
+          >
+            <X className="h-6 w-6" />
+          </Button>
+        </SheetClose>
 
         <div className="h-15">
           <div>
@@ -62,7 +97,7 @@ const MobileNav = () => {
                       whileHover={{ y: -2 }}
                       transition={{ duration: 0.2 }}
                       whileTap={{ y: -10 }}
-                      className="cursor-pointer bg-black px-3.75 font-bold py-1.25 rounded-md hover:bg-navy-blue"
+                      className="cursor-pointer bg-transparent px-3.75 font-bold py-1.25 rounded-md hover:bg-navy-blue/25"
                       onClick={() => {
                         handleLogout();
                         closeDrawer();

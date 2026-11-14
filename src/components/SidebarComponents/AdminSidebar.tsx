@@ -1,12 +1,12 @@
-import { 
-  LayoutDashboard, 
-  Users, 
-  Scale, 
-  BookOpen, 
-  Lightbulb, 
-  UserCircle, 
-  ChevronDown, 
-  ChevronUp 
+import {
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+  LayoutDashboard,
+  Lightbulb,
+  Scale,
+  UserCircle,
+  Users,
 } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -22,8 +22,7 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
   const [dailyTipsToggle, setDailyTipsToggle] = useState(false);
 
   return (
-    <div className="flex flex-col gap-2 py-4 px-3 w-full text-slate-700">
-      
+    <div className="flex flex-col gap-2  px-3 w-full text-slate-700">
       {/* Section Header */}
       <div className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
         Navigation
@@ -36,8 +35,8 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
         className={({ isActive }) =>
           [
             'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all',
-            isActive 
-              ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20' 
+            isActive
+              ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20'
               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
           ].join(' ')
         }
@@ -53,8 +52,8 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
         className={({ isActive }) =>
           [
             'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all',
-            isActive 
-              ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20' 
+            isActive
+              ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20'
               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
           ].join(' ')
         }
@@ -152,8 +151,8 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
         className={({ isActive }) =>
           [
             'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all',
-            isActive 
-              ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20' 
+            isActive
+              ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20'
               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
           ].join(' ')
         }
@@ -161,7 +160,6 @@ const AdminSidebar = ({ closeDrawer }: AdminSidebarProps) => {
         <UserCircle size={18} />
         <span>My Profile</span>
       </NavLink>
-
     </div>
   );
 };

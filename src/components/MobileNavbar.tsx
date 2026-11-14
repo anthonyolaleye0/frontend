@@ -52,7 +52,7 @@ const MobileNavbar = ({ navItems, handleNavClick }: Props) => {
 
       <SheetContent className="bg-secondary">
         <SheetHeader className="bg-white">
-          <SheetTitle>Kay Brooks</SheetTitle>
+          <SheetTitle>Smart Tax Arena</SheetTitle>
         </SheetHeader>
 
         <div className="lg:hidden absolute top-17.5 left-0 right-0 bg-(--glass-secondary) backdrop-blur-md text-white p-6 space-y-5">
